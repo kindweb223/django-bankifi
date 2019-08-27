@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{block.super}} | View Contact {% endblock title %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'nordea:index' %}">Nordea</a></li>
+  <li><a href="{% url 'nordea:contactlist' %}">Contact List</a></li>
+  <li class="active">Contact Details</li>
+</ol>
+    <div class="row">
+        <div class="col-sm-3" >
+            <h1>{{object.name}}</h1>
+        
+            First Name: {{object.first_name}}<br /><br />
+            Last Name: {{object.last_name}}<br /><br />
+            {% if contact.is_customer %}
+                <span class="label label-blue">Customer</span>
+            {% endif%}
+
+            {% if contact.is_supplier %}
+                <span class="label label-red">Supplier</span>                        
+            {% endif%}
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ol class="breadcrumb margin-bottom-40">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li class="active">Cashflow</li>
+</ol>
+<div class="row margin-bottom-20">
+    <h2>Cashflow Home</h2>
+</div>
+<div class='row  margin-bottom-20'>
+    <div class='col-md-2'>
+        <a href="{{authorization_url}}">
+            <button type="button" class="btn-u btn-u-success rounded-2x">Login To Xero Via Dynapi</button>
+        </a>
+    </div>
+</div>
+<div class='row margin-bottom-40'>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'cashflow:contactlist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Contacts</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'cashflow:invoicelist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Invoices</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'cashflow:accountlist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Bank Accounts</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'cashflow:transactionlist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Transactions</button>
+        </a>
+    </div>
+
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'cashflow:pobocreate' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Create Xero Invoice</button>
+        </a>
+    </div>
+
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'cashflow:invoicegenerate' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Generate Invoices</button>
+        </a>
+    </div>
+
+
+     <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'cashflow:forecast' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Forecast</button>
+        </a>
+    </div>
+    
+   
+</div>
+<div class='row'>
+    <div class='col-md-2'>
+        <a href="{% url 'cashflow:setup' %}">
+            <button type="button" class="btn-u btn-u-danger rounded-2x">Reset Demo</button>
+        </a>
+    </div>
+{%comment%}
+     <div class='col-md-2'>
+        <a href="{% url 'cashflow:forecast' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Forecast</button>
+        </a>
+    </div>
+</div>
+{%endcomment%}
+{% endblock %}

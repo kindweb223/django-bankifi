@@ -1,0 +1,26 @@
+{% extends "aggregate/base.html" %}
+
+{% block title %}{{block.super}} | {{title}} {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    {% include "aggregate/snippets/breadcrumbs.html" %}
+    <section class="contact-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h1>{{object.account}}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <a href="{% url theurl %}">
+                        <button class="btn-standard btn-success">View Consents</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

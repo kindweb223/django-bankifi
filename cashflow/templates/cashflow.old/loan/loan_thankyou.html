@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="call-action-v1 call-action-v1-boxed bg-color-green content">
+    <div class="call-action-v1-box">
+        <div class="call-action-v1-in">
+            <h2 class="color-light">FUNDS TRANSFER COMPLETE</h2>
+             <p>Thankyou. We have successfully transferred £{{offer_amount}} to bank account number: {{account}}.</p>
+        </div>
+        <div class="call-action-v1-in inner-btn page-scroll">
+                <a href="{%url 'cashflow:accountlist'%}" class="btn-u btn-u-lg rounded btn-u-red btn-block btn-brd btn-brd-width-2 btn-brd-hover btn-u-light">VIEW ACCOUNTS&nbsp<span class="fa fa-chevron-circle-right"></span></a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+

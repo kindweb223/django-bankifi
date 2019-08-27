@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>forecast.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>forecast.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h1>Forecast Views</h1>
+<p>Django Views for Forecast</p>
+<p><strong>View Classes:</strong></p>
+<ol>
+<li><strong><em>ForecastView</em></strong>: View to display the Invoice and Bank Account Cashflow.</li>
+</ol>
+<p><strong>Internal Methods:</strong></p>
+<ol>
+<li><strong><em>cashflows</em></strong>: Returns a list of invoice checkpoints and bank balances .</li>
+<li><strong><em>check_sweep</em></strong>: Checks if a sweep is possible against and account and withdrawal amount.</li>
+<li><strong><em>schedule</em></strong>: Produces a schedule of invoice payments, actionable insights and account balances.</li>
+</ol>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h3><span id="imports" href="imports"> Imports </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Import Django modules</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.mixins</span> <span class="kn">import</span> <span class="n">LoginRequiredMixin</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">TemplateView</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Import Bankifi/Cashflow Models</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">cashflow.models</span> <span class="kn">import</span> <span class="n">Account</span><span class="p">,</span> <span class="n">Invoice</span><span class="p">,</span> <span class="n">Loan</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Import application utility methods</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">cashflow.utilities</span> <span class="kn">import</span> <span class="n">month_lag_lead</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <h3><span id="globals" href="globals"> Globals </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Hard coded Xero receivable account to be used</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">RECEIVABLE_ACCOUNT</span> <span class="o">=</span> <span class="s1">&#39;51387801-7668-48b0-a276-e8cadc2d33de&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <h3><span id="classes" href="classes"> Classes </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p><strong>ForecastView(LoginRequiredMixin, TemplateView)</strong></p>
+<p>View to display the Invoice and Bank Account Cashflow</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">ForecastView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;cashflow/forecast/forecast.html&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>Setup the context data to return to the view</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ForecastView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;all_checkpoints&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cashflows</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;accounts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;best&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">schedule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="n">RECEIVABLE_ACCOUNT</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">loan</span> <span class="o">=</span> <span class="n">Loan</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">Loan</span><span class="o">.</span><span class="n">OUTSTANDING</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;balance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">balance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span> <span class="k">if</span> <span class="n">account</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;loan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loan</span><span class="o">.</span><span class="n">balance</span> <span class="k">if</span> <span class="n">loan</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;sweep_acc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span><span class="o">.</span><span class="n">account_number</span> <span class="k">if</span> <span class="n">account</span> <span class="ow">and</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;sweep_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">account</span> <span class="ow">and</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;sweep_bal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span><span class="o">.</span><span class="n">balance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span> <span class="k">if</span> <span class="n">account</span> <span class="ow">and</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;worse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">schedule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;payables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Invoice</span><span class="o">.</span><span class="n">invoice_obj</span><span class="o">.</span><span class="n">payables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">))</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;receivables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Invoice</span><span class="o">.</span><span class="n">invoice_obj</span><span class="o">.</span><span class="n">receivables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">))</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;pay_lables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">month_lag_lead</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Setup messages from payment and loan screens</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Reset session after</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="s1">&#39;&#39;</span>
+
+        <span class="n">amount</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;offer_amount&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">({</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">):</span> <span class="bp">None</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="s1">&#39; ,&#39;</span><span class="p">}))</span>
+        <span class="n">account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;account&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;offer_amount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">amount</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;account&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">account</span>
+                
+        <span class="k">return</span> <span class="n">context</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <h3><span id="methods" href="methods"> Methods </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p><strong>cashflows()</strong></p>
+<p>Returns a dictionary of invoice checkpoints and bank balances.</p>
+<p><strong>Returns:</strong></p>
+<p>A dictionary keyed on bank account number associated list of invoice checkpoints and associated bank balances.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">cashflows</span><span class="p">(</span><span class="n">user</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Get a list of bank accounts</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">accounts</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">all_checkpoints</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="n">accounts</span><span class="p">:</span>
+        <span class="n">checkpoints</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">invoices</span> <span class="o">=</span> <span class="n">Invoice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">bank_account</span><span class="o">=</span><span class="n">account</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">Invoice</span><span class="o">.</span><span class="n">UNPAID</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;expected&#39;</span><span class="p">)</span>
+        <span class="n">balance</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">balance</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">new_balance</span> <span class="o">=</span> <span class="n">balance</span>
+        <span class="n">negative_days</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">negative_amount</span> <span class="o">=</span> <span class="mi">0</span>
+    
+        <span class="k">for</span> <span class="n">invoice</span> <span class="ow">in</span> <span class="n">invoices</span><span class="p">:</span>
+            <span class="n">new_balance</span> <span class="o">+=</span> <span class="o">-</span><span class="n">invoice</span><span class="o">.</span><span class="n">amount</span> <span class="k">if</span> <span class="n">invoice</span><span class="o">.</span><span class="n">invoice_type</span> <span class="o">==</span> <span class="n">invoice</span><span class="o">.</span><span class="n">PAYABLE</span> <span class="k">else</span> <span class="n">invoice</span><span class="o">.</span><span class="n">amount</span>
+            <span class="n">checkpoints</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">invoice</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">new_balance</span><span class="p">,</span> <span class="n">check_sweep</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">new_balance</span><span class="p">)))</span>
+        <span class="n">all_checkpoints</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">account_number</span><span class="p">]</span> <span class="o">=</span> <span class="n">checkpoints</span>
+
+    <span class="k">return</span> <span class="n">all_checkpoints</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p><strong>check_sweep(account, amount)</strong></p>
+<p>Checks if a sweep is possible against and account and withdrawal amount.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>account</em></strong>: Account to check if sweep is available from.</p>
+<p><strong><em>amount</em></strong>: amount required.</p>
+<p><strong>Returns:</strong></p>
+<p>True if sweep is available or False if sweep is unavailable.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">check_sweep</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">amount</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span> <span class="ow">and</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span><span class="o">.</span><span class="n">balance</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="o">+</span>  <span class="n">amount</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <p><strong>schedule(worsecase=True)</strong></p>
+<p>Schedules a forecast of cashflows and actionable insights.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>worsecase</em></strong>: True if due dates (worse case) are to be used or False if expected dates (best case).</p>
+<p><strong>Returns:</strong>
+A list of entries containing payment date, amount, bank account balance, 
+sweep balance and recommended actionable actions.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">schedule</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">worsecase</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">worsecase</span><span class="p">:</span>
+        <span class="n">invoices</span> <span class="o">=</span> <span class="n">Invoice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">Invoice</span><span class="o">.</span><span class="n">UNPAID</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;due&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">invoices</span> <span class="o">=</span> <span class="n">Invoice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">Invoice</span><span class="o">.</span><span class="n">UNPAID</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;expected&#39;</span><span class="p">)</span>
+
+    <span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="n">RECEIVABLE_ACCOUNT</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">account</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">bank</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">balance</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bank</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="n">account</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">sweep</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">sweep_account</span><span class="o">.</span><span class="n">balance</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sweep</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">loan_account</span> <span class="o">=</span> <span class="n">Loan</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">loan_account</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">loan</span> <span class="o">=</span> <span class="n">loan_account</span><span class="o">.</span><span class="n">balance</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loan</span> <span class="o">=</span> <span class="mf">0.0</span>
+    
+    <span class="n">payamount</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">recamount</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">current_date</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">schedule_list</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">invoices</span><span class="p">:</span>
+        <span class="n">thedate</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">due</span> <span class="k">if</span> <span class="n">worsecase</span> <span class="o">==</span> <span class="bp">True</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">expected</span>
+        <span class="k">if</span> <span class="n">current_date</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">current_date</span> <span class="o">=</span> <span class="n">thedate</span>
+        
+        <span class="k">if</span> <span class="n">thedate</span> <span class="o">!=</span> <span class="n">current_date</span><span class="p">:</span> 
+            <span class="n">options</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">netamount</span> <span class="o">=</span> <span class="n">recamount</span> <span class="o">-</span> <span class="n">payamount</span>
+            <span class="n">bank</span> <span class="o">+=</span> <span class="n">netamount</span>
+            
+            <span class="n">recamount</span> <span class="o">=</span> <span class="n">payamount</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">if</span> <span class="n">loan</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">bank</span> <span class="o">&gt;</span> <span class="n">loan</span><span class="p">:</span>
+                <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Pay off £{0:,} loan&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loan</span><span class="p">))</span>
+                <span class="n">bank</span> <span class="o">-=</span> <span class="n">loan</span>
+                <span class="n">loan</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">if</span> <span class="n">bank</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">sweep</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">required</span> <span class="o">=</span> <span class="o">-</span><span class="n">bank</span>
+                <span class="n">available</span> <span class="o">=</span> <span class="n">required</span> <span class="k">if</span> <span class="n">sweep</span> <span class="o">&gt;</span> <span class="n">required</span> <span class="k">else</span> <span class="n">sweep</span>
+                <span class="n">bank</span> <span class="o">+=</span> <span class="n">available</span>
+                <span class="n">sweep</span> <span class="o">-=</span> <span class="n">available</span>
+                <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sweep £{0:,} from savings&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">available</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">bank</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">bank</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">:</span>
+                <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Go overdrawn £{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bank</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">bank</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">required</span> <span class="o">=</span> <span class="o">-</span><span class="n">bank</span>
+                <span class="n">loan</span> <span class="o">+=</span> <span class="n">required</span>
+                <span class="n">bank</span> <span class="o">+=</span> <span class="n">required</span>
+                <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Borrow{1} £{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">required</span><span class="p">,</span> <span class="s1">&#39; additional&#39;</span> <span class="k">if</span> <span class="n">loan</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+
+            <span class="n">schedule_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">current_date</span><span class="p">,</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">netamount</span><span class="p">),</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bank</span><span class="p">),</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sweep</span><span class="p">),</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loan</span><span class="p">),</span> <span class="s2">&quot;. &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">options</span><span class="p">)])</span>
+            <span class="n">netamount</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">current_date</span> <span class="o">=</span> <span class="n">thedate</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">invoice_type</span> <span class="o">==</span> <span class="n">Invoice</span><span class="o">.</span><span class="n">RECEIVABLE</span><span class="p">:</span>
+            <span class="n">recamount</span> <span class="o">+=</span> <span class="n">i</span><span class="o">.</span><span class="n">amount</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">payamount</span> <span class="o">+=</span> <span class="n">i</span><span class="o">.</span><span class="n">amount</span>
+    
+    <span class="k">if</span> <span class="n">invoices</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p>Handle last iteration</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">netamount</span> <span class="o">=</span> <span class="n">recamount</span> <span class="o">-</span> <span class="n">payamount</span>
+        <span class="n">bank</span> <span class="o">+=</span> <span class="n">netamount</span> 
+        <span class="n">recamount</span> <span class="o">=</span> <span class="n">payamount</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">loan</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">bank</span> <span class="o">&gt;</span> <span class="n">loan</span><span class="p">:</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Pay off £{0:,} loan&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loan</span><span class="p">))</span>
+            <span class="n">bank</span> <span class="o">-=</span> <span class="n">loan</span>
+            <span class="n">loan</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">bank</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">sweep</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">required</span> <span class="o">=</span> <span class="o">-</span><span class="n">bank</span>
+            <span class="n">available</span> <span class="o">=</span> <span class="n">required</span> <span class="k">if</span> <span class="n">sweep</span> <span class="o">&gt;</span> <span class="n">required</span> <span class="k">else</span> <span class="n">sweep</span>
+            <span class="n">bank</span> <span class="o">+=</span> <span class="n">available</span>
+            <span class="n">sweep</span> <span class="o">-=</span> <span class="n">available</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sweep £{0:,} from savings&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">available</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">bank</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">bank</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">:</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Go overdrawn £{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bank</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">bank</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">required</span> <span class="o">=</span> <span class="o">-</span><span class="n">bank</span>
+            <span class="n">loan</span> <span class="o">+=</span> <span class="n">required</span>
+            <span class="n">bank</span> <span class="o">+=</span> <span class="n">required</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Borrow{1} £{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">required</span><span class="p">,</span> <span class="s1">&#39; additional&#39;</span> <span class="k">if</span> <span class="n">loan</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+
+
+        <span class="n">schedule_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">current_date</span><span class="p">,</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">netamount</span><span class="p">),</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bank</span><span class="p">),</span>  <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sweep</span><span class="p">),</span> <span class="s2">&quot;{0:,}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">loan</span><span class="p">),</span> <span class="s2">&quot;. &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">options</span><span class="p">)])</span>
+        <span class="n">netamount</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">return</span> <span class="n">schedule_list</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -1,0 +1,401 @@
+{% extends "base.html" %}
+{% load app_filters %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li class="active">Forecast</li>
+</ol>
+    <h2>Account Forecast</h2>
+
+    <p>&nbsp</p>
+
+    <!-- START Revenue -->
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="panel panel-default b-a-0 bg-gray-dark">
+            <div class="panel-heading">Cash In Business Account<small class="pull-right color-grey">{% now "D jS F Y" %}</small></div>
+            <div class="panel-body">
+                <h2 class="">&pound{{balance}}</h2>
+                <!-- <i class="fa fa-fw fa-caret-up text-success"></i> <span class="text-success m-r-1">33,87%</span> <small>{% now "D jS F Y" %}</small> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="panel panel-default b-a-0 bg-gray-dark">
+            <div class="panel-heading">Payments Due<small class="pull-right"><i class="fa fa-fw fa-caret-up text-danger"></i> <span class="text-danger">26</span>&nbsp<span class="color-grey">Days To Pay On Average</span></small></div>
+            <div class="panel-body">
+                <h2 class="">&pound{{payables}}</h2>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="panel panel-default b-a-0 bg-gray-dark">
+            <div class="panel-heading">Receivables Due<small class="pull-right color-grey"> <i class="fa fa-fw fa-caret-down text-success"></i> <span class="text-success">21</span>&nbsp<span class="color-grey">Days To Be Paid On Average</span></small></div>
+            <div class="panel-body">
+                <h2 class="">&pound{{receivables}}</h2>
+               </small>
+            </div>
+        </div>
+    </div>
+
+     <div class="col-lg-4 col-md-4 col-sm-4">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <canvas id="myChart2" width="400" height="400"></canvas>
+    </div>
+
+
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <canvas id="myChart3" width="400" height="400"></canvas>
+    </div>
+
+    <!-- current_date, bank, sweep, loan, ". ".join(options) -->
+
+    <div class="col-md-12">
+        <div class="table-responsive content">
+             <div "row">
+                <div 'col-xs-12'>
+                    <h3>Worse Case - Invoices Paid On Due Dates</h3>
+                </div>    
+            </div>
+             <table class="table compact" id="worse"  cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Net Amount (£)</th>
+                        <th>Option</th>
+                        <th>Post Balance (£)</th>
+                        <th>Post Sweep (£)</th>
+                        <th>Post Loan (£)</th>
+                        
+                    </tr>
+                </thead>
+                {% for i in worse %}
+                <tbody>
+                    <td>{{i.0}}</td>
+                    <td>{{i.1}}</td>
+                    <td>{{i.5}}</td>
+                    <td>{{i.2}}</td>
+                    <td>{{i.3}}</td>
+                    <td>{{i.4}}</td>
+                </tbody>
+                {% endfor%}
+            </table>
+        </div>
+    </div>
+
+     <div class="col-md-12">
+        <div class="table-responsive content">
+             <div "row">
+                <div 'col-xs-12'>
+                    <h3>Best Case - Invoices Paid On Expected Date</h3>
+                </div>    
+            </div>
+             <table class="table compact" id="best"  cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Net Amount (£)</th>
+                        <th>Option</th>
+                        <th>Post Balance (£)</th>
+                        <th>Post Sweep (£)</th>
+                        <th>Post Loan (£)</th>
+                        
+                    </tr>
+                </thead>
+                {% for i in best %}
+                <tbody>
+                    <td>{{i.0}}</td>
+                    <td>{{i.1}}</td>
+                    <td>{{i.5}}</td>
+                    <td>{{i.2}}</td>
+                    <td>{{i.3}}</td>
+                    <td>{{i.4}}</td>
+                </tbody>
+                {% endfor%}
+            </table>
+        </div>
+    </div>
+
+{%comment%}
+
+    {% for account in accounts %}
+        {% with accnum=account.account_number %}
+        {% with checkpoints=all_checkpoints|get_dict_item:accnum %}
+        <div class="table-responsive content">
+            <div "row">
+                <div 'col-xs-12'>
+                    <h3>{{account.name}} - Starting Balance: £{{account.balance}}</h3>
+                </div>    
+            </div>
+            <table class="table compact" id="transactions"  cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Invoice</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Balance</th>
+                        <th>Option</th>
+                    </tr>
+                </thead>
+                {% for checkpoint in checkpoints %}
+                <tbody>
+                    {%with invoice=checkpoint|get_item:0%}
+                    {%with new_balance=checkpoint|get_item:2%}
+                    {%with sweep=checkpoint|get_item:3%}
+                    <td>{{invoice.due}}</td>
+                    <td>{{invoice.number}}</td>
+                    <td>{{invoice.status}}</td>
+                    <td>{{invoice.invoice_type}}</td>
+                    <td>{%if invoice.invoice_type == 'PAYABLE'%}-{{invoice.amount}}{%else%}{{invoice.amount}}{%endif%}</td>
+                    <td>{{new_balance}}</td>
+                    <td>{%if new_balance < 0 and sweep %}Sweep{%elif new_balance < 0 %}Loan{%else%}Okay{%endif%}</td>
+                    {%endwith%}
+                    {%endwith%}
+                    {%endwith%}
+                </tbody>
+                {% endfor%}
+            </table>
+        </div>
+        {% endwith %}
+        {% endwith %}
+    {% endfor %}
+{%endcomment%}
+{% endblock %}
+
+
+
+{% block js %}
+<script>
+
+var endpoint = '/api/cashflow/forecast'
+var defaultData = []
+var labels = []
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.bal_labels
+        defaultData = data.bal_data
+        background = data.bal_back
+        border = data.bal_border
+        setBalChart()
+        
+        labels = data.pay_labels
+        defaultData = data.pay_data
+        setPayChart()
+        
+        labels = data.rec_labels
+        defaultData = data.rec_data
+        setRecChart()
+    },  
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+
+function setBalChart(){
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Account Balance Over Time',
+                data: defaultData,
+                backgroundColor: background,
+                borderColor: border,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+function setPayChart(){
+    var ctx = document.getElementById("myChart2");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Payments Due',
+                data: defaultData,
+                backgroundColor: [
+                    'rgba(1, 1, 1, 0.2)',
+                     'rgba(1, 1, 1, 0.2)',
+                    'rgba(1, 1, 1, 0.2)',
+                    // 'rgba(255, 206, 86, 0.2)',
+                    // 'rgba(75, 192, 192, 0.2)',
+                    // 'rgba(153, 102, 255, 0.2)',
+                    // 'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    // 'rgba(255, 206, 86, 1)',
+                    // 'rgba(75, 192, 192, 1)',
+                    // 'rgba(153, 102, 255, 1)',
+                    // 'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+
+function setRecChart(){
+    var ctx = document.getElementById("myChart3");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Receivables Due',
+                data: defaultData,
+                backgroundColor: [
+                    'rgba(1, 1, 1, 0.2)',
+                     'rgba(1, 1, 1, 0.2)',
+                    'rgba(1, 1, 1, 0.2)',
+                    // 'rgba(255, 206, 86, 0.2)',
+                    // 'rgba(75, 192, 192, 0.2)',
+                    // 'rgba(153, 102, 255, 0.2)',
+                    // 'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    // 'rgba(255, 206, 86, 1)',
+                    // 'rgba(75, 192, 192, 1)',
+                    // 'rgba(153, 102, 255, 1)',
+                    // 'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+
+// var ctx2 = document.getElementById("myChart2");
+// var myChart2 = new Chart(ctx2, {
+//     type: 'bar',
+//     data: {
+//         labels: ["Mar", "Apr", "May"],
+//         datasets: [{
+//             label: '£ Payment Value',
+//             data: [1200, 900, 1400],
+//             backgroundColor: [
+//                 'rgba(1, 1, 1, 0.2)',
+//                 'rgba(1, 1, 1, 0.2)',
+//                 'rgba(1, 1, 1, 0.2)',
+//                 // 'rgba(75, 192, 192, 0.2)',
+//                 // 'rgba(153, 102, 255, 0.2)',
+//                 // 'rgba(255, 159, 64, 0.2)'
+//             ],
+//             borderColor: [
+//                 'rgba(1, 1, 1, 1)',
+//                 'rgba(1, 1, 1, 1)',
+//                 'rgba(1, 1, 1, 1)',
+//                 // 'rgba(75, 192, 192, 1)',
+//                 // 'rgba(153, 102, 255, 1)',
+//                 // 'rgba(255, 159, 64, 1)'
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         scales: {
+//             yAxes: [{
+//                 ticks: {
+//                     beginAtZero:true
+//                 }
+//             }]
+//         }
+//     }
+// });
+
+
+// var ctx3 = document.getElementById("myChart3");
+// var myChart3 = new Chart(ctx3, {
+//     type: 'bar',
+//     data: {
+//         labels: ["Mar", "Apr", "May"],
+//         datasets: [{
+//             label: '£ Receivable Value',
+//             data: [2000, 1200, 1300],
+//             backgroundColor: [
+//                 'rgba(1, 1, 1, 0.2)',
+//                 'rgba(1, 1, 1, 0.2)',
+//                 'rgba(1, 1, 1, 0.2)',
+//                 // 'rgba(75, 192, 192, 0.2)',
+//                 // 'rgba(153, 102, 255, 0.2)',
+//                 // 'rgba(255, 159, 64, 0.2)'
+//             ],
+//             borderColor: [
+//                 'rgba(1, 1, 1, 1)',
+//                 'rgba(1, 1, 1, 1)',
+//                 'rgba(1, 1, 1, 1)',
+//                 // 'rgba(75, 192, 192, 1)',
+//                 // 'rgba(153, 102, 255, 1)',
+//                 // 'rgba(255, 159, 64, 1)'
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         scales: {
+//             yAxes: [{
+//                 ticks: {
+//                     beginAtZero:true
+//                 }
+//             }]
+//         }
+//     }
+// });
+
+</script>
+{% endblock js %}

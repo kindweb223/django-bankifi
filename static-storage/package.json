@@ -1,0 +1,28 @@
+{
+  "name": "nordea",
+  "version": "1.0.0",
+  "description": "Fix design",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/rahul_moral/nordea-paolo.git"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-livereload": "^3.8.1",
+    "autoprefixer": "^7.1.2",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-postcss": "^7.0.0"
+  },
+  "keywords": [
+    "HTML5",
+    "SCSS"
+  ],
+  "author": "Rahul Moral",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/rahul_moral/nordea-paolo#readme"
+}

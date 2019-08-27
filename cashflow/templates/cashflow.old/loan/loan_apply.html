@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row content">
+	<div class="col-xs-12">    
+	    <p>INVOICE FINANCE APPLICATION</p>
+	</div>
+</div>
+
+
+<div class="call-action-v1 call-action-v1-boxed bg-color-green content">
+    <div class="call-action-v1-box">
+        <div class="call-action-v1-in">
+            <h2 class="color-light">INVOICE FINANCE OFFER</h2>
+             <p>{{offer}}</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive content">
+	<p>To proceed, just click the Accept Loan button next to the bank account you would like to receive funds into and we'll transfer the funds immediately.</p>
+    <table class="table compact" id="invoices"  cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Account Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for account in accounts %}
+            {%if account.account_id != 'afff8d03-1cf5-42ba-a6e0-a781b0f45658' and account.name != 'Supplier Bank Account' %}
+            <tr>
+                <td>{{account.name}}</td>
+                <td>{{account.sortcode}}</td>
+                <td>{{account.account_number}}</td>
+                <td>
+                     <form method="POST" 
+                            action="{%url 'cashflow:loanthankyou'%}?account={{account.account_number}}&offer_amount={{offer_amount}}">
+                        {% csrf_token %}
+                        <button class="btn btn-success" type="submit">Accept Loan</button>
+                    </form>
+                </td>
+            </tr>
+            {%endif%}
+        {% endfor %}
+    </tbody>
+    </table>	
+</div>
+
+
+{% endblock content %}

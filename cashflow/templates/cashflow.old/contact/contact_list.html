@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li class="active">Contact List</li>
+</ol>
+    <h2>Contact List</h2>
+
+     <div class="row content">
+        <div class="col-md-3">
+            <a href="{{authorization_url}}">
+                <button type="button" class="btn btn-md btn-primary rounded">Import Contacts from Xero</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="table-responsive content">
+        <table class="table compact" id="contacts"  cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <!-- <th>Id</th> -->
+                    <th>Name</th>
+                    <th data-orderable="false">Customer/Supplier</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Customer Settle</th>
+                    <th>Supplier Settle</th>
+                    <th data-orderable="false">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for contact in object_list %}
+                <tr>
+                    <!-- <td>{{contact.contact_id}}</td> -->
+                    <td><a href="{% url 'cashflow:contactdetail' contact.id %}"  class="color-dark">{{contact.name}}</a></td>
+                    <td>
+                        {% if contact.is_customer %}
+                            <!-- <span class="label label-blue">Customer</span> -->
+                            Customer
+                        {% endif%}
+
+                        {% if contact.is_supplier %}
+                            <!-- <span class="label label-red">Supplier</span>                         -->
+                            Supplier
+                        {% endif%}
+                    </td>
+                    <td>{{contact.first_name}}</td>
+                    <td>{{contact.last_name}}</td>
+                    <td>{% if contact.customer_settle is not None %}{{contact.customer_settle}}{% endif %}</td>
+                    <td>{% if contact.supplier_settle is not None %}{{contact.supplier_settle}}{% endif %}</td>
+                      <!-- <td></td> -->
+                      <!-- <td></td> -->
+                    <td> 
+                        <a href="{% url 'cashflow:contactupdate' contact.id %}">
+                            <button type="button" class="btn btn-xs btn-primary rounded">Update</button>
+                        </a>
+                        <a href="{% url 'cashflow:contactdelete' contact.id %}">
+                            <button type="button" class="btn btn-xs btn-danger rounded">Delete</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    <a href="{% url 'cashflow:contactcreate' %}">
+        <button type="button" class="btn btn-md btn-success rounded">Create Contact</button>
+    </a>
+{% endblock %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#contacts').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                // { type: 'date-eu', targets: 1 },
+                // { type: 'date-eu', targets: 3 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/natural.js"></script> 
+{% endblock js %}

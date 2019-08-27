@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="table-responsive content">
+    <table class="table compact" id="invoices"  cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Invoice Number</th>
+                <th>Date Raised</th>
+                <th>Customer Name</th>
+                <th>Due Date</th>
+                <td>Status</td>
+                <th>Sub Total</th>
+                <th>Tax</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for invoice in invoices %}
+            <tr>
+                <td>{{invoice.InvoiceNumber}}</td>
+                <td>{{invoice.DateString|date:"d/m/Y"}}</td>
+                <td>{{invoice.Contact.Name}}</td>
+                <td>{{invoice.DueDateString|date:"d/m/Y"}}</td>
+                <td>{{invoice.Status}}</td>
+                <td>{{invoice.SubTotal}}</td>
+                <td>{{invoice.TotalTax}}</td>
+                <td>{{invoice.Total}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+
+<div class="call-action-v1 call-action-v1-boxed bg-color-green content">
+    <div class="call-action-v1-box">
+        <div class="call-action-v1-in">
+            <h2 class="color-light">IMPORT FROM XERO COMPLETE</h2>
+             <p>Imported {{add_count}} of {{invoice_count}} invoices. </p>
+        </div>
+        <div class="call-action-v1-in inner-btn page-scroll">
+                <a href="{%url 'cashflow:invoicelist'%}" class="btn-u btn-u-lg rounded btn-u-red btn-block btn-brd btn-brd-width-2 btn-brd-hover btn-u-light">VIEW INVOICES&nbsp<span class="fa fa-chevron-circle-right"></span></a>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+

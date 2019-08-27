@@ -1,0 +1,63 @@
+
+{% extends "cashflow/base.html" %}
+
+{% block title %}{{block.super}} | View Invoice {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <section class="">
+        <div class="container">
+            <div class="title">
+                <div class="row">
+                    <div class="col-sm-5 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-2">
+                                <div class="icon"><i class="fa fa-user"></i></div>
+                            </div>
+                            <div class="col-md-10 col-10">
+                                <ul class="list-unstyled">
+                                    <h2>Invoice Details</h2>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cashflow:invoicelist' %}">Invoice List</a></li>
+                            <li class="breadcrumb-item active">Invoice Details</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h2>{{object.number}}</h2></br>
+                      <p>Type: {{object.invoice_type}}</p>
+                      <p>Contact: {{object.contact}}</p>
+                      <p>Raised: {{object.raised|date:"d/m/Y"}}</p>
+                      <p>Due: {{object.due|date:"d/m/Y"}}</p>
+                      <p>Expected: {{object.expected|date:"d/m/Y"}}</p>
+                      <p>Planned: {{object.planned|date:"d/m/Y"}}</p>
+                      <p>Actual: {{object.actual|date:"d/m/Y"}}</p>
+                      <p>Bank Account: {{object.bank_account}}</p>
+                      <p>Amount: £{{object.amount}}</p>
+                      <p>Status: {{object.status}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <a href="{% url 'cashflow:invoicelist' %}">
+                            <button class="btn-standard btn-success">View Invoices</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

@@ -1,0 +1,20 @@
+/* ==========================
+*  TABLE CONTENT
+============================= */
+
+/* ==========================
+*  1.0 Dasboard
+============================= */
+$breakpoint-mobile: 450px;
+$breakpoint-tablet: 768px;
+
+@import "bootstrap-alpha/bootstrap.scss";
+@import "font-awesome/font-awesome.scss";
+@import "includes/global.scss";
+@import "includes/dashboard.scss";
+@import "includes/contacts.scss";
+@import "includes/invoices.scss";
+@import "includes/bank-accounts.scss";
+@import "includes/transactions.scss";
+@import "includes/groups.scss";
+@import "includes/home.scss";

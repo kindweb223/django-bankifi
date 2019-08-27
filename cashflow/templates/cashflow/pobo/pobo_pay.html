@@ -1,0 +1,128 @@
+
+{% extends "cashflow/base.html" %}
+
+{% block title %}{{block.super}} | Pay Invoice {% endblock title %}
+
+
+{% block css %}
+<!-- Data Tables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
+{% endblock %}
+
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <section class="">
+        <div class="container">
+            <div class="title">
+                <div class="row">
+                    <div class="col-sm-5 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-2">
+                                <div class="icon"><i class="fa fa-user"></i></div>
+                            </div>
+                            <div class="col-md-10 col-10">
+                                <ul class="list-unstyled">
+                                    <h2>Pay Invoice {{number}}</h2>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'cashflow:index' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Pay Invoice</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-list">
+        <div class="container">
+            <div class="white-box">
+               <div class="table-responsive">
+                    <table class="table" id="invoices" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Raised</th>
+                                <th>Due</th>
+                                <th>Type</th>
+                                <th>Contact</th>
+                                <th>Actual</th>
+                                <th>Bank Account</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th data-orderable="false">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for invoice in object_list %}
+                            <tr>  
+                                <td><a href="{% url 'cashflow:invoicedetail' invoice.id %}" class="color-dark">{{invoice.number}}</a></td>
+                                <td>{{invoice.raised|date:"d/m/Y"}}</td>
+                                <td>{{invoice.due|date:"d/m/Y"}}</td>
+                                <td>{{invoice.invoice_type}}</td>
+                                <td>{{invoice.contact}}</td>
+                                <td>{{invoice.actual|date:"d/m/Y"}}</td>
+                                <td>{{invoice.bank_account}}</td>
+                                <td>£{{invoice.amount}}</td>
+                                <td>{{invoice.status}}</td>
+                                <td> 
+                                    {% if user.is_superuser %}
+                                    <a href="{% url 'cashflow:invoiceupdate' invoice.id  %}">
+                                        <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                    </a>
+                                    <a href="{% url 'cashflow:invoicedelete' invoice.id %}">
+                                        <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                    </a>
+                                    {% endif %}
+                                    {% if invoice.status != 'PAID' and user.is_superuser %}
+                                     <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                       <button type="" class="badge badge-success" title="Pay"><i class="fa fa-gbp"></i></button>
+                                    </a>
+                                    {% elif invoice.status != 'PAID' %}
+                                        <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                            <button class="btn-standard btn-success">Pay</button>
+                                        </a>
+                                    {%endif%}
+                                </td>
+                            </tr>  
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#invoices').DataTable({
+            "paging": true,
+            "searching": true,
+             "info":     true,
+            columnDefs: [
+                { type: 'date-eu', targets: 1 },
+                { type: 'date-eu', targets: 2 },
+                { type: 'date-eu', targets: 5 },
+            ],
+        });
+    } );
+</script>
+<!-- Data Tables Java Script -->
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script> 
+{% endblock js %}
+
+
+

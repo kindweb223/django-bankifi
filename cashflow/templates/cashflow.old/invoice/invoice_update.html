@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}{{block.super}} | Update Contact {% endblock title %}
+
+{% block content %}
+	<ol class="breadcrumb">
+	  <li><a href="{% url 'index' %}">Home</a></li>
+	  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+	  <li><a href="{% url 'cashflow:invoicelist' %}">Invoice List</a></li>
+	  <li class="active">Update Invoice</li>
+	</ol>
+
+	<br/>
+    {% include "cashflow/snippets/form.html" with form=form btn_title='Update' %}
+{% endblock content %}
+
+{% block js%}
+
+<script type="text/javascript">
+    $(function () {
+    	$('.datepicker').datetimepicker({
+    	    inline: true,
+    	    sideBySide: true,
+    	    format: 'DD.MM.YYYY' /*remove this line if you want to use time as well */
+    	});
+    });
+</script>
+
+{% endblock %}

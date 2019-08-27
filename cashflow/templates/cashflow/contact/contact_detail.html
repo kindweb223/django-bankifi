@@ -1,0 +1,62 @@
+{% extends "cashflow/base.html" %}
+
+{% block title %}{{block.super}} | View Contact {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <section class="">
+        <div class="container">
+            <div class="title">
+                <div class="row">
+                    <div class="col-sm-5 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-2">
+                                <div class="icon"><i class="fa fa-user"></i></div>
+                            </div>
+                            <div class="col-md-10 col-10">
+                                <ul class="list-unstyled">
+                                    <h2>Contact Details</h2>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cashflow:contactlist' %}">Contact List</a></li>
+                            <li class="breadcrumb-item active">Contact Details</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h2>{{object.name}}</h2></br>
+                    <p>First Name: {{object.first_name}}</p>
+                    <p>Last Name: {{object.last_name}}</p>
+                    <p>{% if contact.is_customer %}
+                        <span class="label label-blue">Is A Customer</span>
+                    {% endif%}<p>
+                    <p>  
+                    {% if contact.is_supplier %}
+                        <span class="label label-red">Is A Supplier</span>                        
+                    {% endif%}
+                    <p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <a href="{% url 'cashflow:contactlist' %}">
+                            <button class="btn-standard btn-success">View Contacs</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

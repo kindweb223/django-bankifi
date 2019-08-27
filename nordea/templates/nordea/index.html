@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ol class="breadcrumb margin-bottom-40">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li class="active">Nordea</li>
+</ol>
+<div class="row margin-bottom-20">
+    <h2>Nordea Home</h2>
+</div>
+<div class='row margin-bottom-40'>
+     <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'nordea:nordea_accounts' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Nordea Account API</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'nordea:contactcreate' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Create Contact</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'nordea:contactlist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Contacts</button>
+        </a>
+    </div>
+    
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'nordea:accountcreate' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Create Account</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'nordea:accountlist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Bank Accounts</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'nordea:transactioncreate' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Create Transaction</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'nordea:transactionlist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Transactions</button>
+        </a>
+    </div>
+</div>
+{% endblock %}

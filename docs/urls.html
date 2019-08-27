@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>urls.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>urls.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h1>URL to view mappings</h1>
+<p>Django allows us to map urls to Django view functions or classes. </p>
+<p>This file provides the URL mappings to the Cashflow application (aka Bankifi demo) views.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h3><span id="imports" href="imports"> Imports </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Import django modules</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.views.generic.base</span> <span class="kn">import</span> <span class="n">RedirectView</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Import views</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">.views.forecast</span> <span class="kn">import</span> <span class="n">ForecastView</span>
+<span class="kn">from</span> <span class="nn">.views.index</span> <span class="kn">import</span> <span class="n">IndexView</span><span class="p">,</span> <span class="n">AuthorizeView</span>
+<span class="kn">from</span> <span class="nn">.views.setup</span> <span class="kn">import</span> <span class="n">SetupView</span><span class="p">,</span> <span class="n">LoggedInView</span>
+<span class="kn">from</span> <span class="nn">.views.pobo</span> <span class="kn">import</span> <span class="n">PoboCreateView</span><span class="p">,</span> <span class="n">PoboPayView</span><span class="p">,</span> <span class="n">PoboPaymentView</span><span class="p">,</span> <span class="n">PoboThankyouView</span>
+
+<span class="kn">from</span> <span class="nn">.views.dynapi</span> <span class="kn">import</span> <span class="n">DynapiView</span>
+
+<span class="kn">from</span> <span class="nn">.views.loan</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">LoanApplyView</span><span class="p">,</span>
+        <span class="n">LoanThankyouView</span><span class="p">,</span> 
+        <span class="n">LoanPayView</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.views.contact</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">ContactCreateView</span><span class="p">,</span>
+        <span class="n">ContactDeleteView</span><span class="p">,</span>
+        <span class="n">ContactDetailView</span><span class="p">,</span> 
+        <span class="n">ContactListView</span><span class="p">,</span> 
+        <span class="n">ContactUpdateView</span><span class="p">,</span>
+        <span class="n">ContactImportView</span><span class="p">,</span> 
+    <span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.views.account</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">AccountCreateView</span><span class="p">,</span>
+        <span class="n">AccountDeleteView</span><span class="p">,</span>
+        <span class="n">AccountDetailView</span><span class="p">,</span> 
+        <span class="n">AccountListView</span><span class="p">,</span> 
+        <span class="n">AccountUpdateView</span><span class="p">,</span>
+        <span class="n">AccountImportView</span><span class="p">,</span> 
+    <span class="p">)</span>
+
+
+<span class="kn">from</span> <span class="nn">.views.transaction</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">TransactionCreateView</span><span class="p">,</span>
+        <span class="n">TransactionDeleteView</span><span class="p">,</span>
+        <span class="n">TransactionDetailView</span><span class="p">,</span> 
+        <span class="n">TransactionListView</span><span class="p">,</span> 
+        <span class="n">TransactionUpdateView</span><span class="p">,</span>
+        <span class="n">TransactionImportView</span><span class="p">,</span> 
+    <span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.views.invoice</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">InvoiceCreateView</span><span class="p">,</span>
+        <span class="n">InvoiceDeleteView</span><span class="p">,</span>
+        <span class="n">InvoiceDetailView</span><span class="p">,</span> 
+        <span class="n">InvoiceListView</span><span class="p">,</span> 
+        <span class="n">InvoiceUpdateView</span><span class="p">,</span>
+        <span class="n">InvoiceImportView</span><span class="p">,</span>
+        <span class="n">InvoiceGenerateView</span><span class="p">,</span>
+        <span class="n">InvoiceGeneratedView</span><span class="p">,</span>
+    <span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <h3><span id="url-mappings" href="url-mappings"> URL Mappings </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Map urls to views</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">IndexView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">),</span>
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^contact/import$&#39;</span><span class="p">,</span> <span class="n">ContactImportView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contactimport&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^contact$&#39;</span><span class="p">,</span> <span class="n">ContactListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contactlist&#39;</span><span class="p">),</span> <span class="c1"># /Contact/search</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^contact/create/$&#39;</span><span class="p">,</span> <span class="n">ContactCreateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contactcreate&#39;</span><span class="p">),</span>  <span class="c1"># /Contact/create/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^contact/(?P&lt;pk&gt;\d+)/delete/$&#39;</span><span class="p">,</span> <span class="n">ContactDeleteView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contactdelete&#39;</span><span class="p">),</span>  <span class="c1"># /Contact/1/delete/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^contact/(?P&lt;pk&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="n">ContactDetailView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contactdetail&#39;</span><span class="p">),</span> <span class="c1"># /Contact/1/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^contact/(?P&lt;pk&gt;\d+)/update/$&#39;</span><span class="p">,</span> <span class="n">ContactUpdateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;contactupdate&#39;</span><span class="p">),</span> <span class="c1"># /contact/1/update/</span>
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice/import$&#39;</span><span class="p">,</span> <span class="n">InvoiceImportView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoiceimport&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice$&#39;</span><span class="p">,</span> <span class="n">InvoiceListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoicelist&#39;</span><span class="p">),</span> <span class="c1"># /invoice/search</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice/create/$&#39;</span><span class="p">,</span> <span class="n">InvoiceCreateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoicecreate&#39;</span><span class="p">),</span>  <span class="c1"># /invoice/create/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice/(?P&lt;pk&gt;\d+)/delete/$&#39;</span><span class="p">,</span> <span class="n">InvoiceDeleteView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoicedelete&#39;</span><span class="p">),</span>  <span class="c1"># /invoice/1/delete/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice/(?P&lt;pk&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="n">InvoiceDetailView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoicedetail&#39;</span><span class="p">),</span> <span class="c1"># /invoice/1/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice/(?P&lt;pk&gt;\d+)/update/$&#39;</span><span class="p">,</span> <span class="n">InvoiceUpdateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoiceupdate&#39;</span><span class="p">),</span> <span class="c1"># /invoice/1/update/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice/generate$&#39;</span><span class="p">,</span> <span class="n">InvoiceGenerateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoicegenerate&#39;</span><span class="p">),</span>  <span class="c1"># /invoice/generate/</span>
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^account/import$&#39;</span><span class="p">,</span> <span class="n">AccountImportView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;accountimport&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^account$&#39;</span><span class="p">,</span> <span class="n">AccountListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;accountlist&#39;</span><span class="p">),</span> <span class="c1"># /account/search</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^account/create/$&#39;</span><span class="p">,</span> <span class="n">AccountCreateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;accountcreate&#39;</span><span class="p">),</span>  <span class="c1"># /account/create/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^account/(?P&lt;pk&gt;\d+)/delete/$&#39;</span><span class="p">,</span> <span class="n">AccountDeleteView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;accountdelete&#39;</span><span class="p">),</span>  <span class="c1"># /account/1/delete/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^account/(?P&lt;pk&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="n">AccountDetailView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;accountdetail&#39;</span><span class="p">),</span> <span class="c1"># /account/1/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^account/(?P&lt;pk&gt;\d+)/update/$&#39;</span><span class="p">,</span> <span class="n">AccountUpdateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;accountupdate&#39;</span><span class="p">),</span> <span class="c1"># /account/1/update/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice/generate$&#39;</span><span class="p">,</span> <span class="n">InvoiceGenerateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoicegenerate&#39;</span><span class="p">),</span>  <span class="c1"># /invoice/generate/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^invoice/generated$&#39;</span><span class="p">,</span> <span class="n">InvoiceGeneratedView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;invoicegenerated&#39;</span><span class="p">),</span>  <span class="c1"># /invoice/generated/</span>
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^transaction/import$&#39;</span><span class="p">,</span> <span class="n">TransactionImportView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;transactionimport&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^transaction$&#39;</span><span class="p">,</span> <span class="n">TransactionListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;transactionlist&#39;</span><span class="p">),</span> <span class="c1"># /transaction/search</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^transaction/create/$&#39;</span><span class="p">,</span> <span class="n">TransactionCreateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;transactioncreate&#39;</span><span class="p">),</span>  <span class="c1"># /transaction/create/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^transaction/(?P&lt;pk&gt;\d+)/delete/$&#39;</span><span class="p">,</span> <span class="n">TransactionDeleteView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;transactiondelete&#39;</span><span class="p">),</span>  <span class="c1"># /transaction/1/delete/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^transaction/(?P&lt;pk&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="n">TransactionDetailView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;transactiondetail&#39;</span><span class="p">),</span> <span class="c1"># /transaction/1/</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^transaction/(?P&lt;pk&gt;\d+)/update/$&#39;</span><span class="p">,</span> <span class="n">TransactionUpdateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;transactionupdate&#39;</span><span class="p">),</span> <span class="c1"># /transaction/1/update/</span>
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^forecast$&#39;</span><span class="p">,</span> <span class="n">ForecastView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;forecast&#39;</span><span class="p">),</span> <span class="c1"># /transaction/search</span>
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^loanapply/$&#39;</span><span class="p">,</span> <span class="n">LoanApplyView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loanapply&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^loanpay/$&#39;</span><span class="p">,</span> <span class="n">LoanPayView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loanpay&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^loanthankyou/$&#39;</span><span class="p">,</span> <span class="n">LoanThankyouView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loanthankyou&#39;</span><span class="p">),</span>
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^setup$&#39;</span><span class="p">,</span> <span class="n">SetupView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;setup&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^loggedin$&#39;</span><span class="p">,</span> <span class="n">LoggedInView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loggedin&#39;</span><span class="p">),</span>
+
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^authorize$&#39;</span><span class="p">,</span> <span class="n">AuthorizeView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;authorize&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^dynapi$&#39;</span><span class="p">,</span> <span class="n">DynapiView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;dynapi&#39;</span><span class="p">),</span>
+
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^pobo/create$&#39;</span><span class="p">,</span> <span class="n">PoboCreateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pobocreate&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^pobo/pay$&#39;</span><span class="p">,</span> <span class="n">PoboPayView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pobopay&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^pobo/payment$&#39;</span><span class="p">,</span> <span class="n">PoboPaymentView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pobopayment&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^pobo/thankyou$&#39;</span><span class="p">,</span> <span class="n">PoboThankyouView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pobothankyou&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

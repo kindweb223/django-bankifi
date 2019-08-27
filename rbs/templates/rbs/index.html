@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ol class="breadcrumb margin-bottom-40">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li class="active">RBS</li>
+</ol>
+<div class="row margin-bottom-20">
+    <h2>RBS Home</h2>
+</div>
+<div class='row margin-bottom-40'>
+     <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'rbs:customers' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">RBS Customer API</button>
+        </a>
+    </div>
+</div>
+
+<div class='row margin-bottom-40'>
+     <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'rbs:accounts' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">RBS Account API</button>
+        </a>
+    </div>
+</div>
+
+
+{% endblock %}

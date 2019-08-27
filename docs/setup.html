@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>setup.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>setup.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h1>Views for Demo Setup</h1>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>Please note: Hard coded bank accounts (for investors) and contact ids (for loans)
+are used in the demo. </p>
+<p>Future Work: Remove need for hard coded accounts and contacts.</p>
+<p><strong>View Classes:</strong></p>
+<ol>
+<li><strong><em>SetupView</em></strong>: View to setup the Bankifi Cashflow demo.</li>
+<li><strong><em>LoggedInView</em></strong>: View to login to Xero.</li>
+</ol>
+<p>Internal Methods:</p>
+<ol>
+<li><strong><em>clear_loan</em></strong>: Clear down Bankifi loans.</li>
+<li><strong><em>clear_invoices</em></strong>: Clear down Bankifi invoices.</li>
+<li><strong><em>clear_transactions</em></strong>: Clear down Bankifi transactions.</li>
+<li><strong><em>clear_xero_transactions</em></strong>: Clear down Xero transactions.</li>
+<li><strong><em>invoices_void</em></strong>: Void Xero invoices.</li>
+</ol>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <h3><span id="imports" href="imports"> Imports </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Import Python modules</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+<span class="kn">import</span> <span class="nn">logging</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Import Django modules</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">TemplateView</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.mixins</span> <span class="kn">import</span> <span class="n">LoginRequiredMixin</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span><span class="p">,</span> <span class="n">reverse_lazy</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Import Bankifi/Cashflow models</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">cashflow.models</span> <span class="kn">import</span> <span class="n">Account</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">,</span> <span class="n">Loan</span><span class="p">,</span> <span class="n">Contact</span><span class="p">,</span> <span class="n">Invoice</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Import Xero oauth management methods</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">utility.xeroutil</span> <span class="kn">import</span> <span class="n">get_xero</span><span class="p">,</span> <span class="n">verify_credentials</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <h3><span id="globals" href="globals"> Globals </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Environment variable used for local and production testing</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">ON_HEROKU</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ON_HEROKU&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Setup protected hard coded accounts used in Demo.
+Account IDs for the Supplier and Business accounts. Update if changed.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">PROTECTED_ACCOUNT_IDS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">PROTECTED_CONTACTS_NAMES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A Investor&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Contact ID for the loan provider. Update if changed.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">PROTECTED_CONTACTS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;3a7ecaea-130f-40ed-a7e3-d381bb0d1b59&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <h3><span id="loggers" href="loggers"> Loggers </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Setup loggers</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">infolog</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;infologger&#39;</span><span class="p">)</span>
+<span class="n">errorlog</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;prodlogger&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <h3><span id="classes" href="classes"> Classes </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p><strong>SetupView(LoginRequiredMixin, TemplateView)</strong></p>
+<p>View to setup the Bankifi Cashflow demo.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">SetupView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;cashflow/setup/setup.html&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">SetupView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>Clear loans and add counts to context</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;loan_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clear_loan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;invoice_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clear_invoices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s1">&#39;transaction_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clear_transactions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ON_HEROKU</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>Create a Xero object that allows access to the API</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">xero</span> <span class="o">=</span> <span class="n">get_xero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">xero</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <p>Void Xero invoices (this removes bank account transactions too)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="k">try</span><span class="p">:</span> 
+                    <span class="n">context</span><span class="p">[</span><span class="s1">&#39;invoice_void_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">invoices_void</span><span class="p">(</span><span class="n">xero</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">errorlog</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Xero token expired.&#39;</span><span class="p">)</span>
+                    <span class="n">context</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Xero token invalid. Log back into Xero.&quot;</span>
+
+            <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <p>Log error if we failed to logon to Xero</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">errorlog</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Get xero returned none.&#39;</span><span class="p">)</span>
+                <span class="n">context</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Error connecting to Xero. Check you are logged in.&quot;</span>
+
+        <span class="k">return</span> <span class="n">context</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p><strong>LoggedInView(LoginRequiredMixin, TemplateView)</strong></p>
+<p>View to login and verify access to Xero.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">LoggedInView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">TemplateView</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>template_name = "cashflow/setup/logged_in.html"</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;cashflow/setup/logged_in.html&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">LoggedInView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ON_HEROKU</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>Verify the Xero credentials</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">verify_credentials</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>          
+
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;cashflow:forecast&#39;</span><span class="p">),</span> <span class="n">permanent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      <h3><span id="methods" href="methods"> Methods </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p><strong>clear_loan()</strong></p>
+<p>Clears the Bankifi/Cashflow loans.</p>
+<p><strong>Returns</strong>:</p>
+<p>Number of loans deleted.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">clear_loan</span><span class="p">(</span><span class="n">user</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">loans</span> <span class="o">=</span> <span class="n">Loan</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">loan</span> <span class="ow">in</span> <span class="n">loans</span><span class="p">:</span>
+        <span class="n">loan</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">loans</span><span class="o">.</span><span class="n">count</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p><strong>clear_invoices()</strong></p>
+<p>Clears the Bankifi/Cashflow invoices.</p>
+<p><strong>Returns:</strong></p>
+<p>Number of invoices deleted.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">clear_invoices</span><span class="p">(</span><span class="n">user</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">invoices</span> <span class="o">=</span> <span class="n">Invoice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">invoice</span> <span class="ow">in</span> <span class="n">invoices</span><span class="p">:</span>
+        <span class="n">invoice</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">invoices</span><span class="o">.</span><span class="n">count</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      <p><strong>clear_transactions()</strong></p>
+<p>Clears the Bankifi/Cashflow transactions.</p>
+<p><strong>Returns:</strong></p>
+<p>Number of transactions deleted.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">clear_transactions</span><span class="p">(</span><span class="n">user</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">transactions</span> <span class="o">=</span> <span class="n">Transaction</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">contact__name__in</span><span class="o">=</span><span class="n">PROTECTED_CONTACTS_NAMES</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">customer</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">transaction</span> <span class="ow">in</span> <span class="n">transactions</span><span class="p">:</span>
+        <span class="n">transaction</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">transactions</span><span class="o">.</span><span class="n">count</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      <p><strong>clear_xero_transactions(xero)</strong></p>
+<p>Clears the xero transactions.</p>
+<p>Please note: Due to Xero API limitation, can only clear bank transfers. Other transactions need 
+to be cleared manually in Xero for now.</p>
+<p><strong>Returns</strong>:</p>
+<p>Number of transactions deleted.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">clear_xero_transactions</span><span class="p">(</span><span class="n">xero</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-33'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-33'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">transactions</span> <span class="o">=</span> <span class="n">xero</span><span class="o">.</span><span class="n">banktransactions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Status</span><span class="o">=</span><span class="s1">&#39;AUTHORISED&#39;</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">transaction</span> <span class="ow">in</span> <span class="n">transactions</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;TRANSACTION {0} Contact: {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">transaction</span><span class="p">,</span> <span class="n">transaction</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Contact&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-34'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-34'>#</a>
+      </div>
+      <p>Keep the important Investor transactions to avoid having to set them up manually again</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">transaction</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Contact&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> \
+                <span class="ow">and</span> <span class="n">transaction</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Contact&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ContactID&#39;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PROTECTED_CONTACTS</span><span class="p">:</span>
+            <span class="n">transaction</span><span class="p">[</span><span class="s1">&#39;Status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;DELETED&#39;</span>
+            <span class="n">xero</span><span class="o">.</span><span class="n">banktransactions</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">transaction</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">count</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-35'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-35'>#</a>
+      </div>
+      <p><strong>invoices_void(xero)</strong></p>
+<p>Voids the xero invoices.</p>
+<p><strong>Returns</strong>:</p>
+<p>Number of invoices voided.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">invoices_void</span><span class="p">(</span><span class="n">xero</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-36'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-36'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">invoices</span> <span class="o">=</span> <span class="n">xero</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Status</span><span class="o">=</span><span class="s1">&#39;AUTHORISED&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">invoices</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-37'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-37'>#</a>
+      </div>
+      <p>Need to do this to update Xero object</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">i</span><span class="p">[</span><span class="s1">&#39;Status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;VOIDED&#39;</span>
+        <span class="n">xero</span><span class="o">.</span><span class="n">invoices</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">invoices</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

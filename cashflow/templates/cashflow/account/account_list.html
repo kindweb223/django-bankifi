@@ -1,0 +1,145 @@
+{% extends "cashflow/base.html" %}
+
+{% block title %}{{block.super}} | Account List {% endblock title %}
+
+
+{% block css %}
+ <!-- Data Tables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
+{% endblock %}
+
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <section class="">
+        <div class="container">
+            <div class="title">
+                <div class="row">
+                    <div class="col-sm-5 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-2">
+                                <div class="icon"><i class="fa fa-user"></i></div>
+                            </div>
+                            <div class="col-md-10 col-10">
+                                <ul class="list-unstyled">
+                                    <h2>Account List</h2>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Account List</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-list">
+        <div class="container">
+            <div class="white-box">
+                <div class="row">
+                    <div class="col-sm-6 col-7">
+                        <h3>Listing All Accounts</h3>
+                    </div>
+                    <div class="col-sm-6 col-5 text-right">
+                        {% if user.is_superuser %}
+                        <a href="{% url 'cashflow:accountcreate' %}">    
+                            <button class="btn-standard btn-success hidden-xs-down">Create Account</button>
+                        </a>
+                        <a href="{% url 'cashflow:accountimport' %}">
+                            <button class="btn-standard btn-info hidden-xs-down">Import from Xero</button>
+                        </a>
+                        <a href="{% url 'cashflow:accountcreate' %}">    
+                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </button>
+                        </a>
+                        <a href="{% url 'cashflow:accountimport' %}">
+                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">
+                                <i class="fa fa-cloud-download"></i>
+                            </button>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            
+                <div class="table-responsive">
+                    <table class="table" id="accounts" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Acc. No.</th>
+                                <th>Balance</th>
+                                <th>Sweep</th>
+                                <th>Min. Bal.</th>
+                                {% if user.is_superuser %}
+                                <th data-orderable="false">Action</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for account in object_list %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'cashflow:accountdetail' account.id %}" class="color-dark">
+                                            {{account.bank|title}}&nbsp{{account.name}}
+                                        </a>
+                                    </td>
+                                    <td>{{account.account_number}}</td>
+                                    <td>
+                                        {%if account.account_balance < 0 %}
+                                            <span class="color-red">
+                                                £{{account.account_balance}}
+                                            </span>
+                                        {%else%}
+                                            £{{account.account_balance}}
+                                        {% endif %}
+                                    </td>
+                                    <td>{%if account.sweep_account %}{{account.sweep_account}}{% endif %}</td>
+                                    <td>£{{account.sweep_min_balance}}</td>
+                                    {% if user.is_superuser %}
+                                    <td> 
+                                        <a href="{% url 'cashflow:accountupdate' account.id %}">
+                                            <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                        </a>
+                                        <a href="{% url 'cashflow:accountdelete' account.id %}">
+                                            <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                        </a>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#accounts').DataTable({
+            "paging": true,
+            "searching": true,
+             "info":     true,
+            columnDefs: [
+                // { type: 'date-eu', targets: 1 },
+                // { type: 'date-eu', targets: 3 }
+            ],
+        });
+    } );
+</script>
+<!-- Data Tables Java Script -->
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script> 
+{% endblock js %}

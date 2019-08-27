@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'nordea:index' %}">Nordea</a></li>
+  <li class="active">Account List</li>
+</ol>
+    <h2>Account List</h2>
+
+    <div class="table-responsive content">
+        <table class="table compact" id="transactions"  cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <!-- <th>Id</th> -->
+                    <th>Bank</th>
+                    <th>Name</th>
+                    <th>Sort Code</th>
+                    <th>Account Number</th>
+                    <th>Balance</th>
+                    <th>Sweep Account</th>
+                    <th>Sweep Min Balance</th>
+                    <th data-orderable="false">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for account in object_list %}
+                <tr>
+                    <!-- <td>{{account.account_id}}</td> -->
+                    <td>{{account.bank}}</td>
+                    <td><a href="{% url 'nordea:accountdetail' account.id %}" class="color-dark">{{account.name}}</a></td>
+                    <td>{{account.sortcode}}</td>
+                    <td>{{account.account_number}}</td>
+                    <td>
+                        {%if account.balance < 0 %}
+                            <span class="color-red">
+                                £{{account.balance}}
+                            </span>
+                        {%else%}
+                            £{{account.balance}}
+                        {% endif %}
+                    </td>
+                     <td>{%if account.sweep_account %}{{account.sweep_account}}{% endif %}</td>
+                    <th>£{{account.sweep_min_balance}}</th>
+                    <td> 
+                        <div class="margin-bottom-5">
+                            <a href="{% url 'nordea:accountupdate' account.id %}">
+                                <button type="button" class="btn btn-xs btn-primary rounded">Update</button>
+                            </a>
+                            <a href="{% url 'nordea:accountdelete' account.id %}">
+                                <button type="button" class="btn btn-xs btn-danger rounded">Delete</button>
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    <a href="{% url 'nordea:accountcreate' %}">
+        <button type="button" class="btn btn-md btn-success rounded">Create Account</button>
+    </a>
+{% endblock %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#transactions').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                // { type: 'date-eu', targets: 1 },
+                // { type: 'date-eu', targets: 3 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/natural.js"></script> 
+{% endblock js %}

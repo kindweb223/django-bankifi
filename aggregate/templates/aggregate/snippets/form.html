@@ -1,0 +1,18 @@
+{% load crispy_forms_tags %}
+
+<section class="contact-list">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <h2>{{title}}</h2>
+                <form {% if form_id %} id='{{form_id}}' {%endif%} class="form" action="{% if action_url %}{{action_url}}{% endif %}" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <p>{{help_text}}</p>
+                    <input type="submit" class="btn-standard btn-success" value="{{btn_title}}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

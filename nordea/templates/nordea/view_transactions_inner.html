@@ -1,0 +1,94 @@
+{% load app_filters %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+{% endblock %}
+
+<h1>Transactions for Nordea Account: {{account.id}}</h1>
+</br>
+<div class='row margin-bottom-20'>
+     <div class='col-md-2 col-xs-4 pull-left'>
+        <a href="{% url 'nordea:nordea_accounts' %}">
+            <button type="button" class="btn-u btn-u-red rounded-2x">Back To Accounts</button>
+        </a>
+    </div>
+</div>
+
+{% if error %}
+</br>
+<div class='row margin-bottom-20'>
+     <div class='col-xs-12 pull-left color-red'>
+       {{error}}
+    </div>
+</div>
+{%endif%}
+
+<!-- [{'id': '0220161108000001', 'entryReference': '0220161108000001', 'amount': {'currency': 'EUR', 'value': '100.00'}, 'bookingDate': {'date': '2017-06-12'}, 'creditDebitIndicator': 'CRDT', 'entryDetails': {'transactionDetails': {'relatedParties': {'debtor': {'name': 'Matti Meikäläinen'}}}}, 'valueDate': {'date': '2017-06-12'}}
+ -->
+<div class="table-responsive">
+    <table class="table compact" id="accounts"  cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Transaction Id</th>
+                <th>Date</th>
+                <th>Indicator</th>
+                <th>Details</th>
+                <th>Currency</th>
+                <th>Amount</th>
+                <th>GBP</th>
+                <th>USD</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{transaction.id}}</td>
+                <td>{{transaction.bookingDate.date}}</td>
+                <td>{{transaction.creditDebitIndicator}}</td>
+                <td>
+                    {% if transaction.creditDebitIndicator == "CRDT" %}
+                        {{transaction.entryDetails.transactionDetails.relatedParties.debtor.name}}
+                    {% elif transaction.creditDebitIndicator == "DBIT" %}
+                        {{transaction.entryDetails.transactionDetails.relatedParties.creditor.name}}
+                    {% endif %}
+                </td>
+                <td>{{transaction.amount.currency}}</td>
+                <td>{{transaction.amount.value}}</td>
+                <td>£{{transaction.amount.value|fx:GBP}}</td>
+                <td>${{transaction.amount.value|fx:USD}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+
+<div class='row margin-bottom-40'>
+     <div class='col-md-2 col-xs-4 pull-right'>
+     </br>
+        <a href="{% url 'nordea:nordea_accounts' %}">
+            <button type="button" class="btn-u btn-u-red rounded-2x">Back To Accounts</button>
+        </a>
+    </div>
+</div>
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#accounts').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                // { type: 'natural', targets: 8 },
+                // { type: 'natural', targets: 10 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/natural.js"></script> 
+{% endblock js %}

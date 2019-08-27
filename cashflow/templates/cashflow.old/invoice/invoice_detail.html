@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{block.super}} | View Invoice {% endblock title %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li><a href="{% url 'cashflow:invoicelist' %}">Invoice List</a></li>
+  <li class="active">Invoice Details</li>
+</ol>
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>{{object.number}}</h1>
+   
+            Type: {{object.invoice_type}}<br /><br />
+            Contact: {{object.contact}}<br /><br />
+            Raised: {{object.raised|date:"d/m/Y"}}<br /><br />
+            Due: {{object.due|date:"d/m/Y"}}<br /><br />
+            Expected: {{object.expected|date:"d/m/Y"}}<br /><br />
+            Planned: {{object.planned|date:"d/m/Y"}}<br /><br />
+            Actual: {{object.actual|date:"d/m/Y"}}<br /><br />
+            Bank Account: {{object.bank_account}}<br /><br />
+            Amount: £{{object.amount}}<br /><br />
+            Status: {{object.status}}<br /><br />
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,96 @@
+{% load static %}
+
+<div class="topbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="logo-text">NORDEA</div>
+            </div>
+            <div class="col-6 text-right">
+                <ul class="list-inline">
+                    {% if user.is_authenticated %}
+                        <li class="list-inline-item"><span class="text-left text-danger">{{user.username}}</span></li>
+                        <li class="list-inline-item"><a class="cd-signin" href="/accounts/logout">Logout</a></li>
+                         <li class="list-inline-item">
+                            <img src="{% static 'img/user.png' %}" class="img-fluid rounded-circle" alt="User">
+                        </li>
+                    {% else %}
+                        <li class="list-inline-item"><a href="{% url 'account_login'%}?next={{request.path}}">Login</a></li>
+                    {%endif%}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid main-menu">
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                <nav class="navbar navbar-toggleable-md pt-0 pb-0">
+                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarsExampleContainer">
+                        <ul class="navbar-nav mr-auto">
+
+                            <li class="nav-item {% if 'breakdown' in request.path %}active{% endif %}">
+                                <a class="nav-link" href="{% url 'nordea:nordea_breakdown' %}">Dashboard</a>
+                            </li>
+                            <li class="nav-item {% if 'account' in request.path %}active{% endif %}">
+                                <a class="nav-link" href="{% url 'nordea:nordea_accounts' %}">Accounts</a>
+                            </li>
+
+                            {%comment%}
+                            <li class="nav-item dropdown {% if 'group' in request.path %}active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" id="groupDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Groups</a>
+                                <div class="dropdown-menu" aria-labelledby="groupDropdown-1">
+                                    <a class="dropdown-item" href="{% url 'aggregate:grouplist' %}">View Groups</a>
+                                    <a class="dropdown-item" href="{% url 'aggregate:groupcreate' %}">Create Group</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown {% if 'account' in request.path %}active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" id="accountDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bank Accounts</a>
+                                <div class="dropdown-menu" aria-labelledby="accountDropdown-1">
+                                    <a class="dropdown-item" href="{% url 'aggregate:accountlist' %}">View Accounts</a>
+                                    <a class="dropdown-item" href="{% url 'aggregate:accountcreate' %}">Create Account</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown {% if 'transaction' in request.path %}active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" id="transactionDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+                                <div class="dropdown-menu" aria-labelledby="transactionDropdown-1">
+                                    <a class="dropdown-item" href="{% url 'aggregate:transactionlist' %}">View Transactions</a>
+                                    <a class="dropdown-item" href="{% url 'aggregate:transactioncreate' %}">Create Transactions</a>
+                                </div>
+                            </li>
+                            {%endcomment%}
+                        </ul>
+                        <ul class="navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'index' %}">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" id="demoDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Solutions</a>
+                                <div class="dropdown-menu" aria-labelledby="demoDropdown-1">
+                                    {%comment%}
+                                    <a class="dropdown-item" href="{% url 'oauth:index' %}">OAUTH and Account Demo</a>
+                                    <a class="dropdown-item" href="{% url 'bankinfo:banks' %}">OBP Available Banks</a>
+                                    <a class="dropdown-item" href="{% url 'branch:branchfinder' %}">Branch Finder Demo</a>
+                                    {%endcomment%}
+                                    <a class="dropdown-item" href="{% url 'cashflow:index' %}">Pocket Treasurer</a>
+                                    <a class="dropdown-item" href="{% url 'nordea:nordea_breakdown' %}">Bank API</a>
+                                    {%comment%}
+                                    <a class="dropdown-item" href="{% url 'rbs:index' %}">RBS API</a>
+                                    {%endcomment%}
+                                    <a class="dropdown-item" href="{% url 'aggregate:accountdashboard' %}">Aggregation</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

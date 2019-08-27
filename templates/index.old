@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+{% load static%}
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+<!-- Interactive Slider -->
+    <div class="interactive-slider-v1 img-v3">
+        <div class="container text-center">
+            <h1 class="color-light">WELCOME TO <span style="color:red;">BANKIFI</span></h1>
+            <p>All Your Banks Under One Roof</p>
+        </div>
+    </div>
+    <!-- End Interactive Slider -->
+
+
+
+<!-- Call to Action -->
+<div class="call-action-v1 bg-color-light margin-bottom-40">
+    <div class="container">
+        <div class="call-action-v1-box">
+            <div class="call-action-v1-in">
+                <h3>Changing The Way You Bank Forever</h3>
+                <p>Bankifi has revolutionised banking, with a seamless banking experience across all of your providers.</p>
+            </div>
+            <div class="call-action-v1-in inner-btn page-scroll">
+                <a href="{% url 'cashflow:forecast' %}" class="btn-u btn-u-lg btn-brd btn-brd-width-2 btn-brd-hover btn-u-dark btn-u-block">POCKET TREASURER DEMO</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Call to Action -->
+
+<!--=== Content Part ===-->
+<div class="content-md">
+    <div class="container">
+        <!-- Service Box -->
+        <div class="row text-center margin-bottom-60">
+            <div class="col-md-4 md-margin-bottom-50">
+                <img alt="" src="{% static 'img/01.png' %}" class="image-md margin-bottom-20">
+                <h1 class="title-v3-md margin-bottom-10">Personalised Banking</h1>
+                <p>Personalise your banking experience by tailoring our applications to your lifestyle.</p>
+            </div>
+            <div class="col-md-4 flat-service md-margin-bottom-50">
+                <img alt="" src="{% static 'img/02.png' %}" class="image-md margin-bottom-20">
+                <h2 class="title-v3-md margin-bottom-10">Satisfaction Guaranteed</h2>
+                <p>Our technology makes banking a breeze. Your life is just about to get a whole lot easier.</p>
+            </div>
+            <div class="col-md-4 flat-service">
+                <img alt="" src="{% static 'img/03.png' %}" class="image-md margin-bottom-20">
+                <h2 class="title-v3-md margin-bottom-10">100s of Bank Integrations</h2>
+                <p>We have 100s of banks you can integrate with and more on the way.</p>
+            </div>
+        </div>
+        <!-- End Service Box -->
+    </div><!--/container -->
+
+    <div class="bg-color-light">
+        <div class="container content-sm">
+            <div class="row">
+                <div class="col-md-6 md-margin-bottom-50">
+                    <img alt="" src="{% static 'img/hand-black-iphone-l.png' %}" class="img-responsive">
+                </div>
+                <div class="col-md-6">
+                    <br><br><br>
+                    <div class="headline-left margin-bottom-30">
+                        <h2 class="headline-brd">WE ARE BANKIFI</h2>
+                        <p>Everyone of the team is driven by a passion to make your banking experience painless. </p>
+                    </div>
+                    <ul class="list-unstyled lists-v2 margin-bottom-30">
+                        <li><i class="fa fa-check"></i> We always put our customers first</li>
+                        <li><i class="fa fa-check"></i> We employ smart people who love delighting our customers</li>
+                        <li><i class="fa fa-check"></i> We are masters of using technology to improve our customers lives.</li>
+                        <li><i class="fa fa-check"></i> We continually challenge ourselves to do more for our customers</li>
+                    </ul>
+                    <a class="btn-u btn-brd btn-brd-hover btn-u-dark" href="#">Learn More</a>
+                </div><!--/end row-->
+            </div>
+        </div>
+    </div>
+    <div class="container content-sm">
+        <div class="headline-center margin-bottom-60">
+            <h2>Making Your Life Easier</h2>
+            <p>Our revolutionary technology has re-invented the way banking is done. Making it faster, easier and often cheaper than ever before.</p>
+        </div><!--/end Headline Center-->
+
+        <!-- Portfolio Box -->
+        <ul class="list-unstyled row portfolio-box">
+            <li class="col-sm-4 md-margin-bottom-50">
+                <a href="img/img9.jpg' %}" title="Credit Card Application" data-rel="gallery" class="thumbnail fancybox">
+                    <img alt="" src="{% static 'img/card_pain.jpg' %}" class="full-width img-responsive">
+                    <span class="rounded-x portfolio-box-in">
+                        <i class="icon-magnifier-add"></i>
+                    </span>
+                </a>
+                <div class="headline-left margin-bottom-10"><h3 class="headline-brd">Credit Card Application</h3></div>
+                <small class="project-tag"><i class="fa fa-tag"></i><a href="#">Credit Card</a>, <a href="#">Application</a></small>
+                <p>Find applying for Credit Cards terrifying? Not anymore.</p>
+            </li>
+            <li class="col-sm-4 md-margin-bottom-50">
+                <a href="img/img22.jpg' %}" title="Tax Return" data-rel="gallery" class="thumbnail fancybox">
+                    <img alt="" src="{% static 'img/tax_return.jpg' %}" class="full-width img-responsive">
+                    <span class="rounded-x portfolio-box-in">
+                        <i class="icon-magnifier-add"></i>
+                    </span>
+                </a>
+                <div class="headline-left margin-bottom-10"><h3 class="headline-brd">Tax Return</h3></div>
+                <small class="project-tag"><i class="fa fa-tag"></i><a href="#">Tax</a>, <a href="#">Revenue</a></small>
+                <p>Enjoy doing your tax return? Now you will.</p>
+            </li>
+            <li class="col-sm-4">
+                <a href="img/img18.jpg' %}" title="Life Insurance" data-rel="gallery" class="thumbnail fancybox">
+                    <img alt="" src="{% static 'img/life_insurance.jpg' %}" class="full-width img-responsive">
+                    <span class="rounded-x portfolio-box-in">
+                        <i class="icon-magnifier-add"></i>
+                    </span>
+                </a>
+                <div class="headline-left margin-bottom-10"><h3 class="headline-brd">Life Insurance</h3></div>
+                <small class="project-tag"><i class="fa fa-tag"></i><a href="#">Insurance</a>, <a href="#">Broker</a></small>
+                <p>Spent hours applying for Life Insurance? Never again.</p>
+            </li>
+        </ul>
+        <!-- End Portfolio Box -->
+    </div><!--/end container-->
+
+{% comment %}
+    <!-- Flat Background Block -->
+    <div class="flat-bg-block-v1 parallaxBg margin-bottom-60">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 md-margin-bottom-60">
+                    <div class="headline-left margin-bottom-20">
+                        <h2 class="headline-brd">Unify is Fully Responsive</h2>
+                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas moles</p>
+                    </div><!--/end Headline Left-->
+
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <ul class="list-unstyled checked-list">
+                                <li><i class="fa fa-check"></i> Donec id elit non mi porta gravida</li>
+                                <li><i class="fa fa-check"></i> Corporate and Creative</li>
+                                <li><i class="fa fa-check"></i> Responsive Bootstrap Template</li>
+                                <li><i class="fa fa-check"></i> Corporate and Creative</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-5 col-sm-offset-1">
+                            <ul class="list-unstyled checked-list">
+                                <li><i class="fa fa-check"></i> Donec id elit non mi porta gravida</li>
+                                <li><i class="fa fa-check"></i> Corporate and Creative</li>
+                                <li><i class="fa fa-check"></i> Responsive Bootstrap Template</li>
+                                <li><i class="fa fa-check"></i> Corporate and Creative</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <img alt="" src="{% static 'img/2.png' %}" class="img-over img-responsive">
+                </div>
+            </div>
+        </div><!--/end container-->
+    </div>
+    <!-- End Flat Background Block -->
+
+    <div class="container">
+        <div class="headline-left margin-bottom-40">
+            <h2 class="headline-brd">Latest Shots</h2>
+        </div><!--/end Headline Left-->
+
+        <div class="row margin-bottom-60">
+            <!-- Owl Carousel v5 -->
+            <div class="col-sm-6">
+                <div class="owl-carousel-v5">
+                    <div class="owl-slider-v5">
+                        <div class="item">
+                            <img class="full-width img-responsive" src="{% static 'img/img12.jpg' %}" alt="">
+                        </div>
+                        <div class="item">
+                            <img class="full-width img-responsive" src="{% static 'img/img16.jpg' %}" alt="">
+                        </div>
+                        <div class="item">
+                            <img class="full-width img-responsive" src="{% static 'img/img22.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Owl Carousel v5 -->
+            <div class="col-sm-6">
+                <h3>Justo cras odio apibus ac afilisi</h3><br>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In porta ipsum vel mi gravida mattis. Ut sit amet laoreet diam. Fusce iaculis sollicitudin purus, in tristique urna. Suspendisse potenti. Fusce non sem efficitur leo fermentum porttitor ut vitae orci. Aliquam erat volutpat.</p><br>
+                <p>Sed consectetur blandit ornare. Etiam at ante est. Nunc sed luctus ipsum, eu tincidunt justo. Sed id venenatis tellus. Mauris a cursus dolor. Maecenas sed magna non est interdum sollicitudin eget vitae ex. Ut eget lacus lorem.</p><br>
+                <button class="btn-u text-uppercase" type="button">View More</button>
+            </div>
+        </div><!--/end row-->
+    </div><!--/end container-->
+{% endcomment %}
+    <!-- Flat Testimonials -->
+    <div class="flat-testimonials bg-image-v1 parallaxBg1 margin-bottom-60" style="background-position: 50% 241px;">
+        <div class="container">
+            <div class="headline-center headline-light margin-bottom-60">
+                <h2>What People Are Saying</h2>
+                <p>Since we launched Bankifi in January 2017, we have been amazed by the response from our customers. Here's a few examples of what people are saying.</p>
+            </div><!--/end Headline Center-->
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="flat-testimonials-in md-margin-bottom-50">
+                        <img alt="" src="{% static 'img/team1.jpg' %}" class="rounded-x img-responsive">
+                        <h3>Anthony Connor</h3>
+                        <span class="color-green">Small Business Owner</span>
+                        <p>Being able to manage all of my bank accounts from a single application is just mind blowing.</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="flat-testimonials-in md-margin-bottom-50">
+                        <img alt="" src="{% static 'img/team2.jpg' %}" class="rounded-x img-responsive">
+                        <h3>Angela Danil</h3>
+                        <span class="color-green">Bank Customer</span>
+                        <p>Checking what is going on across all my bank accounts is amazing.</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="flat-testimonials-in">
+                        <img alt="" src="{% static 'img/team3.jpg' %}" class="rounded-x img-responsive">
+                        <h3>Steve McQueen</h3>
+                        <span class="color-green">Banking Expert</span>
+                        <p>The technology Bankifi has delivered is gamechanging.</p>
+                    </div>
+                </div>
+            </div><!--/end row-->
+        </div><!--/end container-->
+    </div>
+    <!-- End Flat Testimonials -->
+
+    <div class="container">
+        <div class="headline-center margin-bottom-60">
+            <h2>What We Provide</h2>
+            <p>Seamless integration of all of your bank accounts under your full control. </p>
+        </div><!--/end Headline Center-->
+
+        <div class="row margin-bottom-40">
+            <div class="col-md-4">
+                <div class="content-boxes-v5 margin-bottom-30">
+                    <i class="rounded-x icon-layers"></i>
+                    <div class="overflow-h">
+                        <h3 class="no-top-space">Bank Account Integration</h3>
+                        <p>Acccess all your bank account data from one easy to use app.</p>
+                    </div>
+                </div>
+                <div class="content-boxes-v5 md-margin-bottom-30">
+                    <i class="rounded-x icon-settings"></i>
+                    <div class="overflow-h">
+                        <h3 class="no-top-space">Full Control</h3>
+                        <p>Control your information and who can access it.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="content-boxes-v5 margin-bottom-30">
+                    <i class="rounded-x icon-earphones-alt "></i>
+                    <div class="overflow-h">
+                        <h3 class="no-top-space">Outstanding Support</h3>
+                        <p>Customer support whenever you need help.</p>
+                    </div>
+                </div>
+                <div class="content-boxes-v5 md-margin-bottom-30">
+                    <i class="rounded-x icon-user "></i>
+                    <div class="overflow-h">
+                        <h3 class="no-top-space">User Friendly</h3>
+                        <p>Designed with simplicity in mind.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="content-boxes-v5 margin-bottom-30">
+                    <i class="rounded-x icon-wrench"></i>
+                    <div class="overflow-h">
+                        <h3 class="no-top-space">Customizable Design</h3>
+                        <p>Add banks and manage data. Your way.</p>
+                    </div>
+                </div>
+                <div class="content-boxes-v5 md-margin-bottom-30">
+                    <i class="rounded-x icon-star"></i>
+                    <div class="overflow-h">
+                        <h3 class="no-top-space">Free Updates</h3>
+                        <p>Regular releases of new features.</p>
+                    </div>
+                </div>
+            </div>
+        </div><!--/end row-->
+    </div><!--/end container-->
+</div>
+<!-- End Content Part -->
+
+<!--=== Footer v8 ===-->
+<div class="footer-v8">
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 column-one md-margin-bottom-50">
+                    <a href="index.html"><img class="footer-logo" src="{% static 'img/bankfi-redwhite.png' %}" HEIGHT="75" WIDTH="200" alt="Logo"></a>
+                    <p class="margin-bottom-20">Bankif allows customers to put all their bank accounts under one roof.</p>
+                    <span>Headquarters:</span>
+                    <p>221B Baker Street, London, W2 21B</p>
+                    <hr>
+                    <span>Phone:</span>
+                    <p>(+123) 456 7890</p>
+                    <p>(+123) 456 7891</p>
+                    <hr>
+                    <span>Email Address:</span>
+                    <a href="#">support@redbank.com</a>
+                </div>
+
+                <div class="col-md-3 col-sm-6 md-margin-bottom-50">
+                    <h2>Tags</h2>
+                    <!-- Tag Links v4 -->
+                    <ul class="tags-v4 margin-bottom-40">
+                        <li><a class="rounded-4x" href="#">APIs</a></li>
+                        <li><a class="rounded-4x" href="#">PSD2</a></li>
+                        <li><a class="rounded-4x" href="#">Open Banking</a></li>
+                        <li><a class="rounded-4x" href="#">OAUTH</a></li>
+                        <li><a class="rounded-4x" href="#">TPP</a></li>
+                        <li><a class="rounded-4x" href="#">AISP</a></li>
+                        <li><a class="rounded-4x" href="#">PISP</a></li>
+                        <li><a class="rounded-4x" href="#">Data</a></li>
+                        <li><a class="rounded-4x" href="#">Consent</a></li>
+                        <li><a class="rounded-4x" href="#">Broker</a></li>
+                    </ul>
+                    <!-- End Tag Links v4 -->
+
+                    <h2>Useful Links</h2>
+                    <!-- Footer Lists -->
+                    <ul class="footer-lists">
+                        <li><i class="fa fa-angle-right"></i><a href="{% url "branch:branchfinder" %}">Branch Finder</a></li>
+                        <li><i class="fa fa-angle-right"></i><a href="#">Account API</a></li>
+                        <li><i class="fa fa-angle-right"></i><a href="#">Payments API</a></li>
+                        <li><i class="fa fa-angle-right"></i><a href="#">Information API</a></li>
+                        <li><i class="fa fa-angle-right"></i><a href="{% url "cashflow:index" %}">Xero Cashflow Demo</a></li>
+                    </ul>
+                    <!-- End Footer Lists -->
+                </div>
+
+                <div class="col-md-3 col-sm-5 md-margin-bottom-50">
+                    <h2>Latest News</h2>
+                    <!-- Latest News -->
+                    <div class="latest-news margin-bottom-20">
+                        <img src="{% static 'img/01.jpg' %}" alt="">
+                        <h3><a href="#">Banking just got exciting. </a></h3>
+                        <p>Take your finances to the next level.</p>
+                    </div>
+
+                    <hr>
+
+                    <div class="latest-news margin-bottom-20">
+                        <img src="{% static 'img/02.jpg' %}" alt="">
+                        <h3><a href="#">APIs are the new currency.</a></h3>
+                        <p>APIs are transforming life as we know it.</p>
+                    </div>
+
+                    <hr>
+
+                    <div class="latest-news">
+                        <img src="{% static 'img/01.jpg' %}" alt="">
+                        <h3><a href="#">Data Integration is King</a></h3>
+                        <p>Banking's new secret ingredient is driving innovation.</p>
+                    </div>
+                    <!-- End Latest News -->
+                </div>
+
+                <div class="container col-md-3 col-sm-6">
+                    <h2>Newsletter</h2>
+                    <p><strong>Subscribe</strong> to our newsletter for the latest news and deals!</p><br>
+
+                    <!-- Form Group -->
+                    <div class="input-group margin-bottom-50">
+                        <input class="form-control" type="email" placeholder="Enter Email">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn-u input-btn">Subscribe</button>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+
+                    <h2>Social Network</h2>
+                    <p><strong>Follow Us</strong> Find out what’s going on!</p><br>
+
+                    <!-- Social Icons -->
+                    <ul class="social-icon-list margin-bottom-20">
+                        <li><a href="#"><i class="rounded-x fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="rounded-x fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="rounded-x fa fa-linkedin"></i></a></li>
+                        <li><a href="#"><i class="rounded-x fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="rounded-x fa fa-dribbble"></i></a></li>
+                    </ul>
+                    <!-- End Social Icons -->
+                </div>
+            </div><!--/end row-->
+        </div><!--/end container-->
+    </footer>
+
+    <footer class="copyright">
+        <div class="container">
+            <ul class="list-inline terms-menu">
+                <li>2017 &copy; All Rights Reserved.</li>
+                <li class="home"><a href="#">Terms of Use</a></li>
+                <li><a href="#">Privacy and Policy</a></li>
+            </ul>
+        </div><!--/end container-->
+    </footer>
+</div>
+<!--=== End Footer v8 ===-->
+
+
+
+
+
+   
+{% endblock content %}
