@@ -33,56 +33,85 @@ Uses pycco for documentation. For example, `pycco cashflow/*.py`
 
 ## Running for development
 
-1. Install Python3 `brew install python3` (pythong 3.6.* is recommended)
+Follow next 3 sections to get the app up and running locally:
+
+#### A) [Dev Setup] Checkout code and add config 
+
+1. Install Python3 `brew install python3` (pythong 3.6.* is required)
+    ```
+    brew unlink python # ONLY if you have installed (with brew) another version of python 3
+
+    brew install --ignore-dependencies https://raw.githubusercontent.com/Homebrew/homebrew-core/f2a764ef944b1080be64bd88dca9a1d80130c558/Formula/python.rb
+    ```
+    https://stackoverflow.com/questions/51125013/how-can-i-install-a-previous-version-of-python-3-in-macos-using-homebrew/51125014#51125014
+
+
+    
 1. Install virtual env `pip3 install virtualenv`
 1. Create virtualenv `cd /path/to/bankifi && virtualenv $(pwd)`
     1. Activate virtualenv `source bin/activate`
 1. Install Django `pip3 install Django`
 1. Install dependencies `pip3 install -r requirements.txt`
 1. Create file /bankifi/settings/local.py with following content:
-```
-DEBUG = True
-SECRET_KEY='local-dev'
-DATABASES = {
-        'default': {
-            'ENGINE':'django.db.backends.postgresql_psycopg2',
-            'NAME': 'bankifi',
-            'USER': 'dev',
-            'PASSWORD': 'password',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
+    ```
+    DEBUG = True
+    SECRET_KEY='local-dev'
+    DATABASES = {
+            'default': {
+                'ENGINE':'django.db.backends.postgresql_psycopg2',
+                'NAME': 'bankifi',
+                'USER': 'dev',
+                'PASSWORD': 'password',
+                'HOST': '127.0.0.1',
+                'PORT': '5432',
+            }
         }
-    }
 
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
-AWS_STORAGE_BUCKET_NAME = ''
-AWS_S3_HOST = ''
-COMPRESS_ENABLED = False
-STATIC_URL = "/static/"
-COMPRESS_STORAGE = ''
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    AWS_ACCESS_KEY_ID = ''
+    AWS_SECRET_ACCESS_KEY = ''
+    AWS_STORAGE_BUCKET_NAME = ''
+    AWS_S3_HOST = ''
+    COMPRESS_ENABLED = False
+    STATIC_URL = "/static/"
+    COMPRESS_STORAGE = ''
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    ACCOUNT_EMAIL_VERIFICATION="optional"
+    XERO_CLIENT_KEY = "SET_YOUR_OWN"
+    XERO_CLIENT_SECRET = "SET_YOUR_OWN"
+    XERO_CALLBACK_URI = 'http://localhost:8000/cashflow/authorize'
+    ```
+#### B) [Dev Setup] Install dependencies and start server 
 
-```
 1. Ensure you have docker installed: https://docs.docker.com/install/
 
 1. Start postgres: `docker run --rm  --name postgres-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres`
 1. Setup postgress database and account:
 
-`docker exec -it postgres-docker psql -U postgres -c "create database bankifi;"`
+    `docker exec -it postgres-docker psql -U postgres -c "create database bankifi;"`
 
-`docker exec -it postgres-docker psql -U postgres -c "create user dev  with encrypted password 'password';"`
+    `docker exec -it postgres-docker psql -U postgres -c "create user dev  with encrypted password 'password';"`
 
-`docker exec -it postgres-docker psql -U postgres -c "grant all privileges on database bankifi to dev;"`
+    `docker exec -it postgres-docker psql -U postgres -c "grant all privileges on database bankifi to dev;"`
 
 1. Start redis: `docker run -d -p 6379:6379 redis`
 1. RUN `python manage.py migrate`
 1. RUN `python manage.py createsuperuser`
 1. Run `python manage.py collectstatic --noinput `
     1. error happens here - see `bankifi/bankifi/settings/storage.py`
-1. Run server `python manage.py runserver`
+1. Run server `ON_HEROKU=True DEBUG=True python manage.py runserver`
 
-### Notes from Unifi Software Development
+#### B) [Dev Setup] Setup reference data and access app 
+
+1. Create Receivable account on admin screen: http://localhost:8000/admin/ (make sure to use xero account id 51387801-7668-48b0-a276-e8cadc2d33de)
+1. Create Payable account on admin screen: http://localhost:8000/admin/ (make sure to use xero account id 45674523)
+1. Ensure you have Xero developer account login (and client key and secret in the local.py)
+1. Login to the app http://localhost:8000/cashflow/forecast
+1. Reset demo (Setup -> Reset Demo)
+1. Generate demo data (http://localhost:8000/cashflow/invoice/generate)
+1. Dashboard page should have data displayed
+
+
+#### Additional Notes from Unifi Software Development
 ```
 Nice to meet you too! I did manage to spin up BankiFI as a local test server after minor code modifications.
 
