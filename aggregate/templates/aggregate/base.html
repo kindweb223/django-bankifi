@@ -21,11 +21,12 @@
         {% compress css %}
         <!-- <link href="{% static 'css/master.css' %}" rel="stylesheet" /> -->
         <!-- <link href="{% static 'css/nordea.min.css' %}" rel="stylesheet" /> -->
-        <link href="{% static 'css/layout.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/sidebar.css' %}" rel="stylesheet" />
         {% include 'material/includes/material_css.html' %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="{% static 'styles/layout.css' %}" rel="stylesheet" />
+        <link href="{% static 'styles/navbar.css' %}" rel="stylesheet" />
+        <link href="{% static 'styles/sidebar.css' %}" rel="stylesheet" />
+        <link href="{% static 'styles/common.css' %}" rel="stylesheet" />                
 
         {% endcompress %}
 
@@ -40,9 +41,7 @@
             {% include "aggregate/sidebar.html" %}
             {% block content %}
             {% endblock content %}
-        
-        {% include "aggregate/footer.html" %}
- 
+         
         <!-- Need to load here as there is a problem on iPads and iPhones with drop downs -->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>

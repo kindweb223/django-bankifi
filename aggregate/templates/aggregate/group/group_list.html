@@ -10,10 +10,9 @@
 {% block content %}
 <!-- Main body -->
 <div id="group-list" class="main-container">
-    <!-- {% include "aggregate/snippets/breadcrumbs.html" %} -->
     <section class="contact-list">
         <div class="container">
-            <div class="white-box">
+            <div class="card bankifi-card">
                 <div class="row flex-row">
                     <div class="col s6">
                         <h4>Listing All Groups</h4>
@@ -25,90 +24,100 @@
                         <a href="{% url 'aggregate:groupcreate' %}" class="waves-effect waves-light btn">Create Group</a>
                     </div>
                 </div>
-                <div id='total'></div>
-                <ul class="list-inline">
-                    <li class="list-inline-item">
-                        <label>
-                            <input checked class="with-gap" id="EUR" type="radio" name="optradio" />
-                            <span>EUR</span>
-                        </label>
-                    </li>
-                    <li class="list-inline-item">
-                        <label>
-                            <input id="GBP" class="with-gap"  type="radio" name="optradio" />
-                            <span>GBP</span>                        
-                        </label>
-                    </li>
-                    <li class="list-inline-item">
-                        <label>
-                            <input id="USD" class="with-gap"  type="radio" name="optradio" />
-                            <span>USD</span>
-                        </label>
-                    </li>
-                </ul>
-                <div class="table-responsive">
-                    <table class="table responsive-table" id="groups" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Accounts</th>
-                                <th>Currency</th>
-                                <th>Balance</th>
-                                <th>Group Balance</th>
-                                <th data-orderable="false">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for group in object_list %}
-                                <td><a href="{% url 'aggregate:grouptransactionlist' group.pk %}">{{group.title}}</a></td>
-                                    <td>
-                                        {% for account in group.accounts.all %}
-                                            <a href="{% url 'aggregate:accounttransactionlist' account.pk %}">{{account.bank}} {{account.name}}</a></br>
-                                        {% endfor %}
-                                    </td>
-                                    <td>
-                                        {% for account in group.accounts.all %}
-                                            {{account.currency}}</br>
-                                        {% endfor %}
-                                    </td>
-                                    <td>
-                                        {% for account in group.accounts.all %}
-                                            {%if account.balance < 0 %}
-                                                <span class="text-danger">
-                                                    {{account.currency|currency}}{{account.balance}}
-                                                </span>
-                                            {%else%}
-                                               {{account.currency|currency}}{{account.balance}}
-                                            {% endif %}
-                                            </br>
-                                        {% endfor %}
-                                    </td>
-
-                                    <td>
-                                        {% if group.balance < 0 %}
-                                            <span class="text-danger">
-                                                 {{group.balance}}
-                                            </span>
-                                        {%elif group.balance > 0 %}
-                                            {{group.balance}}
-                                        {% else %}
-                                            0
-                                        {% endif %}
-                                    </td>
-                                    <td> 
-                                        <a href="{% url 'aggregate:groupupdate' group.pk %}">
-                                            <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
-                                        </a>
-                                        <a href="{% url 'aggregate:groupdelete' group.pk %}">
-                                            <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
-                                        </a>
-                                    </td>
+                <div class="row">
+                    <div class="col s12">
+                        <div id='total'></div>
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <label>
+                                    <input checked class="with-gap" id="EUR" type="radio" name="optradio" />
+                                    <span>EUR</span>
+                                </label>
+                            </li>
+                            <li class="list-inline-item">
+                                <label>
+                                    <input id="GBP" class="with-gap"  type="radio" name="optradio" />
+                                    <span>GBP</span>                        
+                                </label>
+                            </li>
+                            <li class="list-inline-item">
+                                <label>
+                                    <input id="USD" class="with-gap"  type="radio" name="optradio" />
+                                    <span>USD</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>    
+                <div class="row">
+                    <div class="col s12">
+                        <table class="table responsive-table" id="groups" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Accounts</th>
+                                    <th>Currency</th>
+                                    <th>Balance</th>
+                                    <th>Group Balance</th>
+                                    <th data-orderable="false">Action</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                            </thead>
+                            <tbody>
+                                {% for group in object_list %}
+                                    <td><a href="{% url 'aggregate:grouptransactionlist' group.pk %}">{{group.title}}</a></td>
+                                        <td>
+                                            {% for account in group.accounts.all %}
+                                                <a href="{% url 'aggregate:accounttransactionlist' account.pk %}">{{account.bank}} {{account.name}}</a></br>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% for account in group.accounts.all %}
+                                                {{account.currency}}</br>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% for account in group.accounts.all %}
+                                                {%if account.balance < 0 %}
+                                                    <span class="text-danger">
+                                                        {{account.currency|currency}}{{account.balance}}
+                                                    </span>
+                                                {%else%}
+                                                    {{account.currency|currency}}{{account.balance}}
+                                                {% endif %}
+                                                </br>
+                                            {% endfor %}
+                                        </td>
+
+                                        <td>
+                                            {% if group.balance < 0 %}
+                                                <span class="text-danger">
+                                                        {{group.balance}}
+                                                </span>
+                                            {%elif group.balance > 0 %}
+                                                {{group.balance}}
+                                            {% else %}
+                                                0
+                                            {% endif %}
+                                        </td>
+                                        <td> 
+                                            <a href="{% url 'aggregate:groupupdate' group.pk %}">
+                                                <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                            </a>
+                                            <a href="{% url 'aggregate:groupdelete' group.pk %}">
+                                                <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>  
+            </div>                                      
         </div>
     </section>
 </div>

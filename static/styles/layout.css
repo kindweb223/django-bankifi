@@ -1,0 +1,18 @@
+body {
+    background: #f5f7fa;
+}
+
+.main-container {
+    padding-left: 300px;
+    padding-top: 40px;
+}
+
+.main-container .container {
+    padding-bottom: 5px;
+}
+
+@media only screen and (min-width: 993px) {
+    .main-container .container {
+        width: 80%;
+    }
+}

@@ -1,0 +1,45 @@
+.white-box {
+    background-color: white;
+}
+
+.list-inline {
+    display: flex;
+}
+
+.list-inline .list-inline-item {
+    margin-right: 20px;
+}
+
+.top-boxes .box.box-1 {
+    background-color: #0000A0;
+    color: #FFF!important;
+}
+
+.top-boxes .box {
+    width: 100%;
+    background-color: #fff;
+    padding: 30px;
+    -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.04);
+    -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.04);
+    box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.04);
+    color: #3a3a3a;
+    font-size: 24pt;
+    font-weight: 300;
+}
+
+.flex-row {
+    display: flex;
+}
+
+.create-btn-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-btn-container .btn {
+    margin-top: 1.7rem;
+}
+
+.bankifi-card {
+    padding-bottom: 5px;
+}
