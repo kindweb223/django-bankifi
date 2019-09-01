@@ -1,0 +1,26 @@
+.has-fixed-sidenav {
+    padding-left: 300px;
+}
+
+#bankifi-nav {
+    padding-left: 32px;
+    padding-right: 32px;
+    background: #fff;
+}
+
+#bankifi-nav .brand-logo {
+    line-height: 1;
+}
+
+#bankifi-nav .brand-logo img {
+    margin-top: 5px;
+    height: 54px;
+}
+
+#bankifi-nav .rounded-circle {
+    margin-top: 8px;
+    border: 3px solid #1CA3A6;
+    border-radius: 24px;
+    width: 48px;
+    height: 48px;
+}

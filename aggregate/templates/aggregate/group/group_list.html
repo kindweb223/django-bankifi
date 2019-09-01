@@ -9,29 +9,45 @@
 
 {% block content %}
 <!-- Main body -->
-<div class="main-container">
-    {% include "aggregate/snippets/breadcrumbs.html" %}
+<div id="group-list" class="main-container">
+    <!-- {% include "aggregate/snippets/breadcrumbs.html" %} -->
     <section class="contact-list">
         <div class="container">
             <div class="white-box">
-                <div class="row">
-                    <div class="col-6">
-                        <h3>Listing All Groups</h3>
+                <div class="row flex-row">
+                    <div class="col s6">
+                        <h4>Listing All Groups</h4>
                     </div>
-                    <div class="col-6 text-right">
-                        <a href="{% url 'aggregate:groupcreate' %}">    
-                            <button class="btn-standard btn-success">Create Group</button>
-                        </a>
+                    <div class="col s6 create-btn-container">
+                        <!-- <a href="{% url 'aggregate:groupcreate' %}">    
+                            <button class="btn-standard btn-success">Create Group</button>                            
+                        </a> -->
+                        <a href="{% url 'aggregate:groupcreate' %}" class="waves-effect waves-light btn">Create Group</a>
                     </div>
                 </div>
                 <div id='total'></div>
                 <ul class="list-inline">
-                    <li class="list-inline-item"><input checked="" id="EUR" type="radio" name="optradio"> EUR</li>
-                    <li class="list-inline-item"><input id="GBP" type="radio" name="optradio"> GBP</li>
-                    <li class="list-inline-item"><input id="USD" type="radio" name="optradio"> USD</li>
+                    <li class="list-inline-item">
+                        <label>
+                            <input checked class="with-gap" id="EUR" type="radio" name="optradio" />
+                            <span>EUR</span>
+                        </label>
+                    </li>
+                    <li class="list-inline-item">
+                        <label>
+                            <input id="GBP" class="with-gap"  type="radio" name="optradio" />
+                            <span>GBP</span>                        
+                        </label>
+                    </li>
+                    <li class="list-inline-item">
+                        <label>
+                            <input id="USD" class="with-gap"  type="radio" name="optradio" />
+                            <span>USD</span>
+                        </label>
+                    </li>
                 </ul>
                 <div class="table-responsive">
-                    <table class="table" id="groups" cellspacing="0" width="100%">
+                    <table class="table responsive-table" id="groups" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Title</th>

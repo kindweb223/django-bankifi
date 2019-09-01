@@ -11,19 +11,20 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    {% include "aggregate/snippets/breadcrumbs.html" %}
+    <!-- {% include "aggregate/snippets/breadcrumbs.html" %} -->
     <section class="contact-list">
         <div class="container">
             <div class="white-box">
                 <div class="row">
-                    <div class="col-6">
-                        <h3>Listing All Transactions</h3>
+                    <div class="col s6">
+                        <h4>Listing All Transactions</h4>
                     </div>
-                    <div class="col-6 text-right">
+                    <div class="col s6 text-right">
                         {% if user.is_superuser %}
-                        <a href="{% url 'aggregate:transactioncreate' %}">    
+                        <!-- <a href="{% url 'aggregate:transactioncreate' %}">    
                             <button class="btn-standard btn-success">Create Transaction</button>
-                        </a>
+                        </a> -->
+                        <a href="{% url 'aggregate:transactioncreate' %}" class="waves-effect waves-light btn">Create Transaction</a>
                         {% endif %}
                     </div>
                 </div>

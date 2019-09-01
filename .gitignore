@@ -60,3 +60,4 @@ docs/_build/
 bin/
 include/
 pip-selfcheck.json
+.idea/

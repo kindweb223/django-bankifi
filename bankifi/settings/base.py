@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'obp_oauth',
     'rbs',
     'xero',
+    'material'
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,29 @@
+#slide-out {
+    background-color: #110E3D;
+    margin-top: 64px;    
+}
+
+#slide-out .material-icons{
+    color: white;    
+}
+
+#slide-out a {
+    font-size: 18px;
+    color: white;
+}
+
+#slide-out >li>a {
+    padding: 0 16px;
+} 
+
+#slide-out li.active {
+    background-color: #D1529E;
+}
+
+#slide-out .collapsible-body ul {
+    background: #110E3D
+}
+
+#slide-out .collapsible-body ul li {
+    padding-left: 25px;
+}

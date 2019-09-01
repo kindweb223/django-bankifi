@@ -19,8 +19,14 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800" rel="stylesheet">
        
         {% compress css %}
-        <link href="{% static 'css/master.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/nordea.min.css' %}" rel="stylesheet" />
+        <!-- <link href="{% static 'css/master.css' %}" rel="stylesheet" /> -->
+        <!-- <link href="{% static 'css/nordea.min.css' %}" rel="stylesheet" /> -->
+        <link href="{% static 'css/layout.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/sidebar.css' %}" rel="stylesheet" />
+        {% include 'material/includes/material_css.html' %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
         {% endcompress %}
 
         {% block css %}
@@ -31,6 +37,7 @@
 </head>
     <body>
         {% include "aggregate/navbar.html" %}  
+            {% include "aggregate/sidebar.html" %}
             {% block content %}
             {% endblock content %}
         
@@ -40,10 +47,32 @@
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
         {% compress js %}
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
         {% endcompress %}
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+        {% include 'material/includes/material_js.html' %}
         
         {% block js %}
         {% endblock js %}
+
+        <script>
+            $( document ).ready(function() {
+                $('.sidenav').sidenav();
+                $(".dropdown-trigger").dropdown();                
+                $('.collapsible').collapsible({
+                    accordion: false
+                });
+
+            });     
+            document.addEventListener('DOMContentLoaded', function() {
+                var elems = document.querySelectorAll('.sidenav');
+                var instances = M.Sidenav.init(elems, options);
+            });
+       
+        </script>        
+
   </body>
 </html>
