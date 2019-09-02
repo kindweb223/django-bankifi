@@ -1,0 +1,18 @@
+nav.navbar {
+    background-color: #FFF;
+    box-shadow: 0 0 0 0 rgb(0,0,0);
+    --webkit-box-shadow:0 0 0 0 rgb(0,0,0);
+}
+
+
+#login_page .textInput {
+    border-radius: 5px;
+    border: 1px solid;
+    padding: 0 10px 0 10px;
+}
+footer a {
+    color: white;
+}
+footer p {
+    color: white;
+}

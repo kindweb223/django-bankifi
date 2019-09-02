@@ -6,19 +6,26 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    {% include "aggregate/snippets/breadcrumbs.html" %}
+    <!-- {% include "aggregate/snippets/breadcrumbs.html" %} -->
 
     <section class="contact-list">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h2>{{title}}</h2>
-                    <form id="consentForm" class="form" action="{% if action_url %}{{action_url}}{% endif %}" method="post">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <p>{{help_text}}</p>
-                    </form>
-                    <button class="btn-standard btn-success" id="addButton">Add Consent</button>
+            <div class="card bankifi-card">
+                <div class="row">
+                    <div class="col s12">
+                        <h4>{{title}}</h4>
+                        <form id="consentForm" class="form" action="{% if action_url %}{{action_url}}{% endif %}" method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <p>{{help_text}}</p>
+                        </form>
+                        <button 
+                            class="waves-effect waves-light btn modal-trigger" 
+                            id="addButton" 
+                            data-target="authenticateModal">
+                            Add Consent
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,28 +33,32 @@
 </div>
 
 <!-- The authentication modal -->
-<div class="modal fade" id="authenticateModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal" id="authenticateModal">
+    <div class="modal-content">
+        <!-- <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="modalLabel">Bank Authentication</h4>
+        </div> -->
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="modalLabel">Bank Authentication</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form">
-                    {% csrf_token %}
-                    {{ auth_form|crispy }}
-                </form>
-                 <button class="btn-standard btn-success" id="authenticateButton">Authenticate Account</button>
-            </div>
+            <h4>Bank Authentication</h4>
+            <form class="form">
+                {% csrf_token %}
+                {{ auth_form|crispy }}
+            </form>
+            <!-- <button class="btn-standard btn-success" id="authenticateButton">
+                Authenticate Account
+            </button> -->
+            <button class="waves-effect waves-light btn modal-trigger" id="authenticateButton">
+                Authenticate Account
+            </button>
         </div>
     </div>
 </div>
 
 <!-- The authorisation modal -->
-<div class="modal fade" id="authoriseModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal" id="authoriseModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -93,11 +104,14 @@ $(function () {
 })
 </script>
 <script>
-    document.getElementById("addButton").addEventListener('click',function ()
-    {
-        $('#authenticateModal').modal('show');
-     //validation code to see State field is mandatory.  
-    }  ); 
+    // document.getElementById("addButton").addEventListener('click',function ()
+    // {
+    //     $('#authenticateModal').modal('show');
+    //  //validation code to see State field is mandatory.  
+    // }  ); 
+    $(document).ready(function(){
+        $('.modal').modal();
+    })
 </script>
 
 <script>

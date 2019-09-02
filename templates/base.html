@@ -19,8 +19,9 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800" rel="stylesheet">
        
         {% compress css %}
-        <link href="{% static 'css/master.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/nordea.min.css' %}" rel="stylesheet" />
+        <!-- <link href="{% static 'css/master.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/nordea.min.css' %}" rel="stylesheet" /> -->
+        {% include 'material/includes/material_css.html' %}
         {% endcompress %}
 
         {% block css %}
@@ -42,8 +43,17 @@
         {% compress js %}
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         {% endcompress %}
+        {% include 'material/includes/material_js.html' %}
         
         {% block js %}
         {% endblock js %}
+        <!-- Navbar Trigger-->
+        <script>
+            $(document).ready(function(){
+                $("nav .dropdown-trigger").dropdown({hover: false});
+                $(".sidenav .dropdown-trigger").dropdown();
+                $('.sidenav').sidenav();
+            });
+        </script>
   </body>
 </html>
