@@ -1,6 +1,7 @@
 #slide-out {
     background-color: #110E3D;
     margin-top: 64px;    
+    width: 320px;
 }
 
 #slide-out .material-icons{

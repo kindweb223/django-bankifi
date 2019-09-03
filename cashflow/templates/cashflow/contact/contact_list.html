@@ -13,10 +13,11 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    <section class="">
+    <!-- <section class="">
         <div class="container">
             <div class="title">
                 <div class="row">
+                    <div class="col s12">
                     <div class="col-sm-5 col-12">
                         <div class="row">
                             <div class="col-md-2 col-2">
@@ -24,7 +25,7 @@
                             </div>
                             <div class="col-md-10 col-10">
                                 <ul class="list-unstyled">
-                                    <h2>Contact List</h2>
+                                    <h4>Contact List</h4>
                                 </ul>
                             </div>
                         </div>
@@ -38,17 +39,17 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <section class="contact-list">
         <div class="container">
-            <div class="white-box">
+            <div class="card bankifi-card">
                 <div class="row">
-                    <div class="col-sm-6 col-7">
-                        <h3>Listing All Contacts</h3>
+                    <div class="col s6">
+                        <h4>Listing All Contacts</h4>
                     </div>
-                    <div class="col-sm-6 col-5 text-right">
+                    <div class="col s6 create-btn-container">
                         {% if user.is_superuser %}
-                        <a href="{% url 'cashflow:contactcreate' %}">    
+                        <!-- <a href="{% url 'cashflow:contactcreate' %}">    
                             <button class="btn-standard btn-success hidden-xs-down">Create Contact</button>
                         </a>
                         <a href="{% url 'cashflow:contactimport' %}">
@@ -63,60 +64,86 @@
                             <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">
                                 <i class="fa fa-cloud-download"></i>
                             </button>
-                        </a>
+                        </a> -->
+
+                            <a 
+                                href="{% url 'cashflow:contactcreate' %}" 
+                                class="waves-effect waves-light btn">
+                                Create Contact <i class="tiny material-icons right">edit</i>
+                            </a>
+                            <a 
+                                href="{% url 'cashflow:contactimport' %}" 
+                                class="waves-effect waves-light btn">
+                                Import from Xero <i class="tiny material-icons right">cloud_download</i>
+                            </a>
+                            <!-- <a 
+                                href="{% url 'cashflow:contactcreate' %}" 
+                                class="waves-effect waves-light btn show-on-small">
+                                <i class="tiny material-icons right">edit</i>
+                            </a>
+                            <a 
+                                href="{% url 'cashflow:contactimport' %}" 
+                                class="waves-effect waves-light btn show-on-small">
+                                <i class="tiny material-icons right">cloud_download</i>
+                            </a> -->
+
                         {% endif %}
                     </div>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table" id="contacts" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th data-orderable="false">Customer/Supplier</th>
-                                <!-- <th>First Name</th>
-                                <th>Last Name</th> -->
-                                <th>Customer Settle</th>
-                                <th>Supplier Settle</th>
-                                {% if user.is_superuser %}
-                                <th data-orderable="false">Action</th>
-                                {% endif %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="table-responsive">
+                            <table class="table" id="contacts" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th data-orderable="false">Customer/Supplier</th>
+                                        <!-- <th>First Name</th>
+                                        <th>Last Name</th> -->
+                                        <th>Customer Settle</th>
+                                        <th>Supplier Settle</th>
+                                        {% if user.is_superuser %}
+                                        <th data-orderable="false">Action</th>
+                                        {% endif %}
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for contact in object_list %}
-                                <tr>
-                                    <td><a href="{% url 'cashflow:contactdetail' contact.id %}"  class="color-dark">{{contact.name}}</a></td>
-                                    <td>
-                                        {% if contact.is_customer %}
-                                            <!-- <span class="label label-blue">Customer</span> -->
-                                            Customer
-                                        {% endif%}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for contact in object_list %}
+                                        <tr>
+                                            <td><a href="{% url 'cashflow:contactdetail' contact.id %}"  class="color-dark">{{contact.name}}</a></td>
+                                            <td>
+                                                {% if contact.is_customer %}
+                                                    <!-- <span class="label label-blue">Customer</span> -->
+                                                    Customer
+                                                {% endif%}
 
-                                        {% if contact.is_supplier %}
-                                            <!-- <span class="label label-red">Supplier</span>                         -->
-                                            Supplier
-                                        {% endif%}
-                                    </td>
-                                   <!--  <td>{{contact.first_name}}</td> -->
-                                    <!-- <td>{{contact.last_name}}</td> -->
-                                    <td>{% if contact.customer_settle is not None %}{{contact.customer_settle}}{% endif %}</td>
-                                    <td>{% if contact.supplier_settle is not None %}{{contact.supplier_settle}}{% endif %}</td>
-                                    {% if user.is_superuser %}
-                                    <td> 
-                                        <a href="{% url 'cashflow:contactupdate' contact.id %}">
-                                            <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
-                                        </a>
-                                        <a href="{% url 'cashflow:contactdelete' contact.id %}">
-                                            <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
-                                        </a>
-                                    </td>
-                                    {% endif %}
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                                {% if contact.is_supplier %}
+                                                    <!-- <span class="label label-red">Supplier</span>                         -->
+                                                    Supplier
+                                                {% endif%}
+                                            </td>
+                                        <!--  <td>{{contact.first_name}}</td> -->
+                                            <!-- <td>{{contact.last_name}}</td> -->
+                                            <td>{% if contact.customer_settle is not None %}{{contact.customer_settle}}{% endif %}</td>
+                                            <td>{% if contact.supplier_settle is not None %}{{contact.supplier_settle}}{% endif %}</td>
+                                            {% if user.is_superuser %}
+                                            <td> 
+                                                <a href="{% url 'cashflow:contactupdate' contact.id %}">
+                                                    <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                                </a>
+                                                <a href="{% url 'cashflow:contactdelete' contact.id %}">
+                                                    <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                                </a>
+                                            </td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,6 +162,20 @@
                 // { type: 'date-eu', targets: 1 },
                 // { type: 'date-eu', targets: 3 }
             ],
+            'drawCallback': function(settings, json) {
+                $('#contacts_length').html(
+                    '<div class="input-field col s12">'
+                    + '<select name="contacts_length" aria-controls="accounts">'
+                        + '<option value="10">10</option>'
+                        + '<option value="25">25</option>'
+                        + '<option value="50">50</option>'
+                        + '<option value="100">100</option>'
+                    + '</select>'
+                    + '<label>SHOW ENTRIES</label>'
+                + '</div>'
+                );
+                $('select').formSelect();
+            }
         });
     } );
 </script>

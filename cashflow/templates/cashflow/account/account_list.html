@@ -46,18 +46,12 @@
                     <div class="col s6">
                         <h4>Listing All Accounts</h4>
                     </div>
-                    <div class="col s6">
+                    <div class="col s6 create-btn-container">
                         {% if user.is_superuser %}
-                        <div class="row">
-                            <div class="create-btn-container" style="display: inline-block">
-                                <a href="{% url 'cashflow:accountcreate' %}" class="waves-effect waves-light btn">
-                                    <i class="tiny material-icons right">edit</i>Create Invoice</a>
-                            </div>
-                            <div class="create-btn-container" style="display: inline-block; margin-left:20px">
-                                <a href="{% url 'cashflow:accountimport' %}" class="waves-effect waves-light btn">
-                                    <i class="tiny material-icons right">cloud_download</i>Import from Xero</a>
-                            </div>
-                        </div>
+                            <a href="{% url 'cashflow:accountcreate' %}" class="waves-effect waves-light btn">
+                                <i class="tiny material-icons right">edit</i>Create Invoice</a>
+                            <a href="{% url 'cashflow:accountimport' %}" class="waves-effect waves-light btn">
+                                <i class="tiny material-icons right">cloud_download</i>Import from Xero</a>
                         {% endif %}
                     </div>
 <!--                    <div class="col s6">-->

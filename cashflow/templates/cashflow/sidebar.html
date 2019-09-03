@@ -2,8 +2,8 @@
 <ul id="slide-out" class="sidenav sidenav-fixed">
 	<li class="no-padding {% if 'dashboard' in request.path %}active{% endif %}">
 		<a href="{% url 'cashflow:forecast' %}">
-				<i class="tiny material-icons left">dashboard</i>
-				Dashboard
+			<i class="tiny material-icons left">dashboard</i>
+			Dashboard
 		</a>
 	</li>
 
@@ -59,8 +59,31 @@
 					<ul>
 						<li><a href="{% url 'cashflow:transactionlist' %}">View Transactions</a></li>
 						{% if user.is_superuser %}
-							<li><a href="{% url 'cashflow:transactioncreate' %}">Create Sandbox</a></li>
+							<li><a href="{% url 'cashflow:transactioncreate' %}">Create Sandbox Transactions</a></li>
 						{% endif %}
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li class="no-padding {% if 'contact' in request.path %}active{% endif %}">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+				<a class="collapsible-header">
+					<i class="tiny material-icons left">lock</i>
+					Contacts
+					<i class="material-icons right">arrow_drop_down</i>
+				</a>
+				<div class="collapsible-body">
+					<ul>
+						<li>
+							<a href="{% url 'cashflow:contactlist' %}">View Contacts</a>
+						</li>
+						{% if user.is_superuser %}
+						<li>
+							<a href="{% url 'cashflow:contactcreate' %}">Create Sandbox Contact</a>
+						</li>
+						{%endif%}
 					</ul>
 				</div>
 			</li>

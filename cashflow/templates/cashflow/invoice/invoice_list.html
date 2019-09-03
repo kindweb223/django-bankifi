@@ -47,18 +47,16 @@
                     <div class="col s6">
                         <h4>Listing All Invoices</h4>
                     </div>
-                    <div class="col s6">
+                    <div class="col s6 create-btn-container">
                         {% if user.is_superuser %}
-                        <div class="row">
-                            <div class="create-btn-container" style="display: inline-block">
-                                <a href="{% url 'cashflow:invoicecreate' %}" class="waves-effect waves-light btn">
-                                    <i class="tiny material-icons right">edit</i>Create Invoice</a>
-                            </div>
-                            <div class="create-btn-container" style="display: inline-block; margin-left:20px">
-                                <a href="{% url 'cashflow:invoiceimport' %}" class="waves-effect waves-light btn">
-                                    <i class="tiny material-icons right">cloud_download</i>Import from Xero</a>
-                            </div>
-                        </div>
+                            <a href="{% url 'cashflow:invoicecreate' %}" class="waves-effect waves-light btn">
+                                <!-- <i class="tiny material-icons right">edit</i> -->
+                                Create Invoice
+                            </a>
+                            <a href="{% url 'cashflow:invoiceimport' %}" class="waves-effect waves-light btn">
+                                <!-- <i class="tiny material-icons right">cloud_download</i> -->
+                                Import from Xero
+                            </a>
                         {% endif %}
                     </div>
 <!--                    <div class="col-sm-6 col-5 text-right">-->
@@ -198,6 +196,20 @@
                 { type: 'date-eu', targets: 2 },
                 { type: 'date-eu', targets: 5 },
             ],
+            'drawCallback': function(settings, json) {
+                $('#invoices_length').html(
+                    '<div class="input-field col s12">'
+                    + '<select name="invoices_length" aria-controls="accounts">'
+                        + '<option value="10">10</option>'
+                        + '<option value="25">25</option>'
+                        + '<option value="50">50</option>'
+                        + '<option value="100">100</option>'
+                    + '</select>'
+                    + '<label>SHOW ENTRIES</label>'
+                + '</div>'
+                );
+                $('select').formSelect();
+            }
         });
     } );
 </script>

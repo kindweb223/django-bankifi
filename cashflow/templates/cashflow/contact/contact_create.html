@@ -9,37 +9,38 @@
         <div class="container">
             <div class="title">
                 <div class="row">
-                    <div class="col-sm-5 col-12">
-                        <div class="row">
-                            <div class="col-md-2 col-2">
+                    <!-- <div class="col-sm-5 col-12"> -->
+                        <!-- <div class="row"> -->
+                            <!-- <div class="col-md-2 col-2">
                                 <div class="icon"><i class="fa fa-user"></i></div>
+                            </div> -->
+                            <!-- <div class="col-md-10 col-10"> -->
+                            <div class="col s12">
+                                <!-- <ul class="list-unstyled"> -->
+                                    <h4>Create Contact</h4>
+                                <!-- </ul> -->
                             </div>
-                            <div class="col-md-10 col-10">
-                                <ul class="list-unstyled">
-                                    <h2>Create Contact</h2>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <!-- </div>
+                    </div> -->
+                    <!-- <div class="col-sm-7 col-12 hidden-sm-down">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{% url 'cashflow:contactlist' %}">Contact List</a></li>
                             <li class="breadcrumb-item active">Create Contact</li>
                         </ol>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
     </section>
     <section class="contact-list">
-        <div class="container">
+        <!-- <div class="container"> -->
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-s12">
                     {% include "cashflow/snippets/form.html" with form=form btn_title='Create Contact' %}
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
     </section>
 </div>
 {% endblock content %}
