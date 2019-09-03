@@ -15,63 +15,76 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    <section class="">
-        <div class="container">
-            <div class="title">
-                <div class="row">
-                    <div class="col-sm-5 col-12">
-                        <div class="row">
-                            <div class="col-md-2 col-2">
-                                <div class="icon"><i class="fa fa-user"></i></div>
-                            </div>
-                            <div class="col-md-10 col-10">
-                                <ul class="list-unstyled">
-                                    <h2>Transaction List</h2>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-7 col-12 hidden-sm-down">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Transaction List</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!--    <section class="">-->
+<!--        <div class="container">-->
+<!--            <div class="title">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-5 col-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-2">-->
+<!--                                <div class="icon"><i class="fa fa-user"></i></div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-10 col-10">-->
+<!--                                <ul class="list-unstyled">-->
+<!--                                    <h2>Transaction List</h2>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-7 col-12 hidden-sm-down">-->
+<!--                        <ol class="breadcrumb">-->
+<!--                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>-->
+<!--                            <li class="breadcrumb-item active">Transaction List</li>-->
+<!--                        </ol>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
     <section class="contact-list">
         <div class="container">
-            <div class="white-box">
+            <div class="card bankifi-card">
                 <div class="row">
-                    <div class="col-sm-6 col-7">
+                    <div class="col s6">
                         <h3>Listing All Transactions</h3>
                     </div>
-                    <div class="col-sm-6 col-5 text-right">
+                    <div class="col s6">
                         {% if user.is_superuser %}
-                        <a href="{% url 'cashflow:transactioncreate' %}">    
-                            <button class="btn-standard btn-success hidden-xs-down">Create Transaction</button>
-                        </a>
-                        <a href="{% url 'cashflow:transactionimport' %}">
-                            <button class="btn-standard btn-info hidden-xs-down">Import from Xero</button>
-                        </a>
-                        <a href="{% url 'cashflow:transactioncreate' %}">    
-                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">
-                                <i class="fa fa-pencil-square-o"></i>
-                            </button>
-                        </a>
-                        <a href="{% url 'cashflow:transactionimport' %}">
-                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">
-                                <i class="fa fa-cloud-download"></i>
-                            </button>
-                        </a>
-                        {%endif%}
+                        <div class="row">
+                            <div class="create-btn-container" style="display: inline-block">
+                                <a href="{% url 'cashflow:transactioncreate' %}" class="waves-effect waves-light btn">
+                                    <i class="tiny material-icons right">edit</i>Create Transaction</a>
+                            </div>
+                            <div class="create-btn-container" style="display: inline-block; margin-left:20px">
+                                <a href="{% url 'cashflow:transactionimport' %}" class="waves-effect waves-light btn">
+                                    <i class="tiny material-icons right">cloud_download</i>Import from Xero</a>
+                            </div>
+                        </div>
+                        {% endif %}
+<!--                        {% if user.is_superuser %}-->
+<!--                        <a href="{% url 'cashflow:transactioncreate' %}">    -->
+<!--                            <button class="btn-standard btn-success hidden-xs-down">Create Transaction</button>-->
+<!--                        </a>-->
+<!--                        <a href="{% url 'cashflow:transactionimport' %}">-->
+<!--                            <button class="btn-standard btn-info hidden-xs-down">Import from Xero</button>-->
+<!--                        </a>-->
+<!--                        <a href="{% url 'cashflow:transactioncreate' %}">    -->
+<!--                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">-->
+<!--                                <i class="fa fa-pencil-square-o"></i>-->
+<!--                            </button>-->
+<!--                        </a>-->
+<!--                        <a href="{% url 'cashflow:transactionimport' %}">-->
+<!--                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">-->
+<!--                                <i class="fa fa-cloud-download"></i>-->
+<!--                            </button>-->
+<!--                        </a>-->
+<!--                        {%endif%}-->
                     </div>
                 </div>
             
-                <div class="table-responsive">
-                    <table class="table" id="transactions" cellspacing="0" width="100%">
+                <div class="row">
+                    <div class="col s12">
+                    <table class="table responsive-table" id="transactions" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th data-order="asc">Date</th>
@@ -109,6 +122,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,7 +135,7 @@
     $(document).ready(function() {
         $('#transactions').DataTable({
             "paging": true,
-            "searching": true,
+            "searching": false,
              "info":     true,
             columnDefs: [
                 // { type: 'date-eu', targets: 1 },

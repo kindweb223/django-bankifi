@@ -6,32 +6,32 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    <section class="">
-        <div class="container">
-            <div class="title">
-                <div class="row">
-                    <div class="col-sm-5 col-12">
-                        <div class="row">
-                            <div class="col-md-2 col-2">
-                                <div class="icon"><i class="fa fa-user"></i></div>
-                            </div>
-                            <div class="col-md-10 col-10">
-                                <ul class="list-unstyled">
-                                    <h2>Generate Invoices</h2>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-7 col-12 hidden-sm-down">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Generate Invoices</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!--    <section class="">-->
+<!--        <div class="container">-->
+<!--            <div class="title">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-5 col-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-2">-->
+<!--                                <div class="icon"><i class="fa fa-user"></i></div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-10 col-10">-->
+<!--                                <ul class="list-unstyled">-->
+<!--                                    <h2>Generate Invoices</h2>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-7 col-12 hidden-sm-down">-->
+<!--                        <ol class="breadcrumb">-->
+<!--                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>-->
+<!--                            <li class="breadcrumb-item active">Generate Invoices</li>-->
+<!--                        </ol>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
     <section class="contact-list">
         <div class="container">
             {% if form.errors %}
@@ -49,12 +49,19 @@
                 </div>
                 <!-- /Error messaging -->
             {% endif %}
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="white-box">
+            <div class="card bankifi-card">
+                <div class="row">
+                    <div class="col s12">
+<!--                        <h4>{{title}}</h4>-->
+                        <h4>Generate Invoices</h4>
                         <form action="" method="post">{% csrf_token %}
                              {{ form }}
-                            <input type="submit" value="Submit" />
+                            <button
+                            class="waves-effect waves-light btn modal-trigger"
+                            id="addButton"
+                            data-target="authenticateModal">
+                            Add Consent
+                            </button>
                         </form>
                     </div>
                 </div>

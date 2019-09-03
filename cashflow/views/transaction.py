@@ -63,7 +63,16 @@ class TransactionCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.customer = self.request.user
         return super(TransactionCreateView, self).form_valid(form)
+    def get_context_data(self, *args, **kwargs):
+        context = super(TransactionCreateView, self).get_context_data(*args, **kwargs)
 
+        context['title'] = 'Create Transaction'
+        context['parent'] = 'Group List'
+        context['theurl'] = 'aggregate:grouplist'
+        context['help_text'] = 'Hold down "Control", or "Command" on a Mac, to select more than one.'
+        # context['action_url'] = reverse_lazy('aggregate:groupcreate')
+
+        return context
 
 
 class TransactionDeleteView(LoginRequiredMixin, DeleteView):

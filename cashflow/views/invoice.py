@@ -99,7 +99,16 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         kwargs = super(InvoiceCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+    def get_context_data(self, *args, **kwargs):
+        context = super(InvoiceCreateView, self).get_context_data(*args, **kwargs)
 
+        context['title'] = 'Create Account'
+        context['parent'] = 'Group List'
+        context['theurl'] = 'aggregate:grouplist'
+        context['help_text'] = 'Hold down "Control", or "Command" on a Mac, to select more than one.'
+        # context['action_url'] = reverse_lazy('aggregate:groupcreate')
+
+        return context
     def form_valid(self, form):
         form.instance.customer = self.request.user
         return super(InvoiceCreateView, self).form_valid(form)

@@ -13,63 +13,77 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    <section class="">
-        <div class="container">
-            <div class="title">
-                <div class="row">
-                    <div class="col-sm-5 col-12">
-                        <div class="row">
-                            <div class="col-md-2 col-2">
-                                <div class="icon"><i class="fa fa-user"></i></div>
-                            </div>
-                            <div class="col-md-10 col-10">
-                                <ul class="list-unstyled">
-                                    <h2>Account List</h2>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-7 col-12 hidden-sm-down">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Account List</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!--    <section class="">-->
+<!--        <div class="container">-->
+<!--            <div class="title">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-5 col-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-2">-->
+<!--                                <div class="icon"><i class="fa fa-user"></i></div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-10 col-10">-->
+<!--                                <ul class="list-unstyled">-->
+<!--                                    <h2>Account List</h2>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-7 col-12 hidden-sm-down">-->
+<!--                        <ol class="breadcrumb">-->
+<!--                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>-->
+<!--                            <li class="breadcrumb-item active">Account List</li>-->
+<!--                        </ol>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
     <section class="contact-list">
         <div class="container">
-            <div class="white-box">
+            <div class="card bankifi-card">
                 <div class="row">
-                    <div class="col-sm-6 col-7">
-                        <h3>Listing All Accounts</h3>
+                    <div class="col s6">
+                        <h4>Listing All Accounts</h4>
                     </div>
-                    <div class="col-sm-6 col-5 text-right">
+                    <div class="col s6">
                         {% if user.is_superuser %}
-                        <a href="{% url 'cashflow:accountcreate' %}">    
-                            <button class="btn-standard btn-success hidden-xs-down">Create Account</button>
-                        </a>
-                        <a href="{% url 'cashflow:accountimport' %}">
-                            <button class="btn-standard btn-info hidden-xs-down">Import from Xero</button>
-                        </a>
-                        <a href="{% url 'cashflow:accountcreate' %}">    
-                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">
-                                <i class="fa fa-pencil-square-o"></i>
-                            </button>
-                        </a>
-                        <a href="{% url 'cashflow:accountimport' %}">
-                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">
-                                <i class="fa fa-cloud-download"></i>
-                            </button>
-                        </a>
+                        <div class="row">
+                            <div class="create-btn-container" style="display: inline-block">
+                                <a href="{% url 'cashflow:accountcreate' %}" class="waves-effect waves-light btn">
+                                    <i class="tiny material-icons right">edit</i>Create Invoice</a>
+                            </div>
+                            <div class="create-btn-container" style="display: inline-block; margin-left:20px">
+                                <a href="{% url 'cashflow:accountimport' %}" class="waves-effect waves-light btn">
+                                    <i class="tiny material-icons right">cloud_download</i>Import from Xero</a>
+                            </div>
+                        </div>
                         {% endif %}
                     </div>
+<!--                    <div class="col s6">-->
+<!--                        {% if user.is_superuser %}-->
+<!--                        <a href="{% url 'cashflow:accountcreate' %}">-->
+<!--                            <button class="btn-standard btn-success hidden-xs-down">Create Account</button>-->
+<!--                        </a>-->
+<!--                        <a href="{% url 'cashflow:accountimport' %}">-->
+<!--                            <button class="btn-standard btn-info hidden-xs-down">Import from Xero</button>-->
+<!--                        </a>-->
+<!--                        <a href="{% url 'cashflow:accountcreate' %}">-->
+<!--                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">-->
+<!--                                <i class="fa fa-pencil-square-o"></i>-->
+<!--                            </button>-->
+<!--                        </a>-->
+<!--                        <a href="{% url 'cashflow:accountimport' %}">-->
+<!--                            <button class="btn-standard btn-success btn-standard-sm hidden-sm-up">-->
+<!--                                <i class="fa fa-cloud-download"></i>-->
+<!--                            </button>-->
+<!--                        </a>-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
                 </div>
-            
-                <div class="table-responsive">
-                    <table class="table" id="accounts" cellspacing="0" width="100%">
+                <div class="row">
+                <div class="col s12">
+                    <table class="table responsive-table" id="accounts" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -103,7 +117,7 @@
                                     <td>{%if account.sweep_account %}{{account.sweep_account}}{% endif %}</td>
                                     <td>£{{account.sweep_min_balance}}</td>
                                     {% if user.is_superuser %}
-                                    <td> 
+                                    <td>
                                         <a href="{% url 'cashflow:accountupdate' account.id %}">
                                             <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
                                         </a>
@@ -117,6 +131,7 @@
                         </tbody>
                     </table>
                 </div>
+                </div>
             </div>
         </div>
     </section>
@@ -128,7 +143,7 @@
     $(document).ready(function() {
         $('#accounts').DataTable({
             "paging": true,
-            "searching": true,
+            "searching": false,
              "info":     true,
             columnDefs: [
                 // { type: 'date-eu', targets: 1 },
@@ -141,5 +156,5 @@
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/date-eu.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script> 
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script>
 {% endblock js %}

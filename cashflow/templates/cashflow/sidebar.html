@@ -1,0 +1,125 @@
+{% load static %}
+<ul id="slide-out" class="sidenav sidenav-fixed">
+	<li class="no-padding {% if 'dashboard' in request.path %}active{% endif %}">
+		<a href="{% url 'cashflow:forecast' %}">
+				<i class="tiny material-icons left">dashboard</i>
+				Dashboard
+		</a>
+	</li>
+
+	<li class="no-padding {% if 'group' in request.path %}active{% endif %}">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+				<a class="collapsible-header">
+					<i class="tiny material-icons left">group</i>
+					Invoices
+					<i class="material-icons right">arrow_drop_down</i>
+				</a>
+				<div class="collapsible-body">
+					<ul>
+						<li><a href="{% url 'cashflow:invoicelist' %}">View Invoices</a></li>
+						<li><a href="{% url 'cashflow:pobocreate' %}">Create Xero Invoice</a></li>
+                        {% if user.is_superuser %}
+                            <li><a href="{% url 'cashflow:invoicecreate' %}">Create Sandbox Invoice</a></li>
+                        {%endif%}
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+
+	<li class="no-padding {% if 'account' in request.path %}active{% endif %}">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+				<a class="collapsible-header">
+					<i class="tiny material-icons left">account_balance</i>
+					Accounts
+					<i class="material-icons right">arrow_drop_down</i>
+				</a>
+				<div class="collapsible-body">
+					<ul>
+						<li><a href="{% url 'cashflow:accountlist' %}">View Accounts</a></li>
+						{% if user.is_superuser %}
+                            <li><a href="{% url 'cashflow:accountcreate' %}">Create Sandbox Account</a></li>
+                        {%endif%}
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li class="no-padding {% if 'transaction' in request.path %}active{% endif %}">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+				<a class="collapsible-header">
+					<i class="tiny material-icons left">payment</i>
+					Transactions
+					<i class="material-icons right">arrow_drop_down</i>
+				</a>
+				<div class="collapsible-body">
+					<ul>
+						<li><a href="{% url 'cashflow:transactionlist' %}">View Transactions</a></li>
+						{% if user.is_superuser %}
+							<li><a href="{% url 'cashflow:transactioncreate' %}">Create Sandbox</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+    <li class="no-padding {% if 'transaction' in request.path %}active{% endif %}">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+				<a class="collapsible-header">
+					<i class="tiny material-icons left">lock</i>
+					Setup
+					<i class="material-icons right">arrow_drop_down</i>
+				</a>
+				<div class="collapsible-body">
+					<ul>
+						<li><a href="{% url 'cashflow:index' %}">Login To Xero</a></li>
+                        <li><a href="{% url 'cashflow:invoicegenerate' %}">Auto Generate Invoices</a></li>
+						<li><a href="{% url 'cashflow:setup' %}">Reset Demo</a></li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+	<li class="no-padding">
+		<ul class="collapsible collapsible-accordion">
+			<li>
+				<a class="collapsible-header">
+					<i class="tiny material-icons left">sync_problem</i>
+					Solutions
+					<i class="material-icons right">arrow_drop_down</i>
+				</a>
+				<div class="collapsible-body">
+					<ul>
+						{%comment%}
+						<li>
+							<a href="{% url 'oauth:index' %}">OAUTH and Account Demo</a>
+						</li>
+						<li>
+							<a href="{% url 'bankinfo:banks' %}">OBP Available Banks</a>
+						</li>
+						<li>
+							<a href="{% url 'branch:branchfinder' %}">Branch Finder Demo</a>
+						</li>
+						<li>
+							<a href="{% url 'rbs:index' %}">RBS API</a>
+						</li>
+						{%endcomment%}
+						<li>
+							<a href="{% url 'nordea:nordea_breakdown' %}">Bank API</a>
+						</li>
+						<li>
+							<a href="{% url 'cashflow:index' %}">Pocket Treasurer</a>
+						</li>
+						<li>
+							<a href="{% url 'aggregate:accountdashboard' %}">Aggregation</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</li>
+</ul>

@@ -79,7 +79,16 @@ class PoboCreateView(LoginRequiredMixin, CreateView):
         kwargs = super(PoboCreateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+    def get_context_data(self, *args, **kwargs):
+        context = super(PoboCreateView, self).get_context_data(*args, **kwargs)
 
+        context['title'] = 'Create Xero Invoice'
+        context['parent'] = 'Group List'
+        context['theurl'] = 'aggregate:grouplist'
+        context['help_text'] = 'Hold down "Control", or "Command" on a Mac, to select more than one.'
+        # context['action_url'] = reverse_lazy('aggregate:groupcreate')
+
+        return context
     # Override form valid method
     def form_valid(self, form):
         infolog.info("IN POBOCREATEVIEW - FORM VALID")

@@ -5,99 +5,109 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    <section class="">
     <div class="container">
-        <div class="title">
-            <div class="row">
-                <div class="col-sm-5 col-12">
-                    <div class="row">
-                        <div class="col-md-2 col-2">
-                            <div class="icon"><i class="fa fa-user"></i></div>
-                        </div>
-                        <div class="col-md-10 col-10">
-                            <ul class="list-unstyled">
-                                <h2>{{title}}</h2>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-7 col-12 hidden-sm-down">
-                    <ol class="breadcrumb">
-                        {% if parent %}
-                            <li class="breadcrumb-item"><a href="{% url theurl %}">{{parent}}</a></li>
-                        {% endif %}
-                        <li class="breadcrumb-item active">{{title}}</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-    </section>
+<!--    <section class="">-->
+<!--        <div class="title">-->
+<!--            <div class="row">-->
+<!--                <div class="col-sm-5 col-12">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-md-2 col-2">-->
+<!--                            <div class="icon"><i class="fa fa-user"></i></div>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-10 col-10">-->
+<!--                            <ul class="list-unstyled">-->
+<!--                                <h2>{{title}}</h2>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-sm-7 col-12 hidden-sm-down">-->
+<!--                    <ol class="breadcrumb">-->
+<!--                        {% if parent %}-->
+<!--                            <li class="breadcrumb-item"><a href="{% url theurl %}">{{parent}}</a></li>-->
+<!--                        {% endif %}-->
+<!--                        <li class="breadcrumb-item active">{{title}}</li>-->
+<!--                    </ol>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
 
-    <section class="contact-list">
-        <div class="container">
+        <section class="contact-list">
             <div class="row">
-                <div class="col-6">
-                    <h2>{{title}}</h2>
-                    <p>&nbsp</p>
+                <div class="col s6">
+                    <h4>{{title}}</h4>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
+                <div class="col s12">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><input checked="" id="EUR" type="radio" name="optradio"> EUR</li>
-                    <li class="list-inline-item"><input id="GBP" type="radio" name="optradio"> GBP</li>
-                    <li class="list-inline-item"><input id="USD" type="radio" name="optradio">USD</li>
-                </ul>          
+                    <li class="list-inline-item">
+                        <label>
+                            <input class="with-gap" checked="" id="EUR" type="radio" name="optradio" />
+                            <span>EUR</span>
+                        </label>
+                    </li>
+                    <li class="list-inline-item">
+                        <label>
+                            <input class="with-gap" id="GBP" type="radio" name="optradio" />
+                            <span>GBP</span>
+                        </label>
+                    </li>
+                    <li class="list-inline-item">
+                        <label>
+                            <input class="with-gap" id="USD" type="radio" name="optradio">
+                            <span> USD</span>
+                        </label>
+                    </li>
+                </ul>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
     
-    <section class="top-boxes">
-        <div class="container">
+        <section class="top-boxes">
             <div class="row row-eq-height">
-                <div class="col-md-4 d-flex flex-row align-items-stretch">
+                <div class="col s4 d-flex flex-row align-items-stretch">
                     <div class="box box-1">
-                        <h3>Networth</h3>
-                       <div id='networth'></div>
+                        <h5>Networth</h5>
+                        <div id='networth'></div>
                     </div>
                 </div>
-                <div class="col-md-4 d-flex flex-row align-items-stretch">
+                <div class="col s4 d-flex flex-row align-items-stretch">
                     <div class="box">
-                        <h3>Total Credits</h3>
+                        <h5>Total Credits</h5>
                         <div id='credits'></div>
                     </div>
                 </div>
-                <div class="col-md-4 d-flex flex-row align-items-stretch">
+                <div class="col s4 d-flex flex-row align-items-stretch">
                     <div class="box">
-                        <h3>Total Debits</h3>
+                        <h5>Total Debits</h5>
                         <div id='debits'></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-{%comment%}
-     <section class="">
-         <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <canvas id="myChart" width="400" height="400"></canvas>
-                </div>
+        </section>
+        {%comment%}
+         <section class="">
+             <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <canvas id="myChart" width="400" height="400"></canvas>
+                    </div>
 
-                <div class="col-md-4">
-                    <canvas id="myChart2" width="400" height="400"></canvas>
-                </div>
+                    <div class="col-md-4">
+                        <canvas id="myChart2" width="400" height="400"></canvas>
+                    </div>
 
 
-                <div class="col-md-4">
-                    <canvas id="myChart3" width="400" height="400"></canvas>
+                    <div class="col-md-4">
+                        <canvas id="myChart3" width="400" height="400"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-{%endcomment%}
+        </section>
+        {%endcomment%}
+    </div>
 </div>
 {% endblock content %}
 

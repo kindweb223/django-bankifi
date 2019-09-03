@@ -3,28 +3,7 @@
 {% load app_filters %}
 
 {% block css %}
-<style>
-    p{font-size: 15px}
-    @media (min-width: 1600px) {
-	.align-items-stretch {
-		height:200px;
-	}
-    }
-    @media (min-width: 1368px) {
-	.align-items-stretch {
-		height:220px;
-	}
-    @media (min-width: 1000px) {
-	.align-items-stretch {
-		height:240px;
-	}
-    }
-    @media (min-width: 768px) {
-	.align-items-stretch {
-		height:260px;
-	}
-    }
-</style>
+
 {% endblock %}
 
 {% block content %}
@@ -41,15 +20,15 @@
                             </div>
                             <div class="col-md-10 col-10">
                                 <ul class="list-unstyled">
-                                    <li><h4>Account Forecast</h4></li>
-<!--                                    <li><p>Customer Dashboard</p></li>-->
+                                    <li><h2>Account Forecast</h2></li>
+                                    <li><p>Customer Dashboard</p></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-7 col-12 hidden-sm-down">
                         <ol class="breadcrumb">
-<!--                            <li class="breadcrumb-item active">Dashboard</li>-->
+                            <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div>
                 </div>
@@ -59,39 +38,39 @@
     {% include 'cashflow/snippets/message.html' %}
     <section class="top-boxes">
         <div class="container">
-            <div class="row row-eq-height">
-                <div class="col s4 m4 d-flex flex-row align-items-stretch">
-                    <div class="box box-1" style="margin-bottom: 0; padding-bottom: 10px">
-                        <h6>Cash in Business Account</h6>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-1">
+                        <h3>Cash in Business Account</h3>
                         &pound{{balance}}
                         {%comment%}
                         <p>{% now "D jS F Y" %}</p>
                         {%endcomment%}
                         <div class="box-footer">
-                            <div class="row" style="margin-bottom:0">
-                                <div class="col s4">
+                            <div class="row">
+                                <div class="col-sm-4">
                                     <p>Loan Bal: <br>£{{loan}}</p>
                                 </div>
-                                <div class="col s4" data-toggle="tooltip" data-placement="bottom" title="{{sweep_name}}">
+                                <div class="col-sm-4" data-toggle="tooltip" data-placement="bottom" title="{{sweep_name}}">
                                     <p>Sweep Acc: <br>{{sweep_acc}}</p>
                                 </div>
-                                <div class="col s4">
+                                <div class="col-sm-4">
                                     <p>Sweep Bal: <br>£{{sweep_bal}}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col s4 m4 d-flex flex-row align-items-stretch">
+                <div class="col-md-4">
                     <div class="box">
-                        <h6>Payments Due</h6>
+                        <h3>Payments Due</h3>
                         &pound{{payables}}
                         <p>26 Days to be paid on average</p>
                     </div>
                 </div>
-                <div class="col s4 m4 d-flex flex-row align-items-stretch">
+                <div class="col-md-4">
                     <div class="box">
-                        <h6>Receivables Due</h6>
+                        <h3>Receivables Due</h3>
                         &pound{{receivables}}
                         <p>24 Days to be paid on average</p>
                     </div>
@@ -103,16 +82,16 @@
     <section class="">
          <div class="container">
             <div class="row">
-                <div class="col s4">
+                <div class="col-md-4">
                     <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
 
-                <div class="col s4">
+                <div class="col-md-4">
                     <canvas id="myChart2" width="400" height="400"></canvas>
                 </div>
 
 
-                <div class="col s4">
+                <div class="col-md-4">
                     <canvas id="myChart3" width="400" height="400"></canvas>
                 </div>
             </div>
@@ -123,7 +102,7 @@
     <section class="worse-case">
         <div class="container">
             <div class="white-box">
-                <h5>Worse Case - Invoices Paid On Due Dates</h5>
+                <h3>Worse Case - Invoices Paid On Due Dates</h3>
                 <div class="table-responsive">
                     <table class="table table-hover" cellspacing="0" width="100%">
                         <thead>
@@ -157,7 +136,7 @@
     <section class="worse-case">
         <div class="container">
             <div class="white-box">
-                <h5>Best Case - Invoices Paid On Expected Date</h5>
+                <h3>Best Case - Invoices Paid On Expected Date</h3>
                 <div class="table-responsive">
                     <table class="table table-hover" id="worse" cellspacing="0" width="100%">
                         <thead>

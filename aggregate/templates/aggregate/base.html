@@ -37,10 +37,10 @@
         {% endblock jshead %}
 </head>
     <body>
-        {% include "aggregate/navbar.html" %}  
-            {% include "aggregate/sidebar.html" %}
-            {% block content %}
-            {% endblock content %}
+        {% include "aggregate/navbar.html" %}
+        {% include "aggregate/sidebar.html" %}
+        {% block content %}
+        {% endblock content %}
          
         <!-- Need to load here as there is a problem on iPads and iPhones with drop downs -->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

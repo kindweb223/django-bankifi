@@ -22,7 +22,7 @@
                     </div>
                     <div class="col s6 create-btn-container">
                         {% if user.is_superuser %}
-                        <!-- <a href="{% url 'aggregate:accountcreate' %}">    
+                        <!-- <a href="{% url 'aggregate:accountcreate' %}">
                             <button class="btn-standard btn-success">Create Account</button>
                         </a> -->
                         <a href="{% url 'aggregate:accountcreate' %}" class="waves-effect waves-light btn">
@@ -35,7 +35,7 @@
                     <div class="col s12">
                         <div id='total'></div>
                     </div>
-                </div>  
+                </div>
                 <div class="row">
                     <div class="col s12">
                         <ul class="list-inline">
@@ -59,7 +59,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>    
+                </div>
                 <div class="row">
                     <div class="col s12">
                         <div class="table-responsive">
@@ -119,8 +119,8 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div> 
-                </div>                                          
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -138,25 +138,25 @@
             url: endpoint,
             success: function(data){
                 $("#total").html("<h5>"+"<b>Total Net Worth:</b> "+data.symbol+data.total+"</h5>");
-            },  
+            },
             error: function(error_data){
                 console.log("error")
                 console.log(error_data)
             }
         })
     }
-    $("#EUR").on('change', function(e){ 
+    $("#EUR").on('change', function(e){
         getCurrency('EUR')
     });
-    $("#GBP").on('change', function(e){ 
+    $("#GBP").on('change', function(e){
         getCurrency('GBP')
     });
-    $("#USD").on('change', function(e){ 
+    $("#USD").on('change', function(e){
         getCurrency('USD')
     });
 
 
-    $(document).ready(function() {        
+    $(document).ready(function() {
         $('#accounts').DataTable({
             "paging": true,
             "searching": true,
@@ -168,7 +168,7 @@
             'drawCallback': function(settings, json) {
                 $('#accounts_length').html(
                     '<div class="input-field col s12">'
-                    + '<select name="accounts_length" aria-controls="accounts">'                        
+                    + '<select name="accounts_length" aria-controls="accounts">'
                         + '<option value="10">10</option>'
                         + '<option value="25">25</option>'
                         + '<option value="50">50</option>'
@@ -177,7 +177,7 @@
                     + '<label>SHOW ENTRIES</label>'
                 + '</div>'
                 );
-                $('select').formSelect();                
+                $('select').formSelect();
             }
         });
         getCurrency('EUR')
@@ -187,5 +187,5 @@
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/date-eu.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script> 
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script>
 {% endblock js %}
