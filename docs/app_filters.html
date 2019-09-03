@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>app_filters.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>app_filters.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h1>Library template filters</h1>
+<p>Template filters are used to provide additional functionality within Django's templates.
+These methods are used by the Cashflow (aka Bankifi Demo) project templates.</p>
+<p><strong>Available functions:</strong></p>
+<ol>
+<li><strong><em>get_dict_item</em></strong>: Returns an item from a dictionary using provided key.</li>
+<li><strong><em>get_item</em></strong>: Returns an item from a list using provided key(index).</li>
+<li><strong><em>month_name</em></strong>: Converts a month number to a month name.</li>
+</ol>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h3><span id="imports" href="imports"> Imports </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">calendar</span>
+
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
+
+<span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <h3><span id="methods" href="methods"> Methods </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p><strong>get_dict_item(thedict, key)</strong></p>
+<p>Returns an item from a dictionary using provided key.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>thedict</em></strong>: the dictionary.</p>
+<p><strong><em>key</em></strong>: key to use to return dictionary item.</p>
+<p><strong>Returns</strong>:</p>
+<p>The item from the dictionary or an empty string.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.filter</span>
+<span class="k">def</span> <span class="nf">get_dict_item</span><span class="p">(</span><span class="n">thedict</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">thedict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">thedict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="s2">&quot;&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p><strong>get_item(thelist, key)</strong></p>
+<p>Returns an item from a list using a provided key(index).</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>thelist</em></strong>: the list.</p>
+<p><strong><em>key</em></strong>: key/index to use to return list item.</p>
+<p><strong>Returns</strong>:</p>
+<p>The item from the list or an empty string.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.filter</span>
+<span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="n">thelist</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">thelist</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">if</span> <span class="n">thelist</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">thelist</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p><strong>month_name(month_number)</strong></p>
+<p>Converts a month number to a full month name.</p>
+<p><strong>Parameters</strong>:</p>
+<p><strong><em>month_number</em></strong>: month number.</p>
+<p><strong>Return</strong>:</p>
+<p>Full month name.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.filter</span>
+<span class="k">def</span> <span class="nf">month_name</span><span class="p">(</span><span class="n">month_number</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">calendar</span><span class="o">.</span><span class="n">month_name</span><span class="p">[</span><span class="n">month_number</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p><strong>fx(source, rate)</strong></p>
+<p>Applies a currency rate to the amount to calculate exchange value</p>
+<p><strong>Parameters</strong>:</p>
+<p><strong><em>amount</em></strong>: amount to be used.
+<strong><em>rate</em></strong>: exchange rate to be applied.</p>
+<p><strong>Return</strong>:</p>
+<p>Converted amount.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register.filter</span>
+<span class="k">def</span> <span class="nf">fx</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">rate</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">rate</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">amount</span> <span class="ow">and</span> <span class="n">rate</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

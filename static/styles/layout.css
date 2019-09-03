@@ -1,0 +1,20 @@
+body {
+    background: #f5f7fa;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.main-container {
+    padding-left: 320px;
+    padding-top: 40px;
+}
+
+.main-container .container {
+    padding-bottom: 5px;
+}
+
+@media only screen and (min-width: 993px) {
+    .main-container .container {
+        width: 80%;
+    }
+}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    </br>
+    <div class="row">
+        <div class="col-xs-12 ">
+           
+                </br>
+                <p>Once you click the button below, you will be taken to the Open Banking Project to logon (<b>use Id and password below which you will see displayed on next screen</b>) to confirm Bankifi can call APIs on your behalf.</p>
+                <p><b>Userid:</b> robert.xuk.x@example.com</p>
+                <p><b>Password:</b> 5232e7</p>
+                </br>
+             <a href="{{ authorization_url }}">
+                <button type="button" class="btn btn-block btn-danger rounded">Click Here To Authorize Bankifi <i class="fa fa-chevron-circle-right"></i></button>
+            </a>
+        </div>
+</div>
+{% endblock content%}

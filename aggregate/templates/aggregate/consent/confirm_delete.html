@@ -1,0 +1,20 @@
+
+{% extends "aggregate/base.html" %}
+
+{% block title %}{{block.super}} | {{title}} {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    {% include "aggregate/snippets/breadcrumbs.html" %}
+    <section class="contact-list">
+        <div class="container">
+            <form action="" method="post">{% csrf_token %}
+                <p>{{message}} "{{ object }}"?</p>
+                <input type="submit" class="btn-standard btn-success" value="Confirm" />
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+

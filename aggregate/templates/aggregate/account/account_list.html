@@ -1,0 +1,191 @@
+{% extends "aggregate/base.html" %}
+{% load aggregate_filters %}
+
+{% block title %}{{block.super}} | {{title}} {% endblock title %}
+
+{% block css %}
+ <!-- Data Tables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <!-- {% include "aggregate/snippets/breadcrumbs.html" %} -->
+    <section class="contact-list">
+        <div class="container">
+            <div class="card bankifi-card">
+                <div class="row flex-row">
+                    <div class="col s6">
+                        <h4>Listing All Accounts</h4>
+                    </div>
+                    <div class="col s6 create-btn-container">
+                        {% if user.is_superuser %}
+                        <!-- <a href="{% url 'aggregate:accountcreate' %}">
+                            <button class="btn-standard btn-success">Create Account</button>
+                        </a> -->
+                        <a href="{% url 'aggregate:accountcreate' %}" class="waves-effect waves-light btn">
+                            Create Account
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div id='total'></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <label>
+                                    <input checked="" class="with-gap" id="EUR" type="radio" name="optradio">
+                                    <span>EUR</span>
+                                </label>
+                            </li>
+                            <li class="list-inline-item">
+                                <label>
+                                    <input id="GBP" class="with-gap" type="radio" name="optradio">
+                                    <span>GBP</span>
+                                </label>
+                            </li>
+                            <li class="list-inline-item">
+                                <label>
+                                    <input id="USD" class="with-gap" type="radio" name="optradio">
+                                    <span>USD</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="table-responsive">
+                            <table class="table responsive-table" id="accounts" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Bank</th>
+                                        <th>Account Name</th>
+                                        <th>Sort/BIC Code</th>
+                                        <th>Account/IBAN</th>
+                                        <th>Currency</th>
+                                        <th>Balance</th>
+                                        <th>Sweep Acc.</th>
+                                        <th>Sweep Min</th>
+                                        <th data-orderable="false">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for account in object_list %}
+                                        <tr>
+                                            <td>{{account.bank}}</td>
+                                            <td><a href="{% url 'aggregate:accountdetail' account.id %}">{{account.name}}</a></td>
+                                            <td>{{account.sortcode}}</td>
+                                            <td>{{account.account_number}}</td>
+                                            <td>{{account.currency}}</td>
+                                            <td>
+                                                {%if account.balance < 0 %}
+                                                    <span class="text-danger">
+                                                        {{account.currency|currency}}{{account.balance}}
+                                                    </span>
+                                                {%else%}
+                                                    {{account.currency|currency}}{{account.current_balance}}
+                                                {% endif %}
+                                            </td>
+                                            <td>{%if account.sweep_account %}{{account.sweep_account}}{% endif %}</td>
+                                            <td>{{account.currency|currency}}{{account.sweep_min_balance}}</td>
+                                            <td>
+                                                {%comment%}
+                                                <a href="{% url 'aggregate:accountupdate' account.id %}">
+                                                    <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                                </a>
+                                                <a href="{% url 'aggregate:accountdelete' account.id %}">
+                                                    <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                                </a>
+                                                {%endcomment%}
+                                                {% if user.is_superuser %}
+                                                    <a href="{% url 'aggregate:accountupdate' account.id %}">
+                                                        <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                                    </a>
+                                                {%endif%}
+                                                <a href="{% url 'aggregate:consentdelete' account.id %}">
+                                                    <button type="" class="badge badge-danger" title="Remove Consent"><i class="fa fa-trash"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    function getCurrency(base) {
+        var endpoint = '/api/aggregate/accounttotal?base='+base
+        var defaultData = []
+        var labels = []
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data){
+                $("#total").html("<h5>"+"<b>Total Net Worth:</b> "+data.symbol+data.total+"</h5>");
+            },
+            error: function(error_data){
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+    }
+    $("#EUR").on('change', function(e){
+        getCurrency('EUR')
+    });
+    $("#GBP").on('change', function(e){
+        getCurrency('GBP')
+    });
+    $("#USD").on('change', function(e){
+        getCurrency('USD')
+    });
+
+
+    $(document).ready(function() {
+        $('#accounts').DataTable({
+            "paging": true,
+            "searching": true,
+             "info":     true,
+            columnDefs: [
+                // { type: 'date-eu', targets: 1 },
+                // { type: 'date-eu', targets: 3 }
+            ],
+            'drawCallback': function(settings, json) {
+                $('#accounts_length').html(
+                    '<div class="input-field col s12">'
+                    + '<select name="accounts_length" aria-controls="accounts">'
+                        + '<option value="10">10</option>'
+                        + '<option value="25">25</option>'
+                        + '<option value="50">50</option>'
+                        + '<option value="100">100</option>'
+                    + '</select>'
+                    + '<label>SHOW ENTRIES</label>'
+                + '</div>'
+                );
+                $('select').formSelect();
+            }
+        });
+        getCurrency('EUR')
+    } );
+</script>
+<!-- Data Tables Java Script -->
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script>
+{% endblock js %}

@@ -1,0 +1,46 @@
+
+{% extends "cashflow/base.html" %}
+
+{% block title %}{{block.super}} | Create Transaction {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<!--<div class="main-container">-->
+<!--    <section class="">-->
+<!--        <div class="container">-->
+<!--            <div class="title">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-5 col-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-2">-->
+<!--                                <div class="icon"><i class="fa fa-user"></i></div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-10 col-10">-->
+<!--                                <ul class="list-unstyled">-->
+<!--                                    <h2>Create Transaction</h2>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-7 col-12 hidden-sm-down">-->
+<!--                        <ol class="breadcrumb">-->
+<!--                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>-->
+<!--                            <li class="breadcrumb-item"><a href="{% url 'cashflow:transactionlist' %}">Transaction List</a></li>-->
+<!--                            <li class="breadcrumb-item active">Create Transaction</li>-->
+<!--                        </ol>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+<!--    <section class="contact-list">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+                <div class="main-container">
+                    {% include "cashflow/snippets/form.html" with form=form btn_title='Create Transaction' %}
+                </div>
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+<!--</div>-->
+{% endblock content %}

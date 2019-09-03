@@ -1,0 +1,142 @@
+{% extends "aggregate/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{block.super}} | {{title}} {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <!-- {% include "aggregate/snippets/breadcrumbs.html" %} -->
+
+    <section class="contact-list">
+        <div class="container">
+            <div class="card bankifi-card">
+                <div class="row">
+                    <div class="col s12">
+                        <h4>{{title}}</h4>
+                        <form id="consentForm" class="form" action="{% if action_url %}{{action_url}}{% endif %}" method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <p>{{help_text}}</p>
+                        </form>
+                        <button 
+                            class="waves-effect waves-light btn modal-trigger" 
+                            id="addButton" 
+                            data-target="authenticateModal">
+                            Add Consent
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- The authentication modal -->
+<div class="modal" id="authenticateModal">
+    <div class="modal-content">
+        <!-- <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="modalLabel">Bank Authentication</h4>
+        </div> -->
+        <div class="modal-content">
+            <h4>Bank Authentication</h4>
+            <form class="form">
+                {% csrf_token %}
+                {{ auth_form|crispy }}
+            </form>
+            <!-- <button class="btn-standard btn-success" id="authenticateButton">
+                Authenticate Account
+            </button> -->
+            <button class="waves-effect waves-light btn modal-trigger" id="authenticateButton">
+                Authenticate Account
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- The authorisation modal -->
+<div class="modal" id="authoriseModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modalLabel">Provide Consent</h4>
+            </div>
+            <div class="modal-body">
+                Bankifi has requested access to the following services:</br></br>
+                <ul>
+                <li>Account Details</li>
+                <li>Transactions</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" id="authorisedButton">Approve</button>
+                <a href="{% url 'aggregate:consentcreate' %}">
+                    <button type="button" class="btn btn-secondary">Reject</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block js %}
+<!-- Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+<!-- Initialize Bootstrap functionality -->
+<script>
+// Initialize tooltip component
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+// Initialize popover component
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+</script>
+<script>
+    // document.getElementById("addButton").addEventListener('click',function ()
+    // {
+    //     $('#authenticateModal').modal('show');
+    //  //validation code to see State field is mandatory.  
+    // }  ); 
+    $(document).ready(function(){
+        $('.modal').modal();
+    })
+</script>
+
+<script>
+    document.getElementById("authenticateButton").addEventListener('click',function ()
+    {
+        $('#authenticateModal').modal('hide');
+        $('#authoriseModal').modal('show');
+     //validation code to see State field is mandatory.  
+    }  ); 
+</script>
+
+
+<script>
+    document.getElementById("authorisedButton").addEventListener('click',function ()
+    {
+        $('#authoriseModal').modal('hide');
+        //validation code to see State field is mandatory.  
+        // Form reference:
+        var theForm = document.forms['consentForm'];
+        // Submit the form:
+        theForm.submit();
+    }  ); 
+</script>
+
+
+
+
+{% endblock js %}

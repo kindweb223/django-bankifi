@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ol class="breadcrumb margin-bottom-40">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li class="active">Aggregate</li>
+</ol>
+<div class="row margin-bottom-20">
+    <h2>Nordea Home</h2>
+</div>
+<div class='row margin-bottom-40'>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:accountcreate' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Create Account</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:accountlist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Accounts</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:groupcreate' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Create Group</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:grouplist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Groups</button>
+        </a>
+    </div>
+
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:transactioncreate' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Create Transaction</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:transactionlist' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">View Transactions</button>
+        </a>
+    </div>
+
+{%comment%}
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:createuser' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Create User</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:accountsetup' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Setup Account Groups</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:manageconsent' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Account Consent</button>
+        </a>
+    </div>
+    <div class='col-md-2 margin-bottom-20'>
+        <a href="{% url 'aggregate:accountdashboard' %}">
+            <button type="button" class="btn-u btn-u-dark rounded-2x">Account Dashboard</button>
+        </a>
+    </div>
+{%endcomment%}
+</div>
+{% endblock %}

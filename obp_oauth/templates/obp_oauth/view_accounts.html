@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<h1>{{bank_name}} Accounts Held At All Banks</h1>
+</br>
+<p>This makes an api call to get a list of Customers accounts across banks and then another to get account data. 
+    We then aggregate the data to present in table below. The user must have a logged in session to access the APIs hence why you had to login through OAUTH to use this.</p>
+</br>
+<div class="table-responsive">
+    <table class="table compact" id="accounts"  cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Bank Id</th>
+                <th>Account Id</th>
+                <th>Account Number</th>
+                <th>Name</th>
+                <th>Currency</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for account in accounts %}
+            <tr>
+                <td>{{account.bank_id}}</td>
+                <td>{{account.id}}</td>
+                <td>{{account.number}}</td>
+                <td>{{account.owners.0.display_name}}</td>
+                <td>{{account.balance.currency}}</td>
+                <td>{{account.balance.amount}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+
+{% endblock content%}
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#accounts').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                // { type: 'natural', targets: 8 },
+                // { type: 'natural', targets: 10 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/natural.js"></script> 
+{% endblock js %}

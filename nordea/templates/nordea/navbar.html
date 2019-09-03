@@ -1,0 +1,36 @@
+{% load static %}
+<div class="navbar-fixed">
+	<nav id="bankifi-nav">
+		<div class="nav-wrapper">
+			<a href="#!" class="brand-logo">
+					<img src="https://s3.eu-west-1.amazonaws.com/bankifi-production-eu-west-1/MANUAL_UPLOADS/bankifi-logo%400.5x.png" alt="Logo">
+			</a>
+			<ul class="right hide-on-med-and-down">
+				{% if user.is_authenticated %}
+					<!-- <li>
+						<span class="text-left text-danger">{{user.username}}</span>
+					</li> -->
+					<li>
+						<a class="waves-effect waves-light btn" href="/accounts/logout">
+							Logout
+						</a>
+					</li>
+					<li>
+						<img
+							src="{% static 'img/user.png' %}"
+							class="img-fluid rounded-circle"
+							alt="User">
+					</li>
+				{% else %}
+					<li>
+						<a
+							class="waves-effect waves-light btn"
+							href="{% url 'account_login'%}?next={{request.path}}">
+							Login
+						</a>
+					</li>
+				{%endif%}
+			</ul>
+		</div>
+	</nav>
+</div>

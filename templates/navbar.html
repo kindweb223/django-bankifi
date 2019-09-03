@@ -1,0 +1,48 @@
+{% load static %}
+<div class="index-navbar-container ">
+    <div class="">
+        <div class="row" style="margin:0">
+            <nav class="col s12 teal text-darken-2">
+                <div class="nav-wrapper">
+                    <img style="max-width:auto;height:100%"
+                    src="https://s3.eu-west-1.amazonaws.com/bankifi-production-eu-west-1/MANUAL_UPLOADS/bankifi-logo%400.5x.png">
+                    <a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Solutions<i class="material-icons right">arrow_drop_down</i></a></li>
+                        {% if user.is_authenticated %}
+                        <li><span class="text-left color-red"><b>{{user.username}}</b></span></li>
+                        <li><a class="btn waves-effect waves-light red lighten-2" href="/accounts/logout">Logout</a></li>
+                        <li>
+                            <img src="{% static 'img/user.png' %}" class="img-fluid rounded-circle" alt="User">
+                        </li>
+                        {% else %}
+                            <li><a href="{% url 'account_login'%}?next={{request.path}}"
+                                class="waves-effect waves-light btn red lighten-2">Login</a></li>
+                        {%endif%}
+                    </ul>
+                </div>
+            </nav>
+            <!-- Dropdown Structure -->
+            <ul id="dropdown1" class="dropdown-content">
+                <li><a href="{% url 'nordea:nordea_breakdown' %}">Bank API</a></li>
+                <li><a href="{% url 'cashflow:index' %}">Pocket Treasurer</a></li>
+                <li><a href="{% url 'aggregate:accountdashboard' %}">Aggregation</a></li>
+            </ul>
+            <!--Sidebar structure-->
+            <ul class="sidenav" id="mobile-sidebar">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <!-- <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Solutions<i class="material-icons right">arrow_drop_down</i></a></li> -->
+                {% if user.is_authenticated %}
+                <li><span class="text-left color-red">{{user.username}}</span></li>
+                <li><a class="cd-signin" href="/accounts/logout">Logout</a></li>
+                <li>
+                    <img src="{% static 'img/user.png' %}" class="img-fluid rounded-circle" alt="User">
+                </li>
+                {% else %}
+                    <li><a href="{% url 'account_login'%}?next={{request.path}}">Login</a></li>
+                {%endif%}
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,317 @@
+{% extends "aggregate/base.html" %}
+
+{% block title %}{{block.super}} | {{title}} {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div id="account_dashboard" class="main-container">
+    <div class="container">
+        <!-- <section class="">
+            <div class="title">
+                <div class="row">
+                    <div class="col s5">
+                        <div class="row">
+                            <div class="col s2">
+                                <div class="icon"><i class="fa fa-user"></i></div>
+                            </div>
+                            <div class="col s10 ">
+                                <ul class="list-unstyled">
+                                    <h2>{{title}}</h2>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s7 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                            {% if parent %}
+                                <li class="breadcrumb-item"><a href="{% url theurl %}">{{parent}}</a></li>
+                            {% endif %}
+                            <li class="breadcrumb-item active">{{title}}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <section class="contact-list">
+            <div class="row">
+                <div class="col s6">
+                    <h4>{{title}}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <label>
+                            <input class="with-gap" checked="" id="EUR" type="radio" name="optradio" />
+                            <span>EUR</span>
+                        </label>
+                    </li>
+                    <li class="list-inline-item">
+                        <label>
+                            <input class="with-gap" id="GBP" type="radio" name="optradio" />
+                            <span>GBP</span>
+                        </label>
+                    </li>
+                    <li class="list-inline-item">
+                        <label>
+                            <input class="with-gap" id="USD" type="radio" name="optradio">
+                            <span> USD</span>
+                        </label>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="top-boxes">
+            <div class="row row-eq-height">
+                <div class="col s4 d-flex flex-row align-items-stretch">
+                    <div class="box box-1">
+                        <h5>Networth</h5>
+                        <div id='networth'></div>
+                    </div>
+                </div>
+                <div class="col s4 d-flex flex-row align-items-stretch">
+                    <div class="box">
+                        <h5>Total Credits</h5>
+                        <div id='credits'></div>
+                    </div>
+                </div>
+                <div class="col s4 d-flex flex-row align-items-stretch">
+                    <div class="box">
+                        <h5>Total Debits</h5>
+                        <div id='debits'></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="">
+            <div class="row">
+                <div class="col s4">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
+
+                <div class="col s4">
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                </div>
+
+
+                <div class="col s4">
+                    <canvas id="myChart3" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<!-- Chart support library -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js'></script>
+<script>
+
+function setCharts(base){
+    <!-- Chart support -->
+    var endpoint = '/api/aggregate/dashboard?base='+base
+    var defaultData = []
+    var labels = []
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data){
+            labels = data.bal_labels
+            defaultData = data.bal_data
+            background = data.bal_back
+            border = data.bal_border
+            setNetWorthChart(labels, defaultData, background, border)
+            
+            labels = data.crd_labels
+            defaultData = data.crd_data
+            setCreditChart(labels, defaultData)
+            
+            labels = data.deb_labels
+            defaultData = data.deb_data
+            setDebitChart(labels, defaultData)
+        },  
+        error: function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+    })
+}
+
+function setNetWorthChart(labels, defaultData, background, border){
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Account Balance Over Time',
+                data: defaultData,
+                backgroundColor: background,
+                borderColor: border,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+function setCreditChart(labels, defaultData){
+    var ctx = document.getElementById("myChart2");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Credits',
+                data: defaultData,
+                 backgroundColor: [
+                    'rgba(1, 1, 1, 0.2)',
+                    'rgba(1, 1, 1, 0.2)',
+                    'rgba(1, 1, 1, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+
+function setDebitChart(labels, defaultData){
+    var ctx = document.getElementById("myChart3");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Debits',
+                data: defaultData,
+                backgroundColor: [
+                    'rgba(255,99,132,0.2)',
+                     'rgba(255,99,132,0.2)',
+                    'rgba(255,99,132,0.2)',
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+
+function getNetworth(base) {
+        var endpoint = '/api/aggregate/networth?base='+base
+        var defaultData = []
+        var labels = []
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data){
+                $("#networth").html(data.symbol+data.total);
+            },  
+            error: function(error_data){
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+    }
+
+function getCredits(base) {
+        var endpoint = '/api/aggregate/credits?base='+base
+        var defaultData = []
+        var labels = []
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data){
+                $("#credits").html(data.symbol+data.total);
+            },  
+            error: function(error_data){
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+    }
+
+function getDebits(base) {
+        var endpoint = '/api/aggregate/debits?base='+base
+        var defaultData = []
+        var labels = []
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data){
+                $("#debits").html(data.symbol+data.total);
+            },  
+            error: function(error_data){
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+    }
+
+function setUp(base) {
+    getNetworth(base)
+    getDebits(base)
+    getCredits(base)
+    setCharts(base)
+}
+
+    $("#EUR").on('change', function(e){ 
+        setUp('EUR')
+    });
+    $("#GBP").on('change', function(e){ 
+        setUp('GBP')
+    });
+    $("#USD").on('change', function(e){ 
+        setUp('USD')
+    });
+
+$(document).ready(function() {
+       setUp('EUR')
+    } );
+
+</script>
+
+{% endblock js %}

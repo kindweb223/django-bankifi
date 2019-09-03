@@ -1,0 +1,307 @@
+
+{% extends "cashflow/base.html" %}
+{% load app_filters %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <section class="">
+        <div class="container">
+            <div class="title">
+                <div class="row">
+                    <div class="col-sm-5 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-2">
+                                <div class="icon"><i class="fa fa-home"></i></div>
+                            </div>
+                            <div class="col-md-10 col-10">
+                                <ul class="list-unstyled">
+                                    <li><h2>Account Forecast</h2></li>
+                                    <li><p>Customer Dashboard</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include 'cashflow/snippets/message.html' %}
+    <section class="top-boxes">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-1">
+                        <h3>Cash in Business Account</h3>
+                        &pound{{balance}}
+                        {%comment%}
+                        <p>{% now "D jS F Y" %}</p>
+                        {%endcomment%}
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <p>Loan Bal: <br>£{{loan}}</p>
+                                </div>
+                                <div class="col-sm-4" data-toggle="tooltip" data-placement="bottom" title="{{sweep_name}}">
+                                    <p>Sweep Acc: <br>{{sweep_acc}}</p>
+                                </div>
+                                <div class="col-sm-4">
+                                    <p>Sweep Bal: <br>£{{sweep_bal}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box">
+                        <h3>Payments Due</h3>
+                        &pound{{payables}}
+                        <p>26 Days to be paid on average</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box">
+                        <h3>Receivables Due</h3>
+                        &pound{{receivables}}
+                        <p>24 Days to be paid on average</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="">
+         <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
+
+                <div class="col-md-4">
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                </div>
+
+
+                <div class="col-md-4">
+                    <canvas id="myChart3" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% if worse %}
+    <section class="worse-case">
+        <div class="container">
+            <div class="white-box">
+                <h3>Worse Case - Invoices Paid On Due Dates</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Net Amount (£)</th>
+                                <th>Option</th>
+                                <th>Post Balance (£)</th>
+                                <th>Post Sweep (£)</th>
+                                <th>Post Loan (£)</th>
+
+                            </tr>
+                        </thead>
+                         {% for i in worse %}
+                        <tbody>
+                            <td>{{i.0}}</td>
+                            <td>{{i.1}}</td>
+                            <td>{{i.5}}</td>
+                            <td>{{i.2}}</td>
+                            <td>{{i.3}}</td>
+                            <td>{{i.4}}</td>
+                        </tbody>
+                        {% endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    {% if best %}
+    <section class="worse-case">
+        <div class="container">
+            <div class="white-box">
+                <h3>Best Case - Invoices Paid On Expected Date</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover" id="worse" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Net Amount (£)</th>
+                                <th>Option</th>
+                                <th>Post Balance (£)</th>
+                                <th>Post Sweep (£)</th>
+                                <th>Post Loan (£)</th>
+                            </tr>
+                        </thead>
+                        {% for i in best %}
+                        <tbody>
+                            <td>{{i.0}}</td>
+                            <td>{{i.1}}</td>
+                            <td>{{i.5}}</td>
+                            <td>{{i.2}}</td>
+                            <td>{{i.3}}</td>
+                            <td>{{i.4}}</td>
+                        </tbody>
+                        {% endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</div>
+<!-- Main body -->
+{% endblock %}
+{% block js %}
+<!-- Chart support library -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js'></script>
+<script>
+<!-- Chart support -->
+var endpoint = '/api/cashflow/forecast'
+var defaultData = []
+var labels = []
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.bal_labels
+        defaultData = data.bal_data
+        background = data.bal_back
+        border = data.bal_border
+        setBalChart()
+
+        labels = data.pay_labels
+        defaultData = data.pay_data
+        setPayChart()
+
+        labels = data.rec_labels
+        defaultData = data.rec_data
+        setRecChart()
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+
+function setBalChart(){
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Account Balance Over Time',
+                data: defaultData,
+                backgroundColor: background,
+                borderColor: border,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+function setPayChart(){
+    var ctx = document.getElementById("myChart2");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Payments Due',
+                data: defaultData,
+                backgroundColor: [
+                    'rgba(1, 1, 1, 0.2)',
+                     'rgba(1, 1, 1, 0.2)',
+                    'rgba(1, 1, 1, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+
+function setRecChart(){
+    var ctx = document.getElementById("myChart3");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Receivables Due',
+                data: defaultData,
+                backgroundColor: [
+                    'rgba(1, 1, 1, 0.2)',
+                     'rgba(1, 1, 1, 0.2)',
+                    'rgba(1, 1, 1, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+<!-- Enable tool tips -->
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+</script>
+
+{% endblock js %}
+

@@ -1,0 +1,112 @@
+{% extends "nordea/base.html" %}
+{% load app_filters %}
+
+{% block title %}{{block.super}} | Nordea Transactions {% endblock title %}
+
+{% block css %}
+ <!-- Data Tables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+     <section class="">
+        <div class="container">
+            <div class="title">
+                <div class="row">
+                    <div class="col-sm-5 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-2">
+                                <div class="icon"><i class="fa fa-pencil-square-o"></i></div>
+                            </div>
+                            <div class="col-md-10 col-10">
+                                <ul class="list-unstyled">
+                                    <h2>View All Transactions</h2>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'nordea:nordea_breakdown' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'nordea:nordea_accounts' %}">View All Accounts</a></li>
+                            <li class="breadcrumb-item active">View All Transactions</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-list">
+        <div class="container">
+            <div class="white-box">
+                <div class="row">
+                    <div class="col-6">
+                        <h3>Listing All Transactions</h3>
+                    </div>
+                </div>
+                </br>
+                <div class="table-responsive">
+                    <table class="table compact" id="transactions"  cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Transaction Id</th>
+                                <th>Date</th>
+                                <th>Indicator</th>
+                                <th>Details</th>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                                <th>GBP</th>
+                                <th>USD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for transaction in transactions %}
+                            <tr>
+                                <td>{{transaction.id}}</td>
+                                <td>{{transaction.bookingDate.date}}</td>
+                                <td>{{transaction.creditDebitIndicator}}</td>
+                                <td>
+                                    {% if transaction.creditDebitIndicator == "CRDT" %}
+                                        {{transaction.entryDetails.transactionDetails.relatedParties.debtor.name}}
+                                    {% elif transaction.creditDebitIndicator == "DBIT" %}
+                                        {{transaction.entryDetails.transactionDetails.relatedParties.creditor.name}}
+                                    {% endif %}
+                                </td>
+                                <td>{{transaction.amount.currency}}</td>
+                                <td>{{transaction.amount.value}}</td>
+                                <td>£{{transaction.amount.value|fx:GBP}}</td>
+                                <td>${{transaction.amount.value|fx:USD}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#transactions').DataTable({
+            "paging": true,
+            "searching": true,
+             "info":     true,
+            columnDefs: [
+                // { type: 'date-eu', targets: 1 },
+                // { type: 'date-eu', targets: 3 }
+            ],
+        });
+    } );
+</script>
+<!-- Data Tables Java Script -->
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script> 
+{% endblock js %}

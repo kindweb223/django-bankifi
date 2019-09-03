@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+<div class="col-xs-12">    
+    <p>The token and secret below is returned once the user logs onto the bank (Open Banking Project in this case)</p>
+    <p>We can then use this token and secret to access the banking APIs on behalf of the user.</p>
+    </br><b>{{ private_bank_json }}</b></br></br>
+</div>
+</div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="{% url 'oauth:bank' %}">
+                <button type="button" class="btn btn-block btn-danger rounded">View Accounts <i class="fa fa-chevron-circle-right"></i></button>
+            </a>
+        </br>
+             <p>Click the button below to logout of Open Banking Project (click the Logout button on the page you land on and DON'T login again) To Reset Demo. You will then need to come back to Redbank Homepage via your browser manually (i.e type in redbank URL - https://redbank.herokuapp.com). </p>
+                <p>Alternatively Click The <a href="{% url "oauth:index" %}">OAUTH demo</a> again and you won't need to login this time!!</p></br>
+            <a href="https://psd2-api.openbankproject.com">
+                <button type="button" class="btn btn-block btn-danger rounded">Logout OPB</button>
+             </a>
+               
+
+            
+        </div>
+    </div>
+{% endblock content %}

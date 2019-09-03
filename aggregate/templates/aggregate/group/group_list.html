@@ -1,0 +1,172 @@
+{% extends "aggregate/base.html" %}
+{% load aggregate_filters %}
+
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<!-- Main body -->
+<div id="group-list" class="main-container">
+    <section class="contact-list">
+        <div class="container">
+            <div class="card bankifi-card">
+                <div class="row flex-row">
+                    <div class="col s6">
+                        <h4>Listing All Groups</h4>
+                    </div>
+                    <div class="col s6 create-btn-container">
+                        <!-- <a href="{% url 'aggregate:groupcreate' %}">
+                            <button class="btn-standard btn-success">Create Group</button>
+                        </a> -->
+                        <a href="{% url 'aggregate:groupcreate' %}" class="waves-effect waves-light btn">Create Group</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div id='total'></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <label>
+                                    <input checked class="with-gap" id="EUR" type="radio" name="optradio" />
+                                    <span>EUR</span>
+                                </label>
+                            </li>
+                            <li class="list-inline-item">
+                                <label>
+                                    <input id="GBP" class="with-gap"  type="radio" name="optradio" />
+                                    <span>GBP</span>
+                                </label>
+                            </li>
+                            <li class="list-inline-item">
+                                <label>
+                                    <input id="USD" class="with-gap"  type="radio" name="optradio" />
+                                    <span>USD</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <table class="table responsive-table" id="groups" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Accounts</th>
+                                    <th>Currency</th>
+                                    <th>Balance</th>
+                                    <th>Group Balance</th>
+                                    <th data-orderable="false">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for group in object_list %}
+                                    <td><a href="{% url 'aggregate:grouptransactionlist' group.pk %}">{{group.title}}</a></td>
+                                        <td>
+                                            {% for account in group.accounts.all %}
+                                                <a href="{% url 'aggregate:accounttransactionlist' account.pk %}">{{account.bank}} {{account.name}}</a></br>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% for account in group.accounts.all %}
+                                                {{account.currency}}</br>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                            {% for account in group.accounts.all %}
+                                                {%if account.balance < 0 %}
+                                                    <span class="text-danger">
+                                                        {{account.currency|currency}}{{account.balance}}
+                                                    </span>
+                                                {%else%}
+                                                    {{account.currency|currency}}{{account.balance}}
+                                                {% endif %}
+                                                </br>
+                                            {% endfor %}
+                                        </td>
+
+                                        <td>
+                                            {% if group.balance < 0 %}
+                                                <span class="text-danger">
+                                                        {{group.balance}}
+                                                </span>
+                                            {%elif group.balance > 0 %}
+                                                {{group.balance}}
+                                            {% else %}
+                                                0
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'aggregate:groupupdate' group.pk %}">
+                                                <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                            </a>
+                                            <a href="{% url 'aggregate:groupdelete' group.pk %}">
+                                                <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    function getCurrency(base) {
+        var endpoint = '/api/aggregate/grouptotal?base='+base
+        var defaultData = []
+        var labels = []
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data){
+                $("#total").html("<h5>"+"<b>Group Totals</b>: "+data.symbol+data.total+"</h5>");
+            },
+            error: function(error_data){
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+    }
+    $("#EUR").on('change', function(e){
+        getCurrency('EUR')
+    });
+    $("#GBP").on('change', function(e){
+        getCurrency('GBP')
+    });
+    $("#USD").on('change', function(e){
+        getCurrency('USD')
+    });
+
+    $(document).ready(function() {
+        $('#groups').DataTable({
+            "paging": false,
+            "searching": false,
+             "info":     false,
+            columnDefs: [
+                // { type: 'date-eu', targets: 1 },
+                // { type: 'date-eu', targets: 3 }
+            ],
+        });
+    getCurrency('EUR')
+    } );
+</script>
+<!-- Data Tables Java Script -->
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script>
+{% endblock js %}

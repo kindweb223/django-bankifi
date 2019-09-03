@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+{% load app_filters %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+
+    <h2>Transaction Breakdown</h2>
+
+    <p>&nbsp</p>
+
+    {%comment%}
+    <!-- START Revenue -->
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="panel panel-default b-a-0 bg-gray-dark">
+            <div class="panel-heading">Money In<small class="pull-right color-grey">{% now "D jS F Y" %}</small></div>
+            <div class="panel-body">
+                <h2 class="">&pound{{balance}}</h2>
+                <!-- <i class="fa fa-fw fa-caret-up text-success"></i> <span class="text-success m-r-1">33,87%</span> <small>{% now "D jS F Y" %}</small> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="panel panel-default b-a-0 bg-gray-dark">
+            <div class="panel-heading">Money Out<small class="pull-right"><i class="fa fa-fw fa-caret-up text-danger"></i> <span class="text-danger">26</span>&nbsp<span class="color-grey">Days To Pay On Average</span></small></div>
+            <div class="panel-body">
+                <h2 class="">&pound{{payables}}</h2>
+            </div>
+        </div>
+    </div>
+    {%endcomment%}
+
+
+    <div class='row margin-bottom-40'>
+        <div class='col-xs-4'>
+            <b>Money In: €{{money_in}}</b>
+        </div>
+        <div class='col-xs-4'>
+            <b>Money Out: €{{money_out}}</b>
+        </div>
+        <div class='col-xs-4'>
+            <b>Total: €{{money_total}}</b>
+        </div>
+    </div>
+
+    
+     <div class="col-lg-4 col-md-4 col-sm-4">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <canvas id="myChart2" width="400" height="400"></canvas>
+    </div>
+
+
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <canvas id="myChart3" width="400" height="400"></canvas>
+    </div>
+
+
+    
+    
+{% endblock %}
+
+{%comment%}
+data = {
+            "total_labels": breakdown.get('totalsum').get('months'),
+            "total_data": breakdown.get('totalsum').get('totals'),
+            "total_back": breakdown.get('totalsum').get('back'),
+            "total_border": breakdown.get('totalsum').get('border'),
+            "debit_labels": breakdown.get('debitsum').get('months'),
+            "debit_data": breakdown.get('debitsum').get('totals'),
+            "credit_labels": breakdown.get('creditsum').get('months'),
+            "credit_data": breakdown.get('creditsum').get('totals'),
+        }
+{%endcomment%}
+
+{% block js %}
+<script>
+
+var endpoint = '/api/nordea/forecast/FI6593857450293470-EUR'
+var defaultData = []
+var labels = []
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.total_labels
+        defaultData = data.total_data
+        background = data.total_back
+        border = data.total_border
+        setTotalChart()
+        
+        labels = data.debit_labels
+        defaultData = data.debit_data
+        setDebitChart()
+        
+        labels = data.credit_labels
+        defaultData = data.credit_data
+        setCreditChart()
+    },  
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+
+function setTotalChart(){
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Totals',
+                data: defaultData,
+                backgroundColor: background,
+                borderColor: border,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+function setDebitChart(){
+    var ctx = document.getElementById("myChart2");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Debits',
+                data: defaultData,
+                backgroundColor: [
+                    'rgba(1, 1, 1, 0.2)',
+                     'rgba(1, 1, 1, 0.2)',
+                    'rgba(1, 1, 1, 0.2)',
+                    // 'rgba(255, 206, 86, 0.2)',
+                    // 'rgba(75, 192, 192, 0.2)',
+                    // 'rgba(153, 102, 255, 0.2)',
+                    // 'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    // 'rgba(255, 206, 86, 1)',
+                    // 'rgba(75, 192, 192, 1)',
+                    // 'rgba(153, 102, 255, 1)',
+                    // 'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+
+function setCreditChart(){
+    var ctx = document.getElementById("myChart3");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Credits',
+                data: defaultData,
+                backgroundColor: [
+                    'rgba(1, 1, 1, 0.2)',
+                     'rgba(1, 1, 1, 0.2)',
+                    'rgba(1, 1, 1, 0.2)',
+                    // 'rgba(255, 206, 86, 0.2)',
+                    // 'rgba(75, 192, 192, 0.2)',
+                    // 'rgba(153, 102, 255, 0.2)',
+                    // 'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    'rgba(1, 1, 1, 1)',
+                    // 'rgba(255, 206, 86, 1)',
+                    // 'rgba(75, 192, 192, 1)',
+                    // 'rgba(153, 102, 255, 1)',
+                    // 'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+}
+
+
+// var ctx2 = document.getElementById("myChart2");
+// var myChart2 = new Chart(ctx2, {
+//     type: 'bar',
+//     data: {
+//         labels: ["Mar", "Apr", "May"],
+//         datasets: [{
+//             label: '£ Payment Value',
+//             data: [1200, 900, 1400],
+//             backgroundColor: [
+//                 'rgba(1, 1, 1, 0.2)',
+//                 'rgba(1, 1, 1, 0.2)',
+//                 'rgba(1, 1, 1, 0.2)',
+//                 // 'rgba(75, 192, 192, 0.2)',
+//                 // 'rgba(153, 102, 255, 0.2)',
+//                 // 'rgba(255, 159, 64, 0.2)'
+//             ],
+//             borderColor: [
+//                 'rgba(1, 1, 1, 1)',
+//                 'rgba(1, 1, 1, 1)',
+//                 'rgba(1, 1, 1, 1)',
+//                 // 'rgba(75, 192, 192, 1)',
+//                 // 'rgba(153, 102, 255, 1)',
+//                 // 'rgba(255, 159, 64, 1)'
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         scales: {
+//             yAxes: [{
+//                 ticks: {
+//                     beginAtZero:true
+//                 }
+//             }]
+//         }
+//     }
+// });
+
+
+// var ctx3 = document.getElementById("myChart3");
+// var myChart3 = new Chart(ctx3, {
+//     type: 'bar',
+//     data: {
+//         labels: ["Mar", "Apr", "May"],
+//         datasets: [{
+//             label: '£ Receivable Value',
+//             data: [2000, 1200, 1300],
+//             backgroundColor: [
+//                 'rgba(1, 1, 1, 0.2)',
+//                 'rgba(1, 1, 1, 0.2)',
+//                 'rgba(1, 1, 1, 0.2)',
+//                 // 'rgba(75, 192, 192, 0.2)',
+//                 // 'rgba(153, 102, 255, 0.2)',
+//                 // 'rgba(255, 159, 64, 0.2)'
+//             ],
+//             borderColor: [
+//                 'rgba(1, 1, 1, 1)',
+//                 'rgba(1, 1, 1, 1)',
+//                 'rgba(1, 1, 1, 1)',
+//                 // 'rgba(75, 192, 192, 1)',
+//                 // 'rgba(153, 102, 255, 1)',
+//                 // 'rgba(255, 159, 64, 1)'
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         scales: {
+//             yAxes: [{
+//                 ticks: {
+//                     beginAtZero:true
+//                 }
+//             }]
+//         }
+//     }
+// });
+
+</script>
+{% endblock js %}

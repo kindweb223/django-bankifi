@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}{{block.super}} | Create Invoice {% endblock title %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li class="active">POBO Payments</li>
+</ol>
+<div class="row">
+    <div class="col-sm-8">
+        <h1>Pay Invoice {{number}}</h1>
+    </div>
+</div>
+
+{% if error %}
+<div>
+<p class="color-red">{{error}}</p>
+</div>
+{%endif%}
+{% if has_a_loan == False and offer_amount > 0.0 %}
+    <div class="call-action-v1 call-action-v1-boxed bg-color-green content">
+        <div class="call-action-v1-box">
+            <div class="call-action-v1-in">
+                <h2 class="color-light">INVOICE FINANCE OFFER</h2>
+                 <p>{{offer|linebreaks}}</p>
+            </div>
+            <div class="call-action-v1-in inner-btn page-scroll">
+                <a href="{%url 'cashflow:loanapply'%}" class="btn-u btn-u-lg rounded btn-u-red btn-block btn-brd btn-brd-width-2 btn-brd-hover btn-u-light">APPLY NOW&nbsp<span class="fa fa-chevron-circle-right"></span></a>
+            </div>
+        </div>
+    </div>
+{% elif has_a_loan == True %}
+        <div class="call-action-v1 call-action-v1-boxed bg-color-red content">
+            <div class="call-action-v1-box">
+                <div class="call-action-v1-in">
+                    <h2 class="color-light">CURRENT LOAN DETAILS</h2>
+                     <p>Outstanding loan balance is: £{{loan.balance}}</p>
+                     <p>Bank balance is: £{{loan.account.balance}}</p>
+
+                </div>
+                <div class="call-action-v1-in inner-btn page-scroll">
+                    <form method="POST" action="{% url 'cashflow:loanpay' %}">
+                        {% csrf_token %}
+                        <button class="btn-u btn-u-lg rounded btn-u-red btn-block btn-brd btn-brd-width-2 btn-brd-hover btn-u-light" type="submit">Pay Loan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endif %}
+
+<div class="table-responsive content">
+    <table class="table compact" id="transactions"  cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Sort Code</th>
+                <th>Account Number</th>
+                <th>Balance</th>
+                <th>Sweep Account</th>
+                <th>Sweep Minimum Balance</th>
+                <th data-orderable="false">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for account in object_list %}
+            <tr>
+                <td>{{account.name}}</td>
+                <td>{{account.sortcode}}</td>
+                <td>{{account.account_number}}</td>
+                <td>
+                    {%if account.balance < 0 %}
+                        <span class="color-red">
+                            £{{account.balance}}
+                        </span>
+                    {%else%}
+                        £{{account.balance}}
+                    {% endif %}
+                </td>
+                <td>{{account.sweep_account}}</td>
+                <td>{{account.sweep_min_balance}}</td>
+                <td> 
+                	<div class="call-action-v1-in inner-btn page-scroll">
+	                    <form method="POST" action="{% url 'cashflow:pobopayment' %}?number={{number}}&account={{account.account_id}}">
+	                        {% csrf_token %}
+	                        {{form}}
+	                        <button class="btn btn-xs btn-success rounded" type="submit">Pay</button>
+	                    </form>
+	                </div>
+                </td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+{%endblock%}
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#transactions').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                // { type: 'date-eu', targets: 1 },
+                // { type: 'date-eu', targets: 3 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/natural.js"></script> 
+{% endblock js %}

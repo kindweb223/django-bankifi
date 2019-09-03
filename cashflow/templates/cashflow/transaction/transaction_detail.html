@@ -1,0 +1,57 @@
+
+{% extends "cashflow/base.html" %}
+
+{% block title %}{{block.super}} | View Transaction {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <section class="">
+        <div class="container">
+            <div class="title">
+                <div class="row">
+                    <div class="col-sm-5 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-2">
+                                <div class="icon"><i class="fa fa-user"></i></div>
+                            </div>
+                            <div class="col-md-10 col-10">
+                                <ul class="list-unstyled">
+                                    <h2>Transaction Details</h2>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cashflow:transactionlist' %}">Transaction List</a></li>
+                            <li class="breadcrumb-item active">Transaction Details</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h2>{{object.account}}</h2></br>
+                    <p>Date: {{object.created|date:"d/m/Y H:i:s"}}</p>
+                    <p>Type: {{object.transaction_type}}</p>
+                    <p>Amount: £{{object.amount}}</p>
+                    <p>Description: {{object.description}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <a href="{% url 'cashflow:transactionlist' %}">
+                            <button class="btn-standard btn-success">View Transactions</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

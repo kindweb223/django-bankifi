@@ -1,0 +1,61 @@
+
+{% load aggregate_filters %}
+<div class="table-responsive content">
+    <table class="table compact" id="transactions"  cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <!-- <th data-orderable="false">Trans ID</th> -->
+                <th data-order="asc">Date</th>
+                <th>Account</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Currency</th>
+                <th>Amount</th>
+                <th data-orderable="false">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in object_list %}
+            <tr>
+                <!-- <td>{{transaction.transaction_id}}</td> -->
+                <td>{{transaction.transdate|date:"d/m/Y H:i:s"}}</td>
+                <td><a href="{% url 'aggregate:transactiondetail' transaction.id %}">{{transaction.account}}</a></td>
+                <td>{{transaction.transaction_type}}</td>
+                <td>{{transaction.description}}</td>
+                <td>{{transaction.currency}}</td>
+                <td>
+                    {%if transaction.amount < 0 %}
+                        <span class="pink darken-2">
+                            {{transaction.currency|currency}}{{transaction.amount}}
+                        </span>
+                    {%else%}
+                       {{transaction.currency|currency}}{{transaction.amount}}
+                    {% endif %}
+                </td>
+                <td> 
+                    <!-- <a href="{% url 'aggregate:transactionupdate' transaction.id %}">
+                        <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                    </a>
+                    <a href="{% url 'aggregate:transactiondelete' transaction.id %}">
+                        <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                    </a> -->
+                    <a 
+                        class="waves-effect waves-light btn teal darken-2"
+                        href="{% url 'aggregate:transactionupdate' transaction.id %}">                        
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a 
+                        class="waves-effect waves-light btn pink darken-2"
+                        href="{% url 'aggregate:transactiondelete' transaction.id %}">                        
+                        <i class="material-icons">delete_forever</i>                        
+                    </a>
+    
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+
+
+

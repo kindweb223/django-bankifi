@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load app_filters %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'aggregate:index' %}">Aggregate</a></li>
+  <li class="active">Manage Consent</li>
+</ol>
+
+    <h2>Manage Consent</h2>
+
+    <p>&nbsp</p>
+    
+{% endblock %}

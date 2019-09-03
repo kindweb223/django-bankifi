@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load rbs_filters %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<h1>RBS Accounts</h1>
+</br>
+<p>This makes an api call to get a list of Accounts using the RBS Open Banking API. Click on the account ID to view a list of recent transactions.</p>
+</br>
+
+<div class='row margin-bottom-40'>
+     <div class='col-md-2 col-xs-4 pull-left'>
+     </br>
+        <a href="{% url 'rbs:index' %}">
+            <button type="button" class="btn-u btn-u-red rounded-2x">Back To RBS API Home</button>
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table compact" id="accounts"  cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Account Id</th>
+                <th>Sort Code</th>
+                <th>Account Number</th>
+                <th>IBAN</th>
+                <th>BBAN</th>
+                <th>Account Type</th>
+                <th>Account Name</th>
+                <th>Currency</th>
+                <th>Balance</th>
+                <th>$</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a href="{% url 'rbs:transactions' account.id %}">{{account.id}}</a></td>
+            <td>{{account.sortCode}}</td>
+            <td>{{account.accountNumber}}</td>
+            <td>{{account.Iban|blank}}</td>
+            <td>{{account.Bban|blank}}</td>
+            <td>{{account.accountType}}</td>
+            <td>{{account.accountFriendlyName}}</td>
+            <td>{{account.accountCurrency|blank}}</td>
+            <td>{{account.accountBalance}}</td>
+            <td>{{account.accountBalance|fx:USD}}</td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+
+{% endblock content%}
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#accounts').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                // { type: 'natural', targets: 8 },
+                // { type: 'natural', targets: 10 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/natural.js"></script> 
+{% endblock js %}

@@ -1,0 +1,31 @@
+{% extends "aggregate/base.html" %}
+
+{% block title %}{{block.super}} | {{title}} {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    {% include "aggregate/snippets/breadcrumbs.html" %}
+    <section class="contact-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h2>{{object.account}}</h2></br>
+                    <p>Date: {{object.created|date:"d/m/Y H:i:s"}}</p>
+                    <p>Type: {{object.transaction_type}}</p>
+                    <p>Currency: {{object.currency}}</p>
+                    <p>Amount: £{{object.amount}}</p>
+                    <p>Description: {{object.description}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <a href="{% url 'aggregate:transactionlist' %}">
+                            <button class="btn-standard btn-success">View Transactions</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

@@ -1,0 +1,29 @@
+<section class="">
+    <div class="container">
+        <div class="title">
+            <div class="row">
+                <div class="col-sm-5 col-12">
+                    <div class="row">
+                        <div class="col-md-2 col-2">
+                            <div class="icon"><i class="fa fa-pencil-square-o"></i></div>
+                        </div>
+                        <div class="col-md-10 col-10">
+                            <ul class="list-unstyled">
+                                <h2>{{title}}</h2>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-7 col-12 hidden-sm-down">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'aggregate:accountdashboard' %}">Dashboard</a></li>
+                        {% if parent %}
+                            <li class="breadcrumb-item"><a href="{% url theurl %}">{{parent}}</a></li>
+                        {% endif %}
+                        <li class="breadcrumb-item active">{{title}}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

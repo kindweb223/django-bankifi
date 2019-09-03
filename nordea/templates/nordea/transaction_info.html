@@ -1,0 +1,25 @@
+{% load app_filters %}
+{% load static %}
+
+<div class="panel-group" id="transaction" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div id="transactiontable" class="panel-collapse collapse-in" role="tabpanel" 
+                                                    aria-labelledby="#transactionhead">
+      <ul id="tabs" class="nav nav-tabs" data-tabs="tabs" role="navigation">
+          <li class="active"><a href="#transaction_menu" data-toggle="tab">Transactions</a></li>
+          <li><a href="#forecast_menu" data-toggle="tab">Breakdown</a></li>
+      </ul>
+
+      <div id="my-tab-content" class="tab-content">
+                    
+          <div class="tab-pane active" id="transaction_menu">
+              {% include "nordea/view_transactions.html" %}
+          </div>
+
+          <div class="tab-pane" id="forecast_menu">
+              {% include "nordea/breakdown.html" %}
+          </div>
+      </div>
+    </div>
+  </div>
+</div> 

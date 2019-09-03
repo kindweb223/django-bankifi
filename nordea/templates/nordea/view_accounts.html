@@ -1,0 +1,122 @@
+{% extends "nordea/base.html" %}
+{% load app_filters %}
+
+{% block title %}{{block.super}} | {{title}} {% endblock title %}
+
+{% block css %}
+ <!-- Data Tables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+    <section class="">
+        <div class="container">
+            <div class="title">
+                <div class="row">
+                    <div class="col-sm-5 col-12">
+                        <div class="row">
+                            <div class="col-md-2 col-2">
+                                <div class="icon"><i class="fa fa-pencil-square-o"></i></div>
+                            </div>
+                            <div class="col-md-10 col-10">
+                                <ul class="list-unstyled">
+                                    <h2>View All Accounts</h2>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-7 col-12 hidden-sm-down">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'nordea:nordea_breakdown' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">View All Accounts</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-list">
+        <div class="container">
+            <div class="white-box">
+                <div class="row">
+                    <div class="col-6">
+                        <h3>Listing All Accounts</h3>
+                    </div>
+                </div>
+                </br>
+                <table class="table compact" id="accounts"  cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Account Id</th>
+                                <th>Country</th>
+                                <!-- <th>IBAN Number</th> -->
+                                <th>Product</th>
+                                <th>Type</th>
+                                <!-- <th>Currency</th> -->
+                                <th>Name</th>
+                                <th>Balances</th>
+                                <th>GBP</th>
+                                <th>USD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for account in accounts %}
+                            <tr>
+                                <td><a href="{% url 'nordea:nordea_transactions' account.id %}">{{account.id}}</a></td>
+                                <td>{{account.account.identification.country}}</td>
+                                <!-- <td>{{account.account.identification.iban}}</td> -->
+                                <td>{{account.account.product}}</td>
+                                <td>{{account.account.type}}</td>
+                                <!-- <td>{{account.account.currency}}</td> -->
+                                <td>{{account.account.owner.name}}</td>
+                                <td>
+                                    {% for balance in account.balances %}
+                                        {{balance.type}} {{balance.amount}}</br>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for balance in account.balances %}
+                                        £{{balance.amount|fx:GBP}}</br>
+                                    {% endfor %}
+                                    
+                                </td>
+                                <td>
+                                    {% for balance in account.balances %}
+                                        ${{balance.amount|fx:USD}}</br>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#accounts').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                // { type: 'natural', targets: 8 },
+                // { type: 'natural', targets: 10 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.15/sorting/natural.js"></script> 
+{% endblock js %}

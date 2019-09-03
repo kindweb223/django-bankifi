@@ -1,0 +1,24 @@
+
+{% if title %}
+<section class="alert animated fadeIn">
+    <div class="container">
+        <div class="alert-dismissible fade show" role="alert">
+            <div class="card">
+                <div class="card-header">
+                    {{title}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card-block">
+                    <p>{{description}}</p>
+                    <p>{{status}}</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+{% endif %}
+
+

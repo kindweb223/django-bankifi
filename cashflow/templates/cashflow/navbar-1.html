@@ -1,0 +1,116 @@
+{% load static %}
+
+<div class="topbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-4 col-sm-3 col-md-3 col-lg-2">
+                <div class="logo-text">
+                  <!-- FIXME: Quick and dirty solution -->
+                  <img style="max-width:100%;height:auto" src="https://s3.eu-west-1.amazonaws.com/bankifi-production-eu-west-1/MANUAL_UPLOADS/bankifi-logo%400.5x.png">
+                </div>
+            </div>
+            <div class="col-8 col-sm-9 col-md-9 col-lg-10 text-right">
+                <ul class="list-inline">
+                    {% if user.is_authenticated %}
+                        <li class="list-inline-item"><span class="text-left color-red">{{user.username}}</span></li>
+                        <li class="list-inline-item"><a class="cd-signin" href="/accounts/logout">Logout</a></li>
+                         <li class="list-inline-item">
+                            <img src="{% static 'img/user.png' %}" class="img-fluid rounded-circle" alt="User">
+                        </li>
+                    {% else %}
+                        <li class="list-inline-item"><a href="{% url 'account_login'%}?next={{request.path}}">Login</a></li>
+                    {%endif%}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid main-menu">
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                <nav class="navbar navbar-toggleable-md pt-0 pb-0">
+                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarsExampleContainer">
+                        <ul class="navbar-nav mr-auto">
+                             <li class="nav-item {% if 'forecast' in request.path %}active{% endif %}">
+                                <a class="nav-link" href="{% url 'cashflow:forecast' %}">Dashboard</a>
+                            </li>
+                            <li class="nav-item dropdown  {% if 'invoice' in request.path %}active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" id="invoiceDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Invoices</a>
+                                <div class="dropdown-menu mt-0" aria-labelledby="invoiceDropdown-1">
+                                    <a class="dropdown-item" href="{% url 'cashflow:invoicelist' %}">View Invoices</a>
+                                    <a class="dropdown-item" href="{% url 'cashflow:pobocreate' %}">Create Xero Invoice</a>
+                                    {% if user.is_superuser %}
+                                        <a class="dropdown-item" href="{% url 'cashflow:invoicecreate' %}">Create Sandbox Invoice</a>
+                                    {%endif%}
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown {% if 'account' in request.path %}active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" id="accountDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accounts</a>
+                                <div class="dropdown-menu" aria-labelledby="accountDropdown-1">
+                                    <a class="dropdown-item" href="{% url 'cashflow:accountlist' %}">View Accounts</a>
+                                    {% if user.is_superuser %}
+                                        <a class="dropdown-item" href="{% url 'cashflow:accountcreate' %}">Create Sandbox Account</a>
+                                    {%endif%}
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown {% if 'transaction' in request.path %}active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" id="transactionDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+                                <div class="dropdown-menu" aria-labelledby="transactionDropdown-1">
+                                    <a class="dropdown-item" href="{% url 'cashflow:transactionlist' %}">View Transactions</a>
+                                    {% if user.is_superuser %}
+                                        <a class="dropdown-item" href="{% url 'cashflow:transactioncreate' %}">Create Sandbox Transactions</a>
+                                    {%endif%}
+
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown {% if 'contact' in request.path %}active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" id="contactDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contacts</a>
+                                <div class="dropdown-menu" aria-labelledby="contactDropdown-1">
+                                    <a class="dropdown-item" href="{% url 'cashflow:contactlist' %}">View Contacts</a>
+                                    {% if user.is_superuser %}
+                                        <a class="dropdown-item" href="{% url 'cashflow:contactcreate' %}">Create Sandbox Contact</a>
+                                    {%endif%}
+
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown {% if 'setup' in request.path %}active{% endif %}">
+                                <a href="#" class="nav-link dropdown-toggle" id="setupDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Setup</a>
+                                <div class="dropdown-menu" aria-labelledby="setupDropdown-1">
+                                    <a class="dropdown-item" href="{% url 'cashflow:index' %}">Login To Xero</a>
+                                    <a class="dropdown-item" href="{% url 'cashflow:invoicegenerate' %}">Auto Generate Invoices</a>
+                                    <a class="dropdown-item" href="{% url 'cashflow:setup' %}">Reset Demo</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'index' %}">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" id="demoDropdown-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Solutions</a>
+                                <div class="dropdown-menu" aria-labelledby="demoDropdown-1">
+                                    {%comment%}
+                                    <a class="dropdown-item" href="{% url 'oauth:index' %}">OAUTH and Account Demo</a>
+                                    <a class="dropdown-item" href="{% url 'bankinfo:banks' %}">OBP Available Banks</a>
+                                    <a class="dropdown-item" href="{% url 'branch:branchfinder' %}">Branch Finder Demo</a>
+                                    <a class="dropdown-item" href="{% url 'rbs:index' %}">RBS API</a>
+                                    {%endcomment%}
+                                    <a class="dropdown-item" href="{% url 'cashflow:index' %}">Pocket Treasurer</a>
+                                    <a class="dropdown-item" href="{% url 'nordea:nordea_breakdown' %}">Bank API</a>
+                                    <a class="dropdown-item" href="{% url 'aggregate:accountdashboard' %}">Aggregation</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

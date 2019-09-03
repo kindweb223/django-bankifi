@@ -1,0 +1,39 @@
+.index-navbar-container {
+    width: 100%;
+}
+
+.index-navbar-container > .container {
+    width: 100%;
+}
+
+.index-navbar-container .row {
+    margin-bottom: 0;
+}
+
+nav li, nav p, nav a {
+    color: white;
+}
+
+footer li, footer p, footer a {
+    color: white;
+}
+
+a:focus, a:hover {
+    color: white;
+    text-decoration: none;
+}
+footer a {
+    color: white;
+}
+footer a:focus, footer a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+li .rounded-circle {
+    margin-top: 8px;
+    border: 3px solid #FFF;
+    border-radius: 24px;
+    width: 48px;
+    height: 48px;
+}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{block.super}} | Create Invoice {% endblock title %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li class="active">POBO Pay Invoice</li>
+</ol>
+<div class="row">
+    <div class="col-sm-8">
+        <h1>Pay Invoice {{number}}</h1>
+        <!-- {% include "cashflow/snippets/form.html" with form=form btn_title='Pay Invoice' %} -->
+    </div>
+</div>
+
+<div class="table-responsive content">
+        <table class="table compact" id="invoices"  cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Type</th>
+                    <th>Contact</th>
+                    <th>Raised</th>
+                    <th>Due</th>
+                    <th>Bank Account</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th data-orderable="false">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for invoice in object_list %}
+                <tr>
+                    <td><a href="{% url 'cashflow:invoicedetail' invoice.id %}" class="color-dark">{{invoice.number}}</a></td>
+                    <td>{{invoice.invoice_type}}</td>
+                    <td>{{invoice.contact}}</td>
+                    <td>{{invoice.raised|date:"d/m/Y"}}</td>
+                    <td>{{invoice.due|date:"d/m/Y"}}</td>
+                    <td>{{invoice.bank_account}}</td>
+                    <td>£{{invoice.amount}}</td>
+                    <td>{{invoice.status}}</td>
+                    <td> 
+                        <div>
+                            {% if invoice.status != 'PAID' %}
+                             <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                <button class="btn btn-xs btn-success rounded" type="submit">Pay Invoice</button>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+{% endblock content %}
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#invoices').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                // { type: 'date-eu', targets: 1 },
+                // { type: 'date-eu', targets: 3 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/natural.js"></script> 
+{% endblock js %}
+

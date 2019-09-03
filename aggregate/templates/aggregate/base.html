@@ -1,0 +1,77 @@
+{% load static%}
+{% load compress %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="img/favicon.ico">
+        
+        <title>{% block title %}Bankifi{% endblock title %}</title>
+
+        <link rel="canonical" href="{% block canonical_url %}{% endblock %}">
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="favicon.ico">
+        
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800" rel="stylesheet">
+       
+        {% compress css %}
+        <!-- <link href="{% static 'css/master.css' %}" rel="stylesheet" /> -->
+        <!-- <link href="{% static 'css/nordea.min.css' %}" rel="stylesheet" /> -->
+        {% include 'material/includes/material_css.html' %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="{% static 'styles/layout.css' %}" rel="stylesheet" />
+        <link href="{% static 'styles/navbar.css' %}" rel="stylesheet" />
+        <link href="{% static 'styles/sidebar.css' %}" rel="stylesheet" />
+        <link href="{% static 'styles/common.css' %}" rel="stylesheet" />                
+
+        {% endcompress %}
+
+        {% block css %}
+        {% endblock css %}
+
+        {% block jshead %}
+        {% endblock jshead %}
+</head>
+    <body>
+        {% include "aggregate/navbar.html" %}
+        {% include "aggregate/sidebar.html" %}
+        {% block content %}
+        {% endblock content %}
+         
+        <!-- Need to load here as there is a problem on iPads and iPhones with drop downs -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+        {% compress js %}
+        <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+        {% endcompress %}
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+        {% include 'material/includes/material_js.html' %}
+        
+        {% block js %}
+        {% endblock js %}
+
+        <script>
+            $( document ).ready(function() {
+                $('.sidenav').sidenav();
+                $(".dropdown-trigger").dropdown();                
+                $('.collapsible').collapsible({
+                    accordion: false
+                });
+
+            });     
+            document.addEventListener('DOMContentLoaded', function() {
+                var elems = document.querySelectorAll('.sidenav');
+                var instances = M.Sidenav.init(elems, options);
+            });
+       
+        </script>        
+
+  </body>
+</html>

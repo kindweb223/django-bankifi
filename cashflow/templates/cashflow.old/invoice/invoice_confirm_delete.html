@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li><a href="{% url 'cashflow:invoicelist' %}">Invoice List</a></li>
+  <li class="active">Delete Invoice</li>
+</ol>
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to delete the invoice "{{ object }}"?</p>
+        <input type="submit" value="Confirm" />
+    </form>
+{% endblock content %}

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>xeroutil.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>xeroutil.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h1>Xero API OAUTH handler</h1>
+<p>Provides the OAUTH handling routines used by the Cashflow Application (aka Bankifi demo).
+This utilises the <a href="https://github.com/freakboy3742/pyxero">pyxero 3rd partyh project</a> where additional
+usage documentation can be found.</p>
+<p>The Django session capabilities are utilised to store tokens between calls to the Xero API and Web Page refreshes.</p>
+<p><strong>Public Methods:</strong></p>
+<ol>
+<li><strong><em>get_xero_credentials</em></strong>: Receives Xero credentials to be used for the initial login and authorisation_url.</li>
+<li><strong><em>get_xero</em></strong>: returns Xero connection handler that allows the Xero api to be called.</li>
+</ol>
+<p><strong>Internal Methods:</strong></p>
+<ol>
+<li><strong><em>json_serial</em></strong>: JSON serializer for objects not serializable by default json code.</li>
+<li><strong><em>save_temp_credentials</em></strong>: Temporarily save Xero credentials in the Django session state for subsequent use.</li>
+<li><strong><em>verify_credentials</em></strong>: Verify with Xero that the credentials are valid.</li>
+<li><strong><em>save_credentials</em></strong>: Save Xero credentials in the Django session state for subsequent use.</li>
+</ol>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h3><span id="imports" href="imports"> Imports </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Import Python modules</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Import pyxero modules</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">xero.auth</span> <span class="kn">import</span> <span class="n">PublicCredentials</span>
+<span class="kn">from</span> <span class="nn">xero</span> <span class="kn">import</span> <span class="n">Xero</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Import Django modules</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">Http404</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <h3><span id="logging" href="logging"> Logging </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Setup loggers</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">infolog</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;infologger&#39;</span><span class="p">)</span>
+<span class="n">errorlog</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;prodlogger&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <h3><span id="methods" href="methods"> Methods </span></h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p><strong>json_serial(obj)</strong></p>
+<p>JSON serializer for objects not serializable by default json code.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>obj</em></strong>: python object to be converted.</p>
+<p><strong>Returns</strong>:</p>
+<p>Serialized object or TypeError exception.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">json_serial</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Serialize datetime objects used correctly</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="n">serial</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">serial</span>
+
+    <span class="k">raise</span> <span class="ne">TypeError</span> <span class="p">(</span><span class="s2">&quot;Type not serializable&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p><strong>get_xero_credentials(request, callback=settings.XERO_CALLBACK_URI)</strong></p>
+<p>Receives Xero credentials to be used for the initial login and authorisation_url.</p>
+<p>Saves a temporary copy of the pyxero credentials that are used following the callback from Xero.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>request</em></strong>: Django request object.</p>
+<p><strong><em>callback</em></strong>: Callback URI to be used by Xero.</p>
+<p><strong>Returns:</strong></p>
+<p>Pyxero credentials object.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_xero_credentials</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">XERO_CALLBACK_URI</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>Reset session state</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;temp_credentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Login to Xero to generate credentials to access the authorization URL</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">credentials</span> <span class="o">=</span> <span class="n">PublicCredentials</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">XERO_CLIENT_KEY</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">XERO_CLIENT_SECRET</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Save initial request credentials pre-URL call as these are needed post the call too</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">save_temp_credentials</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">credentials</span><span class="p">)</span>
+    <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Getting Credentials {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">credentials</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p><strong>save_temp_credentials(request, credentials)</strong></p>
+<p>Temporarily save Xero credentials in the Django session state for subsequent use.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>request</em></strong>: Django request object.</p>
+<p><strong><em>credentials</em></strong>: pyxero credentials object.</p>
+<p><strong>Returns:</strong></p>
+<p>Nothing</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">save_temp_credentials</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">credentials</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">tmp</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">state</span>
+    <span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;oauth_authorization_expires_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;oauth_authorization_expires_at&#39;</span><span class="p">))</span>
+    <span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;oauth_expires_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;oauth_expires_at&#39;</span><span class="p">))</span>
+    <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;save TEMP credentials stats: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;temp_credentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p><strong>verify_credentials(request)</strong></p>
+<p>Verify the pyxero credentials with Xero.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>request</em></strong>: Django request object.</p>
+<p><strong>Returns</strong>:</p>
+<p>Nothing</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">verify_credentials</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>Recreate the credential objects from the saved credentials</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">temp_credentials</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;temp_credentials&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">credentials</span> <span class="o">=</span> <span class="n">PublicCredentials</span><span class="p">(</span><span class="o">**</span><span class="n">temp_credentials</span><span class="p">)</span>
+
+    <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Pre-Verify Credentials: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">state</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>Verify the credentials using the passed in 'oauth_verifier' parameter</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">credentials</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;oauth_verifier&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <p>Important we save the verified credentials for future use</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">credentials</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;verified&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">state</span>
+        <span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;oauth_authorization_expires_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;oauth_authorization_expires_at&#39;</span><span class="p">))</span>
+        <span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;oauth_expires_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;oauth_expires_at&#39;</span><span class="p">))</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;credentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Credentials Now Verified {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Failed to Verify Credentials {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">state</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <p><strong>save_credentials(request, credentials)</strong></p>
+<p>Save the verifie pyxero credentials in the Django session state for subsequent use.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>request</em></strong>: Django request object.</p>
+<p><strong><em>credentials</em></strong>: pyxero credentials object.</p>
+<p><strong>Returns:</strong></p>
+<p>Nothing</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">save_credentials</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">credentials</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">tmp</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">.</span><span class="n">state</span>
+    <span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;oauth_authorization_expires_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;oauth_authorization_expires_at&#39;</span><span class="p">))</span>
+    <span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;oauth_expires_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;oauth_expires_at&#39;</span><span class="p">))</span>
+    <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Before Session: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;credentials&#39;</span><span class="p">]))</span>
+    <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;save_credentials stats: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;credentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+    <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;After Session: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;credentials&#39;</span><span class="p">]))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p><strong>get_xero(request)</strong></p>
+<p>Retrieves the Xero connection object to allow access to Xero API.</p>
+<p><strong>Parameters:</strong></p>
+<p><strong><em>request</em></strong>: Django request object.</p>
+<p><strong>Returns</strong>:</p>
+<p>Xero connection object that allows api access.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_xero</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">try</span><span class="p">:</span>
+        <span class="n">saved_credentials</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;credentials&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">credentials</span> <span class="o">=</span> <span class="n">PublicCredentials</span><span class="p">(</span><span class="o">**</span><span class="n">saved_credentials</span><span class="p">)</span>
+        <span class="n">infolog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;session credentials: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">credentials</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">Xero</span><span class="p">(</span><span class="n">credentials</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">errorlog</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to retrieve the connection object. Perhaps user not logged in.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">Http404</span><span class="p">(</span><span class="s2">&quot;Failed to connect to Xero. Ensure you are signed in.&quot;</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

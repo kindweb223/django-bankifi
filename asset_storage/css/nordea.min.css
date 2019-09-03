@@ -1,0 +1,142 @@
+/*Body*/
+body { 
+    /*Reference font here*/
+}
+
+/*Topboxes*/
+.top-boxes .box h3 {
+    color: #0000a0;
+}
+
+/*Breadcrumbs*/
+.breadcrumb a:hover {
+    color: #0000a0;
+}
+.breadcrumb .breadcrumb-item {
+    color: #0000a0;
+}
+
+/*Main Boxes*/
+.white-box h3 {
+    color: #0000a0;
+}
+
+/*Footer*/
+footer {
+    border-top: solid 2px #0000a0;
+}
+
+/*Nav Items*/
+.main-menu .navbar .nav-item.active:before {
+    background-color: #0000a0;
+}
+
+/*Icon*/
+.icon {
+    background-color: #0000a0;
+}
+
+/*Logo*/
+.logo-text {
+    color: #0000a0;
+    font-weight: 800;
+    font-size: 20pt;
+}
+
+/*Button*/
+.btn-standard {
+    background-color: #40bfa3;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.btn-standard:hover {
+    background-color: #66ccb5;
+    font-weight: 600;
+}
+
+/*Dropdown Menu*/
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #E6E4E3;
+    color: #FFF;
+}
+
+/*Sidemenu*/
+.side-nav .active a {
+    color: #0000a0!important;
+}
+
+.side-nav .active {
+    border-left: solid 2px #0000a0;
+}
+
+.side-nav li a:hover {
+    color: #0000a0;
+}
+
+.side-nav li:hover {
+    border-left: solid 2px #0000a0;
+}
+
+.under-banner {
+    background-color: #0000a0;
+}
+
+.banner h1 span {
+    color: #FFF;
+}
+
+.intro-1 h3 {
+    color: #0000a0;
+}
+
+.intro-2 h3 {
+    color: #0000a0;
+}
+
+.services .item-box:hover {
+    background-color: #FDECE4;
+}
+
+.services .circle {
+    background-color: #0000a0;
+}
+
+.new-services .title h2 span {
+    color: #0000a0;
+}
+
+.testionials .title h2 {
+    color: #0000a0;
+}
+
+.testionials .get-started h2 span {
+    color: #0000a0;
+}
+
+.title h2 {
+    color: #0000a0;
+}
+
+.btn-blue {
+    background-color: #0000a0!important;
+}
+
+.testionials .title h2 span {
+    color: #0000a0;
+}
+
+.card .card-header {
+    background-color: #40bfa3;
+}
+
+.btn-info {
+    background-color: #e6e4e3!important;
+    color: #0000a0!important;
+}
+
+.btn-info:hover {
+    background-color: #c2bcba!important;
+    color: #0000a0!important;
+}
+

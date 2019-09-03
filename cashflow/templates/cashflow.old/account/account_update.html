@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{block.super}} | Update Account {% endblock title %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li><a href="{% url 'cashflow:accountlist' %}">Account List</a></li>
+  <li class="active">Update Account</li>
+</ol>
+    {% include "cashflow/snippets/form.html" with form=form btn_title='Update' %}
+{% endblock content %}

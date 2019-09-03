@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li><a href="{% url 'cashflow:accountlist' %}">Account List</a></li>
+  <li class="active">Delete Account</li>
+</ol>
+    <form action="" method="post">{% csrf_token %}
+        <p>Are you sure you want to delete the account "{{ object }}"?</p>
+        <input type="submit" class="btn btn-xs btn-danger rounded" value="Confirm" />
+    </form>
+{% endblock content %}

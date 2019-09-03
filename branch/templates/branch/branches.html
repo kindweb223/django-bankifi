@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% load easy_maps_tags %}
+
+{% block content%}
+<div class="container content">
+
+  <div class="row">
+    <div class="xs-col-2">
+      <img class="img-responsive" src="{% static 'img/hsbc_full_logo.png' %}" HEIGHT="100" WIDTH="150" alt=""/> 
+    </div>
+    <div class="xs-col-10" style="margin:5px">
+      <h2>Branch Finder</h2>
+      {% include "branch/postcode_form.html" with form=form btn_title='Postcode' %}</br>
+    </div>
+  </div>
+  
+  
+
+  {% for branch in branches %}
+    <!-- Team Blcoks -->
+      <div class="row team-v7 no-gutter equal-height-columns">
+        <div class="col-md-6 col-md-push-6">
+          <div class="dp-table">
+            <div class="equal-height-column dp-table-cell team-v7-in" style="height: 555px;">
+              <span class="team-v7-name">{{branch.BranchName}}</span>
+              <span class="team-v7-position">{%if branch.BranchType %}ATM Available{%else%}No ATM Available{%endif%}</span>
+              <i class="fa fa-bank"></i>&nbsp&nbsp{{branch.Location.StreetName}}, {{branch.Location.TownName}}, {{branch.Location.PostCode}}</br>
+              <i class="fa fa-phone-square"></i>&nbsp&nbsp&nbsp{{branch.Location.TelephoneNumber}}</br></br>
+              <table class="table">
+                <th colspan="2"></b>Opening Times</b></th>
+                <tr><td>Mon:</td> <td>{{branch.Monday}}</td></td>
+                <tr><td>Tue:</td> <td>{{branch.Tuesday}}</td></td>
+                <tr><td>Wed:</td> <td>{{branch.Wednesday}}</td></td>
+                <tr><td>Thu:</td> <td>{{branch.Thursday}}</td></td>
+                <tr><td>Fri:</td> <td>{{branch.Friday}}</td></td>
+                <tr><td>Sat:</td> <td>{{branch.Saturday}}</td></td>
+                <tr><td>Sun:</td> <td>{{branch.Sunday}}</td></td>  
+            </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-md-pull-6">
+          {% easy_map branch.mapaddress 400 600 %}
+        </div>
+      </div>
+      <hr/>
+      <!-- End Team Blcoks -->
+  {% empty %}
+    {% if request.GET.postcode %}
+      <p>Sorry. No branches found for '{{request.GET.postcode}}'</p>
+    {% else %}
+      <!-- <p>No branches found</p> -->
+    {% endif %}
+  {% endfor %}  
+</div>
+{% endblock content %}
+
+

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'css/master.css' %}" rel="stylesheet" />
+<link href="{% static 'styles/index.css' %}" rel="stylesheet" />
+{% endblock css %}
+
+{% block content %}
+<!-- Main body -->
+<div class="banner" style="background-image: url({% static 'img/main-banner.png' %})">
+    <div class="container">
+        <h1>Welcome to <span>Bankifi</span></h1>
+        <h2>ALL YOUR BANKS UNDER ONE ROOF</h2>
+    </div>
+</div>
+<div class="home-container">
+    <section class="new-services">
+        <div class="container">
+            <div class="title">
+                <h2>Seamless integration of all of your <br><span>bank accounts under your full control.</span></h2>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-sm-4 col-6">
+                    <div class="nsbox">
+                        <div class="circle">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <h3>Bank Account <br> Integration</h3>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-6">
+                    <div class="nsbox">
+                        <div class="circle">
+                            <i class="fa fa-support "></i>
+                        </div>
+                        <h3>Outstanding <br> Support</h3>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-6">
+                    <div class="nsbox">
+                        <div class="circle">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </div>
+                        <h3>Customizable <br> Design</h3>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-6">
+                    <div class="nsbox">
+                        <div class="circle">
+                            <i class="fa fa-play-circle-o"></i>
+                        </div>
+                        <h3>Full <br> Control</h3>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-6">
+                    <div class="nsbox">
+                        <div class="circle">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <h3>User <br> Friendly</h3>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-6">
+                    <div class="nsbox">
+                        <div class="circle">
+                            <i class="fa fa-vcard-o"></i>
+                        </div>
+                        <h3>Free <br> Updates</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="intro-1">
+        <div class="container">
+            <div class="row">
+                <div class="offset-sm-1 col-sm-5">
+                    <h2>Changing The Way You Bank Forever</h2>
+                    <h3>Bankifi has revolutionised banking, with a seamless banking experience across all of your providers.</h3>
+                    <p>Personalise your banking experience by tailoring our applications to your lifestyle. Our technology makes banking a breeze. Your life is just about to get a whole lot easier. We have 100s of banks you can integrate with and more on the wa</p>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <img src="{% static 'img/intro-2.png' %}" class="img-fluid" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="intro-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 text-center">
+                    <img src="{% static 'img/hand-black-iphone-l.png' %}" class="img-fluid" alt="">
+                </div>
+                <div class="offset-sm-1 col-sm-5">
+                    <h2>We Are Bankifi</h2>
+                    <h3>Everyone of the team is driven by a passion to make your banking experience painless.</h3>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-check"></i> We always put our customers first</li>
+                        <li><i class="fa fa-check"></i> We employ smart people who love delighting our customers</li>
+                        <li><i class="fa fa-check"></i> We are masters of using technology to improve our customers lives.</li>
+                        <li><i class="fa fa-check"></i> We continually challenge ourselves to do more for our customers</li>
+                        <br>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testionials">
+        <div class="container">
+            <div class="title">
+                <h2>1000+ Companies would <br><span>recommend Bankifi</span></h2>
+            </div>
+            <div class="row">
+                <div class="offset-sm-1 col-sm-5">
+                    <div class="testimonial-box">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis explicabo ipsa quidem hic neque, ratione, tenetur voluptates rem eius iste ex modi.</p>
+                        <div class="row">
+                            <div class="col-sm-3 col-4">
+                                <img src="{% static 'img/testi-user.png'%}" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-sm-9 col-8">
+                                <h3>John Doe</h3>
+                                <p>Director, Company</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="testimonial-box">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis explicabo ipsa quidem hic neque, ratione, tenetur voluptates rem eius iste ex modi.</p>
+                        <div class="row">
+                            <div class="col-sm-3 col-4">
+                                <img src="{% static 'img/testi-user.png' %}" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-sm-9 col-8">
+                                <h3>John Doe</h3>
+                                <p>Director, Company</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sep"></div>
+            <div class="get-started">
+                <div class="title">
+                    <h2>Get started <span>today</span></h2>
+                    <p class="subtext">Get started with your free account today. Our team is here to help you<br> and would be happy to help.</p>
+                </div>
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#" class="waves-effect waves-light btn teal lighten-1">Get Started</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#" class="waves-effect waves-light btn red lighten-2">Get Started</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- Main body -->
+{% endblock content %}

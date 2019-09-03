@@ -1,0 +1,59 @@
+/*Topboxes*/
+.top-boxes .box h3 {
+    color: #0000a0;
+}
+
+/*Breadcrumbs*/
+.breadcrumb a:hover {
+    color: #0000a0;
+}
+.breadcrumb .breadcrumb-item {
+    color: #0000a0;
+}
+
+/*Main Boxes*/
+.white-box h3 {
+    color: #0000a0;
+}
+
+/*Footer*/
+footer {
+    border-top: solid 2px #0000a0;
+}
+
+/*Nav Items*/
+.main-menu .navbar .nav-item.active:before {
+    background-color: #0000a0;
+}
+
+/*Icon*/
+.icon {
+    background-color: #0000a0;
+}
+
+/*Logo*/
+.logo-text {
+    color: #0000a0;
+    font-weight: 800;
+    font-size: 20pt;
+}
+
+/*Table Head*/
+.table thead th {
+    color: #0000a0;
+}
+
+/*Button*/
+.btn-standard {
+    background-color: #40bfa3;
+}
+
+.btn-standard:hover {
+    background-color: #66ccb5;
+}
+
+/*Dropdown Menu*/
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #0000a0;
+    color: #FFF;
+}

@@ -1,0 +1,72 @@
+
+{% extends "cashflow/base.html" %}
+
+{% block title %}{{block.super}} | Generate Invoices {% endblock title %}
+
+{% block content %}
+<!-- Main body -->
+<div class="main-container">
+<!--    <section class="">-->
+<!--        <div class="container">-->
+<!--            <div class="title">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-5 col-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2 col-2">-->
+<!--                                <div class="icon"><i class="fa fa-user"></i></div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-10 col-10">-->
+<!--                                <ul class="list-unstyled">-->
+<!--                                    <h2>Generate Invoices</h2>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-7 col-12 hidden-sm-down">-->
+<!--                        <ol class="breadcrumb">-->
+<!--                            <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>-->
+<!--                            <li class="breadcrumb-item active">Generate Invoices</li>-->
+<!--                        </ol>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+    <section class="contact-list">
+        <div class="container">
+            {% if form.errors %}
+                <!-- Error messaging -->
+                <div id="errors">
+                    <div class="">
+                        <p>There were some errors in the information you entered. Please correct the following:</p>
+                        {{ form.non_field_errors }}
+                        <ul>
+                            {% for field in form %}
+                                {% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Error messaging -->
+            {% endif %}
+            <div class="card bankifi-card">
+                <div class="row">
+                    <div class="col s12">
+<!--                        <h4>{{title}}</h4>-->
+                        <h4>Generate Invoices</h4>
+                        <form action="" method="post">{% csrf_token %}
+                             {{ form }}
+                            <button
+                            class="waves-effect waves-light btn modal-trigger"
+                            id="addButton"
+                            data-target="authenticateModal">
+                            Add Consent
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}

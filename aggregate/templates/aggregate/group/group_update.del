@@ -1,0 +1,13 @@
+{% extends "aggregate/base.html" %}
+
+{% block title %}{{block.super}} | Update Group {% endblock title %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'aggregate:index' %}">Aggregate</a></li>
+  <li><a href="{% url 'aggregate:grouplist' %}">Group List</a></li>
+  <li class="active">Update Group</li>
+</ol>
+    {% include "aggregate/snippets/form.html" with form=form btn_title='Update' help_text='Hold down "Control", or "Command" on a Mac, to select more than one.' %}
+{% endblock content %}

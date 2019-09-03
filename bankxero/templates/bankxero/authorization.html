@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="col-xs-12">    
+    <p>YOUR INVOICES FROM XERO</p>
+</div>
+</div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            {%comment%}
+            <a href="{% url 'bankxero:invoice' %}">
+                <button type="button" class="btn btn-block btn-danger rounded">View Invoices <i class="fa fa-chevron-circle-right"></i></button>
+            </a>
+            {%endcomment%}
+
+        </br>
+             {%comment%}
+             <p>Click the button below to logout of Open Banking Project (click the Logout button on the page you land on and DON'T login again) To Reset Demo. You will then need to come back to Redbank Homepage via your browser manually (i.e type in redbank URL - https://redbank.herokuapp.com). </p>
+                <p>Alternatively Click The <a href="{% url "oauth:index" %}">OAUTH demo</a> again and you won't need to login this time!!</p></br>
+            <a href="https://psd2-api.openbankproject.com">
+                <button type="button" class="btn btn-block btn-danger rounded">Logout OPB</button>
+             </a>
+            {%endcomment%}
+        </div>
+    </div>
+
+    <div class="table-responsive content">
+        <table class="table compact" id="invoices"  cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Invoice Number</th>
+                    <th>Date Raised</th>
+                    <th>Customer Name</th>
+                    <th>Due Date</th>
+                    <td>Status</td>
+                    <th>Sub Total</th>
+                    <th>Tax</th>
+                    <th>Total</th>
+                    </th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for invoice in invoices %}
+                <tr>
+                    <td>{{invoice.InvoiceNumber}}</td>
+                    <td>{{invoice.DateString|date:"d/m/Y"}}</td>
+                    <td>{{invoice.Contact.Name}}</td>
+                    <td>{{invoice.DueDateString|date:"d/m/Y"}}</td>
+                    <td>{{invoice.Status}}</td>
+                    <td>{{invoice.SubTotal}}</td>
+                    <td>{{invoice.TotalTax}}</td>
+                    <td>{{invoice.Total}}</td>
+                    <td>
+                         <form method="POST" 
+                                action="{%url 'bankxero:authorize' %}?invoice={{invoice.InvoiceNumber|urlencode}}&amount={{invoice.AmountDue|urlencode}}">
+                            {% csrf_token %}
+                            <button class="btn btn-success" type="submit">Pay Invoice</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+
+    {% if loan_balance == 0 %}
+    <div class="call-action-v1 call-action-v1-boxed bg-color-green content">
+        <div class="call-action-v1-box">
+            <div class="call-action-v1-in">
+                <h2 class="color-light">INVOICE FINANCE OFFER</h2>
+                 <p>{{offer}}</p>
+            </div>
+            <div class="call-action-v1-in inner-btn page-scroll">
+                <a href="{%url 'bankxero:apply'%}" class="btn-u btn-u-lg rounded btn-u-red btn-block btn-brd btn-brd-width-2 btn-brd-hover btn-u-light">APPLY NOW&nbsp<span class="fa fa-chevron-circle-right"></span></a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="call-action-v1 call-action-v1-boxed bg-color-red content">
+            <div class="call-action-v1-box">
+                <div class="call-action-v1-in">
+                    <h2 class="color-light">CURRENT LOAN DETAILS</h2>
+                     {% with loan=bfs_account|first %}
+                     <p>Outstanding loan balance is: {{loan_balance_str}}</p>
+                     <p>Bank balance is: {{bank_balance}}</p>
+                     {% endwith %}
+                </div>
+                <div class="call-action-v1-in inner-btn page-scroll">
+                    <form method="POST" 
+                            action="{% url 'bankxero:payloan' %}">
+                        {% csrf_token %}
+                        <button class="btn-u btn-u-lg rounded btn-u-red btn-block btn-brd btn-brd-width-2 btn-brd-hover btn-u-light" type="submit">Pay Loan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock content %}
+
+
+{% block js %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#invoices').DataTable({
+            "paging": false,
+            "searching": true,
+             "info":     false,
+            columnDefs: [
+                { type: 'date-eu', targets: 1 },
+                { type: 'date-eu', targets: 3 }
+            ],
+        });
+    } );
+</script>
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/sorting/date-eu.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/natural.js"></script> 
+{% endblock js %}

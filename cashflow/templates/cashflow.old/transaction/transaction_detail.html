@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}{{block.super}} | View Transaction {% endblock title %}
+
+{% block content %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'index' %}">Home</a></li>
+  <li><a href="{% url 'cashflow:index' %}">Cashflow</a></li>
+  <li><a href="{% url 'cashflow:accountlist' %}">Transaction List</a></li>
+  <li class="active">Transaction Details</li>
+</ol>
+    <div class="row">
+        <div class="col-sm-3">
+            <h1>{{object.account}}</h1>
+
+            Date: {{object.created|date:"d/m/Y H:i:s"}}<br /><br />
+            Type: {{object.transaction_type}}<br /><br />
+            Amount: £{{object.amount}}<br /><br />
+            Description: {{object.description}}<br /><br />
+        </div>
+    </div>
+{% endblock content %}
