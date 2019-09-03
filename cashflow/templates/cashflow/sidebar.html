@@ -1,13 +1,13 @@
 {% load static %}
 <ul id="slide-out" class="sidenav sidenav-fixed">
-	<li class="no-padding {% if 'dashboard' in request.path %}active{% endif %}">
+	<li class="no-padding {% if 'forecast' in request.path %}active{% endif %}">
 		<a href="{% url 'cashflow:forecast' %}">
 			<i class="tiny material-icons left">dashboard</i>
 			Dashboard
 		</a>
 	</li>
 
-	<li class="no-padding {% if 'group' in request.path %}active{% endif %}">
+	<li class="no-padding {% if 'invoice' in request.path %}active{% endif %}">
 		<ul class="collapsible collapsible-accordion">
 			<li>
 				<a class="collapsible-header">
@@ -89,7 +89,7 @@
 			</li>
 		</ul>
 	</li>
-    <li class="no-padding {% if 'transaction' in request.path %}active{% endif %}">
+    <li class="no-padding {% if 'setup' in request.path %}active{% endif %}">
 		<ul class="collapsible collapsible-accordion">
 			<li>
 				<a class="collapsible-header">
