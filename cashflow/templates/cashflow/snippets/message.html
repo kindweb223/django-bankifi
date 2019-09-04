@@ -1,24 +1,30 @@
 
 {% if title %}
-<section class="alert animated fadeIn">
+<section id="cashflow-snippet-message-card" class="bankifi-notify">
     <div class="container">
-        <div class="alert-dismissible fade show" role="alert">
-            <div class="card">
-                <div class="card-header">
-                    {{title}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="card-block">
-                    <p>{{description}}</p>
-                    <p>{{status}}</p>
-                </div>
+        <div class="card-panel">
+            <div class="card-header">
+                <h5>{{title}}</h5>
+                <button 
+                    class="waves-effect waves-light btn teal lighten-1"
+                    onclick="closeCashflowSnippetMessageCard()"
+                >
+                    <i class="material-icons">close</i>
+                </button>                
             </div>
-            
-        </div>
+            <div class="card-block">
+                <p>{{description}}</p>
+                <p>{{status}}</p>
+            </div>
+        </div>            
     </div>
 </section>
+<script>
+    function closeCashflowSnippetMessageCard() {
+        var element = document.getElementById('cashflow-snippet-message-card');
+        element.classList.add('bankifi-fade-out');
+    }
+</script>
 {% endif %}
 
 
