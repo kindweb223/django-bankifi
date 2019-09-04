@@ -12,18 +12,20 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    {% include "aggregate/snippets/breadcrumbs.html" %}
+    <!-- {% include "aggregate/snippets/breadcrumbs.html" %} -->
     <section class="contact-list">
         <div class="container">
-            <div class="white-box">
+            <div class="card bankifi-card">
                 <div class="row">
-                    <div class="col-6">
-                        <h3>Listing All Transactions</h3>
+                    <div class="col s6">
+                        <h4>Listing All Transactions</h4>
                     </div>
-                    <div class="col-6 text-right">
+                    <div class="col s6 create-btn-container">
                         {% if user.is_superuser %}
-                        <a href="{% url 'aggregate:transactioncreate' %}">    
-                            <button class="btn-standard btn-success">Create Transaction</button>
+                        <a 
+                            class="waves-effect waves-light btn"
+                            href="{% url 'aggregate:transactioncreate' %}">    
+                            Create Transaction
                         </a>
                         {% endif %}
                     </div>
@@ -47,6 +49,22 @@
                 // { type: 'date-eu', targets: 1 },
                 // { type: 'date-eu', targets: 3 }
             ],
+            'drawCallback': function(settings, json) {
+                $('#transactions_length').html(
+                    '<div class="row">'
+                    + '<div class="input-field col s12">'
+                    + '<select name="transactions_length" aria-controls="accounts">'
+                        + '<option value="10">10</option>'
+                        + '<option value="25">25</option>'
+                        + '<option value="50">50</option>'
+                        + '<option value="100">100</option>'
+                    + '</select>'
+                    + '<label>SHOW ENTRIES</label>'
+                + '</div>'
+                + '</div>'
+                );
+                $('select').formSelect();
+            }
         });
     } );
 </script>

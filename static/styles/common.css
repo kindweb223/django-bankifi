@@ -75,10 +75,6 @@ form .help-block {
     display: none;
 }
 
-.bankifi-card {
-
-}
-
 /* .bankifi-card .scale-out {
     display: none;
 } */
@@ -123,4 +119,8 @@ table.dataTable thead td {
 
 table.dataTable.no-footer {
     border-bottom: 1px solid #e0e0e0 !important;
+}
+
+.dataTables_wrapper .dataTables_filter, input[type=search] {
+    margin-left: 0 !important;
 }

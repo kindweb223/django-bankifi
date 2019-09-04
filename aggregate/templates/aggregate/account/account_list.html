@@ -167,14 +167,16 @@
             ],
             'drawCallback': function(settings, json) {
                 $('#accounts_length').html(
-                    '<div class="input-field col s12">'
-                    + '<select name="accounts_length" aria-controls="accounts">'
-                        + '<option value="10">10</option>'
-                        + '<option value="25">25</option>'
-                        + '<option value="50">50</option>'
-                        + '<option value="100">100</option>'
-                    + '</select>'
-                    + '<label>SHOW ENTRIES</label>'
+                    '<div class="row">'
+                        + '<div class="input-field col s12">'
+                        + '<select name="accounts_length" aria-controls="accounts">'
+                            + '<option value="10">10</option>'
+                            + '<option value="25">25</option>'
+                            + '<option value="50">50</option>'
+                            + '<option value="100">100</option>'
+                        + '</select>'
+                        + '<label>SHOW ENTRIES</label>'
+                    + '</div>'
                 + '</div>'
                 );
                 $('select').formSelect();
