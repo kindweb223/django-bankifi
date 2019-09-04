@@ -49,9 +49,11 @@
                     <div class="col s6 create-btn-container">
                         {% if user.is_superuser %}
                             <a href="{% url 'cashflow:accountcreate' %}" class="waves-effect waves-light btn">
-                                <i class="tiny material-icons right">edit</i>Create Invoice</a>
+                                <!-- <i class="tiny material-icons right">edit</i> -->
+                                Create Invoice</a>
                             <a href="{% url 'cashflow:accountimport' %}" class="waves-effect waves-light btn">
-                                <i class="tiny material-icons right">cloud_download</i>Import from Xero</a>
+                                <!-- <i class="tiny material-icons right">cloud_download</i> -->
+                                Import from Xero</a>
                                 <!-- <a href="{% url 'cashflow:accountcreate' %}" class="waves-effect waves-light btn">
                                         <i class="tiny material-icons right">edit</i></a>
                                     <a href="{% url 'cashflow:accountimport' %}" class="waves-effect waves-light btn">
@@ -154,6 +156,20 @@
                 // { type: 'date-eu', targets: 1 },
                 // { type: 'date-eu', targets: 3 }
             ],
+            'drawCallback': function(settings, json) {
+                $('#accounts_length').html(
+                    '<div class="input-field col s12">'
+                    + '<select name="accounts_length" aria-controls="accounts">'
+                        + '<option value="10">10</option>'
+                        + '<option value="25">25</option>'
+                        + '<option value="50">50</option>'
+                        + '<option value="100">100</option>'
+                    + '</select>'
+                    + '<label>SHOW ENTRIES</label>'
+                + '</div>'
+                );
+                $('select').formSelect();
+            }
         });
     } );
 </script>

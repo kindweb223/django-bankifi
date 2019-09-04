@@ -104,3 +104,23 @@ form .help-block {
     opacity: 1;
 }
 
+.dataTable thead tr th {
+    color: rgba(0, 0, 0, 0.54);
+    font-weight: normal;
+}
+.dataTable tbody tr:nth-child(2n+1) {
+    background: #f6f6f6;
+}
+
+.dataTable tbody tr td {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+table.dataTable thead th, 
+table.dataTable thead td {
+    border-bottom: 1px solid #e0e0e0 !important;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 1px solid #e0e0e0 !important;
+}
