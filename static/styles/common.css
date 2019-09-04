@@ -104,6 +104,11 @@ form .help-block {
     color: rgba(0, 0, 0, 0.54);
     font-weight: normal;
 }
+
+.dataTable thead tr th:last-child {
+    min-width: 120px;
+}
+
 .dataTable tbody tr:nth-child(2n+1) {
     background: #f6f6f6;
 }

@@ -16,44 +16,52 @@
 <div class="main-container">
     <section class="">
         <div class="container">
-            <div class="title">
+            <!-- <div class="title">
                 <div class="row">
-                    <div class="col-sm-5 col-12">
+                    <div class="col-sm-5 col-12"> -->
                         <div class="row">
-                            <div class="col-md-2 col-2">
+                            <!-- <div class="col-md-2 col-2">
                                 <div class="icon"><i class="fa fa-user"></i></div>
-                            </div>
-                            <div class="col-md-10 col-10">
-                                <ul class="list-unstyled">
-                                    <h2>Pay Invoice {{number}}</h2>
+                            </div> -->
+                            <div class="col s12">
+                                <!-- <ul class="list-unstyled"> -->
+                                    <h5>Pay Invoice {{number}}</h5>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-7 col-12 hidden-sm-down">
+                    <!-- <div class="col-sm-7 col-12 hidden-sm-down">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Pay Invoice</li>
                         </ol>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <section class="contact-list">
         <div class="container">
-            <div class="white-box">
-                <div class="row">
-                    <div class="col-6">
-                        <h3>Listing All Invoices</h3>
+            <div class="card bankifi-card">
+                <div class="row flex-row">
+                    <div class="col s6">
+                        <h4>Listing All Invoices</h4>
                     </div>
-                    <div class="col-6 text-right">
+                    <div class="col s6 create-btn-container">
                         {% if user.is_superuser %}
-                        <a href="{% url 'cashflow:invoicecreate' %}">    
+                        <!-- <a href="{% url 'cashflow:invoicecreate' %}">    
                             <button class="btn-standard btn-success">Create Invoice</button>
                         </a>
                         <a href="{% url 'cashflow:invoiceimport' %}">
                             <button class="btn-standard btn-success">Import from Xero</button>
+                        </a> -->
+                        <a  class="waves-effect waves-light btn"
+                            href="{% url 'cashflow:invoicecreate' %}">    
+                            Create Invoice
+                        </a>
+                        <a  class="waves-effect waves-light btn"
+                            href="{% url 'cashflow:invoiceimport' %}">
+                            Import from Xero
                         </a>
                         {% endif %}
                     </div>
@@ -64,28 +72,58 @@
                     </div>
                 {%endif%}
                 {% if has_a_loan == False and offer_amount > 0.0 %}
-                    <section class="alert animated fadeIn">
+                    <section id="pobo-payment-card-1" class="bankifi-notify">
                         <div class="container">
-                            <div class="alert-dismissible fade show" role="alert">
-                                <div class="card">
-                                    <div class="card-header">
-                                        Invoice Finance Offer
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="card-block">
-                                        <p>{{offer|linebreaks}}</p>
-                                        <p>{{status}}</p></br>
-                                         <a href="{%url 'cashflow:loanapply'%}" class="btn-standard btn-success">Apply Now</a>
-                                    </div>
+                            <div class="card-panel">
+                                <div class="card-header">
+                                    <h5>Invoice Finance Offer</h5>                                        
+                                    <button 
+                                        type="button" 
+                                        class="waves-effect waves-light"
+                                        onclick="clickClosePaymentCard1()"
+                                    >
+                                        <i class="material-icons">close</i>
+                                    </button>
                                 </div>
-                                
+                                <div class="card-body">
+                                    <p>{{offer|linebreaks}}</p>
+                                    <p>{{status}}</p></br>
+                                        <a href="{%url 'cashflow:loanapply'%}" 
+                                        class="waves-effect waves-light">
+                                        Apply Now
+                                    </a>
+                                </div>                                
+                            </div>
+                        </div>                        
+                    </section>
+                {% elif  has_a_loan == True %}
+                    <section id="pobo-payment-card-2" class="bankifi-notify">
+                        <div class="container">
+                            <div class="card-panel">
+                                <div class="card-header">
+                                    <h5>You Have An Outstanding Loan</h5>                                            
+                                    <button 
+                                        type="button" 
+                                        class="waves-effect waves-light"
+                                        onclick="clickClosePaymentCard2()"
+                                    >
+                                        <i class="material-icons">close</i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <p>Loan balance is: £{{loan.balance}}</p>
+                                    <p>Bank balance is: £{{loan.account.balance}}</p></br>
+                                    <form method="POST" action="{% url 'cashflow:loanpay' %}">
+                                        {% csrf_token %}
+                                        <button class="waves-effect waves-light" type="submit">
+                                            Pay Loan
+                                        </button>
+                                    </form>
+                                </div>                                
                             </div>
                         </div>
                     </section>
-                {% elif  has_a_loan == True %}
-                     <section class="alert animated fadeIn">
+                     <!-- <section class="alert animated fadeIn">
                         <div class="container">
                             <div class="alert-dismissible fade show" role="alert">
                                 <div class="card">
@@ -107,7 +145,7 @@
                                 
                             </div>
                         </div>
-                    </section>
+                    </section> -->
                 {% endif %}
                <div class="table-responsive">
                     <table class="table" id="transactions" cellspacing="0" width="100%">
@@ -144,7 +182,8 @@
                                             <form method="POST" action="{% url 'cashflow:pobopayment' %}?number={{number}}&account={{account.account_id}}">
                                                 {% csrf_token %}
                                                 {{form}}
-                                                <button class="btn-standard btn-success" type="submit">Pay</button>
+                                                <!-- <button class="btn-standard btn-success" type="submit">Pay</button> -->
+                                                <button class="waves-effect waves-light btn" type="submit">Pay</button>
                                             </form>
                                         </div>
                                     </td>
@@ -172,6 +211,22 @@
                 { type: 'date-eu', targets: 2 },
                 { type: 'date-eu', targets: 5 },
             ],
+            'drawCallback': function(settings, json) {
+                $('#transactions_length').html(
+                    '<div class="row">'
+                    + '<div class="input-field col s12">'
+                    + '<select name="transactions_length" aria-controls="accounts">'
+                        + '<option value="10">10</option>'
+                        + '<option value="25">25</option>'
+                        + '<option value="50">50</option>'
+                        + '<option value="100">100</option>'
+                    + '</select>'
+                    + '<label>SHOW ENTRIES</label>'
+                + '</div>'
+                + '</div>'
+                );
+                $('select').formSelect();
+            }
         });
     } );
 </script>

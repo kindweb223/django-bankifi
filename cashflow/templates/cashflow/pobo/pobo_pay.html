@@ -16,33 +16,35 @@
 <div class="main-container">
     <section class="">
         <div class="container">
-            <div class="title">
+            <!-- <div class="title">
                 <div class="row">
-                    <div class="col-sm-5 col-12">
+                    <div class="col-sm-5 col-12"> -->
                         <div class="row">
-                            <div class="col-md-2 col-2">
+                            <!-- <div class="col-md-2 col-2">
                                 <div class="icon"><i class="fa fa-user"></i></div>
                             </div>
-                            <div class="col-md-10 col-10">
-                                <ul class="list-unstyled">
-                                    <h2>Pay Invoice {{number}}</h2>
-                                </ul>
-                            </div>
+                            <div class="col-md-10 col-10"> -->
+                                <div class="col s12">
+                                <!-- <ul class="list-unstyled"> -->
+                                    <h4>Pay Invoice {{number}}</h4>
+                                <!-- </ul> -->
+                                </div>
+                            <!-- </div> -->
                         </div>
-                    </div>
-                    <div class="col-sm-7 col-12 hidden-sm-down">
+                    <!-- </div> -->
+                    <!-- <div class="col-sm-7 col-12 hidden-sm-down">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{% url 'cashflow:index' %}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Pay Invoice</li>
                         </ol>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <section class="contact-list">
         <div class="container">
-            <div class="white-box">
+            <div class="card bankifi-card">
                <div class="table-responsive">
                     <table class="table" id="invoices" cellspacing="0" width="100%">
                         <thead>
@@ -62,7 +64,12 @@
                         <tbody>
                             {% for invoice in object_list %}
                             <tr>  
-                                <td><a href="{% url 'cashflow:invoicedetail' invoice.id %}" class="color-dark">{{invoice.number}}</a></td>
+                                <td>
+                                    <a 
+                                        href="{% url 'cashflow:invoicedetail' invoice.id %}" 
+                                        class="color-dark">{{invoice.number}}
+                                    </a>
+                                </td>
                                 <td>{{invoice.raised|date:"d/m/Y"}}</td>
                                 <td>{{invoice.due|date:"d/m/Y"}}</td>
                                 <td>{{invoice.invoice_type}}</td>
@@ -73,20 +80,37 @@
                                 <td>{{invoice.status}}</td>
                                 <td> 
                                     {% if user.is_superuser %}
-                                    <a href="{% url 'cashflow:invoiceupdate' invoice.id  %}">
+                                    <!-- <a href="{% url 'cashflow:invoiceupdate' invoice.id  %}">
                                         <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
                                     </a>
                                     <a href="{% url 'cashflow:invoicedelete' invoice.id %}">
                                         <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                    </a> -->
+                                    <a  class="waves-effect waves-light btn teal darken-2"
+                                        href="{% url 'cashflow:invoiceupdate' invoice.id  %}">                                        
+                                        <i class="material-icons">edit</i>
                                     </a>
+                                    <a  class="waves-effect waves-light btn pink darken-2"
+                                        href="{% url 'cashflow:invoicedelete' invoice.id %}">
+                                        <i class="material-icons">delete_forever</i>
+                                    </a>
+
                                     {% endif %}
                                     {% if invoice.status != 'PAID' and user.is_superuser %}
-                                     <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                     <!-- <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
                                        <button type="" class="badge badge-success" title="Pay"><i class="fa fa-gbp"></i></button>
-                                    </a>
+                                    </a> -->
+                                        <a  class="waves-effect waves-light"
+                                            href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                            £
+                                        </a>
                                     {% elif invoice.status != 'PAID' %}
-                                        <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                        <!-- <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
                                             <button class="btn-standard btn-success">Pay</button>
+                                        </a> -->
+                                        <a  class="waves-effect waves-light"
+                                            href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                            Pay
                                         </a>
                                     {%endif%}
                                 </td>

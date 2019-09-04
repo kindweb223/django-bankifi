@@ -7,7 +7,7 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    <section class="">
+    <!-- <section class="">
         <div class="container">
             <div class="title">
                 <div class="row">
@@ -32,20 +32,23 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <section class="contact-list">
         <div class="container">
-            <div class="white-box">
+            <div class="card bankifi-card">
                 <div class="row">
-                    <div class="col-12">
-                        <h2>Payment Complete</h2></br>
+                    <div class="col s12">
+                        <h5>Payment Complete</h5></br>
                         <p>Thankyou. We have successfully completed your payment.</p>
                         <p>{{loan_status}}</p>
                     </div> 
                 </div>
                 <div class="row">
-                    <div class="col-12">
-                        <a href="{%url 'cashflow:forecast'%}" class="btn-standard btn-success">View Dashboard</a>
+                    <div class="col s12">
+                        <a  href="{%url 'cashflow:forecast'%}" 
+                            class="waves-effect waves-light">
+                            View Dashboard
+                        </a>
                     </div>
                 </div>
             </div>
