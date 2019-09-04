@@ -69,12 +69,12 @@
                             <a 
                                 href="{% url 'cashflow:contactcreate' %}" 
                                 class="waves-effect waves-light btn">
-                                Create Contact <i class="tiny material-icons right">edit</i>
+                                Create Contact
                             </a>
                             <a 
                                 href="{% url 'cashflow:contactimport' %}" 
                                 class="waves-effect waves-light btn">
-                                Import from Xero <i class="tiny material-icons right">cloud_download</i>
+                                Import from Xero
                             </a>
                             <!-- <a 
                                 href="{% url 'cashflow:contactcreate' %}" 
@@ -130,11 +130,17 @@
                                             <td>{% if contact.supplier_settle is not None %}{{contact.supplier_settle}}{% endif %}</td>
                                             {% if user.is_superuser %}
                                             <td> 
-                                                <a href="{% url 'cashflow:contactupdate' contact.id %}">
+                                                <!-- <a href="{% url 'cashflow:contactupdate' contact.id %}">
                                                     <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
                                                 </a>
                                                 <a href="{% url 'cashflow:contactdelete' contact.id %}">
                                                     <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                                </a> -->
+                                                <a class="waves-effect waves-light btn teal darken-2" href="{% url 'cashflow:contactupdate' contact.id %}">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
+                                                <a class="waves-effect waves-light btn pink darken-2" href="{% url 'cashflow:contactdelete' contact.id %}">
+                                                    <i class="material-icons">delete_forever</i>
                                                 </a>
                                             </td>
                                             {% endif %}

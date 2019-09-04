@@ -1,3 +1,24 @@
+.color-sea { color: #1abc9c;}
+.color-red { color: #e74c3c;}
+.color-aqua { color: #27d7e7;}
+.color-blue { color: #3498db;}
+.color-grey { color: #95a5a6;}
+.color-dark { color: #555;}
+/*.color-dark1 { color: #444;}*/
+.color-darker { color: #444;}
+.color-green { color: #72c02c;}
+.color-brown { color: #9c8061;}
+.color-light { color: #ffffff;}
+.color-orange { color: #e67e22;}
+.color-yellow { color: #f1c40f;}
+.color-green1 { color: #2ecc71;}
+.color-purple { color: #9b6bcc;}
+.color-inherit { color: inherit;}
+.color-dark-blue { color: #4765a0;}
+.color-light-grey { color: #585f69;}
+.color-light-green { color: #79d5b3;}
+.color-teal { color: #18ba9b;}
+
 .white-box {
     background-color: white;
 }
@@ -82,3 +103,4 @@ form .help-block {
 .bankifi-notify.backifi-fade-in {    
     opacity: 1;
 }
+

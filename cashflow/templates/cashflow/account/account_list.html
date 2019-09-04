@@ -52,6 +52,10 @@
                                 <i class="tiny material-icons right">edit</i>Create Invoice</a>
                             <a href="{% url 'cashflow:accountimport' %}" class="waves-effect waves-light btn">
                                 <i class="tiny material-icons right">cloud_download</i>Import from Xero</a>
+                                <!-- <a href="{% url 'cashflow:accountcreate' %}" class="waves-effect waves-light btn">
+                                        <i class="tiny material-icons right">edit</i></a>
+                                    <a href="{% url 'cashflow:accountimport' %}" class="waves-effect waves-light btn">
+                                        <i class="tiny material-icons right">cloud_download</i></a> -->
                         {% endif %}
                     </div>
 <!--                    <div class="col s6">-->
@@ -76,55 +80,62 @@
 <!--                    </div>-->
                 </div>
                 <div class="row">
-                <div class="col s12">
-                    <table class="table responsive-table" id="accounts" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Acc. No.</th>
-                                <th>Balance</th>
-                                <th>Sweep</th>
-                                <th>Min. Bal.</th>
-                                {% if user.is_superuser %}
-                                <th data-orderable="false">Action</th>
-                                {% endif %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for account in object_list %}
+                    <div class="col s12">
+                        <table class="table responsive-table" id="accounts" cellspacing="0" width="100%">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <a href="{% url 'cashflow:accountdetail' account.id %}" class="color-dark">
-                                            {{account.bank|title}}&nbsp{{account.name}}
-                                        </a>
-                                    </td>
-                                    <td>{{account.account_number}}</td>
-                                    <td>
-                                        {%if account.account_balance < 0 %}
-                                            <span class="color-red">
-                                                £{{account.account_balance}}
-                                            </span>
-                                        {%else%}
-                                            £{{account.account_balance}}
-                                        {% endif %}
-                                    </td>
-                                    <td>{%if account.sweep_account %}{{account.sweep_account}}{% endif %}</td>
-                                    <td>£{{account.sweep_min_balance}}</td>
+                                    <th>Name</th>
+                                    <th>Acc. No.</th>
+                                    <th>Balance</th>
+                                    <th>Sweep</th>
+                                    <th>Min. Bal.</th>
                                     {% if user.is_superuser %}
-                                    <td>
-                                        <a href="{% url 'cashflow:accountupdate' account.id %}">
-                                            <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
-                                        </a>
-                                        <a href="{% url 'cashflow:accountdelete' account.id %}">
-                                            <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
-                                        </a>
-                                    </td>
+                                    <th data-orderable="false">Action</th>
                                     {% endif %}
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {% for account in object_list %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'cashflow:accountdetail' account.id %}" class="color-dark">
+                                                {{account.bank|title}}&nbsp{{account.name}}
+                                            </a>
+                                        </td>
+                                        <td>{{account.account_number}}</td>
+                                        <td>
+                                            {%if account.account_balance < 0 %}
+                                                <span class="color-red">
+                                                    £{{account.account_balance}}
+                                                </span>
+                                            {%else%}
+                                                £{{account.account_balance}}
+                                            {% endif %}
+                                        </td>
+                                        <td>{%if account.sweep_account %}{{account.sweep_account}}{% endif %}</td>
+                                        <td>£{{account.sweep_min_balance}}</td>
+                                        {% if user.is_superuser %}
+                                        <td>
+                                            <!-- <a href="{% url 'cashflow:accountupdate' account.id %}">
+                                                <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                            </a>
+                                            <a href="{% url 'cashflow:accountdelete' account.id %}">
+                                                <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                            </a> -->
+                                            <a class="waves-effect waves-light btn pink darken-2" href="{% url 'cashflow:accountupdate' account.id %}">
+                                                <i class="material-icons">edit</i>
+                                            </a>
+                                            <a class="waves-effect waves-light btn teal lighten-1"
+                                            href="{% url 'cashflow:accountdelete' account.id %}">
+                                                <i class="material-icons">delete_forever</i>
+                                            </a>
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
