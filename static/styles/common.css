@@ -51,4 +51,34 @@ form .row {
 
 form .help-block {
     top: 0;
+    display: none;
+}
+
+.bankifi-card {
+
+}
+
+/* .bankifi-card .scale-out {
+    display: none;
+} */
+
+.bankifi-notify {
+}
+
+.bankifi-notify .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bankifi-notify .card-header h5 {
+    margin: 0;
+}
+
+.bankifi-notify.bankifi-fade-out {
+    display: none;
+}
+
+.bankifi-notify.backifi-fade-in {    
+    opacity: 1;
 }
