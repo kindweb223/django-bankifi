@@ -10,7 +10,27 @@
     margin-bottom: 0;
 }
 
-nav li, nav p, nav a {
+.index-navbar-container .row .col.s12{    
+    background-color: white;
+}
+
+.index-navbar-container .logo {
+    height: 54px;
+}
+
+.index-navbar-container nav .nav-wrapper {
+    padding: 0 16px;
+}
+
+.index-navbar-container nav ul a {
+    color: #1CA3A6;
+}
+
+.index-navbar-container nav li, nav p, nav a {
+    color: #1CA3A6;
+}
+
+.index-navbar-container nav ul a.btn {
     color: white;
 }
 
@@ -31,8 +51,7 @@ footer a:focus, footer a:hover {
 }
 
 li .rounded-circle {
-    margin-top: 8px;
-    border: 3px solid #FFF;
+    border: 3px solid #1CA3A6;
     border-radius: 24px;
     width: 48px;
     height: 48px;

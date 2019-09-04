@@ -44,3 +44,11 @@
 .bankifi-card {
     padding-bottom: 5px;
 }
+
+form .row {
+    margin-bottom: 20px;
+}
+
+form .help-block {
+    top: 0;
+}
