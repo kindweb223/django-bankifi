@@ -1,5 +1,6 @@
 .index-navbar-container {
     width: 100%;
+    position: relative;
 }
 
 .index-navbar-container nav {
@@ -83,4 +84,119 @@ li .rounded-circle {
     border-radius: 24px;
     width: 48px;
     height: 48px;
+}
+
+#index-banner {
+    padding: 0;
+    background-color: white;
+}
+
+#index-banner h1 {
+    font-weight: normal;
+    color: #3a3a3a;
+    padding: 50px 0 10px;
+    font-size: 42px;
+    text-align: center;
+}
+
+#index-banner .img-banner {
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+#index-banner .img-banner .img-container {
+    width: 33.33%;
+    height: 378.5px;
+    background-size: cover;
+    background-position: left top;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+#index-banner .img-banner .img-container .bottom-tag {
+    border-radius: 25px;
+    background-color: white;
+    color: #000;
+    line-height: 50px;
+    display: inline-block;
+    padding: 0 15px;
+    position: absolute;
+    left: 50%;
+    bottom: -50px;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+#index-banner .tag-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 58%;
+    left: 50%;    
+    transform: translate(-50%, -50%);
+}
+
+#index-banner .tag-container ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;    
+    margin: 0;
+    padding: 0;
+    color: #3a3a3a;    
+    max-width: 1200px;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#index-banner .tag-container ul li {
+    border-radius: 4px;
+    background: white;
+    margin-left: 15px;
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#index-banner .tag-container ul li p {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+#index-banner .tag-container ul li:first-child {
+    margin-left: 0;
+}
+
+@media screen and (max-width: 1023px) {
+    #index-banner h1 {
+        font-size: 36px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #index-banner h1 {
+        font-size: 24px;
+    }
+
+    #index-banner .img-banner {
+        flex-direction: column;
+    }
+
+    #index-banner .img-banner .img-container {
+        width: 100%;
+    }
+
+    #index-banner .img-banner .img-container .bottom-tag {
+        z-index: 1;
+    }
+
+    #index-banner .tag-container {
+        top: 50%;
+    }
 }

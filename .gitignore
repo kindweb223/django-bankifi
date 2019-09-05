@@ -65,4 +65,5 @@ pip-selfcheck.json
 bankifi/dev/
 static/*
 !static/styles/
+!static/images/
 venv/
