@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block content %}
-<ol class="breadcrumb">
+<!-- <ol class="breadcrumb">
   <li><a href="{% url 'index' %}">Home</a></li>
   <li><a href="{% url 'nordea:index' %}">Nordea</a></li>
   <li class="active">Account List</li>
-</ol>
-    <h2>Account List</h2>
+</ol> -->
+    <h4>Account List</h4>
 
     <div class="table-responsive content">
         <table class="table compact" id="transactions"  cellspacing="0" width="100%">
@@ -48,12 +48,21 @@
                      <td>{%if account.sweep_account %}{{account.sweep_account}}{% endif %}</td>
                     <th>£{{account.sweep_min_balance}}</th>
                     <td> 
-                        <div class="margin-bottom-5">
-                            <a href="{% url 'nordea:accountupdate' account.id %}">
+                        <div class="margin-bottom-5">                            
+                            <!-- <a href="{% url 'nordea:accountupdate' account.id %}">
                                 <button type="button" class="btn btn-xs btn-primary rounded">Update</button>
                             </a>
                             <a href="{% url 'nordea:accountdelete' account.id %}">
                                 <button type="button" class="btn btn-xs btn-danger rounded">Delete</button>
+                            </a> -->
+                            <a 
+                                class="waves-effect waves-light btn"
+                                href="{% url 'nordea:accountupdate' account.id %}">
+                                Update
+                            </a>
+                            <a  class="waves-effect waves-light btn pink darken-2"
+                                href="{% url 'nordea:accountdelete' account.id %}">
+                                Delete
                             </a>
                         </div>
                     </td>

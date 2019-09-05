@@ -1,8 +1,16 @@
-{% load crispy_forms_tags %}
+<!-- {% load crispy_forms_tags %} -->
+{% load material_form %}
 
 <form {% if form_id %} id='{{form_id}}' {%endif%} class="form" action="{% if action_url %}{{action_url}}{% endif %}" method="post">
     {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" class="btn btn-primary" value="{{btn_title}}" />
+    <!-- {{ form|crispy }} -->
+    {% form form=form %}{% endform %}
+    <input 
+        type="submit" 
+        class="btn btn-primary" 
+        value="{{btn_title}}" 
+        name="_submit"
+        class="waves-effect waves-light btn"
+    />
     
 </form>

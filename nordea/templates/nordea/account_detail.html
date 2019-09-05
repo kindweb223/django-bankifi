@@ -3,16 +3,16 @@
 {% block title %}{{block.super}} | View Account {% endblock title %}
 
 {% block content %}
-<ol class="breadcrumb">
+<!-- <ol class="breadcrumb">
   <li><a href="{% url 'index' %}">Home</a></li>
   <li><a href="{% url 'nordea:index' %}">Nordea</a></li>
   <li><a href="{% url 'nordea:accountlist' %}">Account List</a></li>
   <li class="active">Account Details</li>
-</ol>
+</ol> -->
 
     <div class="row">
-        <div class="col-sm-3">
-            <h1>{{object.name}}</h1>
+        <div class="col s3">
+            <h5>{{object.name}}</h5>
         
             Bank: {{object.bank}}<br /><br />
             Sortcode: {{object.sortcode}}<br /><br />

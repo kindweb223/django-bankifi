@@ -9,9 +9,14 @@
 
 {% block content %}
 {% comment %}
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#authenticateModal">
-Click Me
-</button>
+    <button 
+        type="button" 
+        class="btn btn-primary btn-lg" 
+        data-toggle="modal" 
+        data-target="#authenticateModal"
+    >
+        Click Me
+    </button>
 {% endcomment %}
 
 <!-- The modal -->
@@ -27,9 +32,15 @@ Click Me
                 <div class="modal-body">
                     <form {% if form_id %} id='{{form_id}}' {%endif%} class="form" action="{% if action_url %}{{action_url}}{% endif %}" method="post">
                         {% csrf_token %}
-                        {{ form|crispy }}
+                        {% form form=form %}{% endform %}
                         <p>{{help_text}}</p>
-                        <input type="submit" class="btn-standard btn-success" value="Authenticate" />
+                        <input 
+                            type="submit" 
+                            class="btn-standard btn-success" 
+                            value="Authenticate" 
+                            name="_submit"
+                            class="waves-effect waves-light btn"
+                        />
                     </form>
                 </div>
             </div>
