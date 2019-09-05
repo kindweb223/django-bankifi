@@ -188,13 +188,15 @@
                                 <th>Bank Account</th>
                                 <th>Amount</th>
                                 <th>Status</th>
-                                <th data-orderable="false">Action</th>
+                                <th class="action-column" data-orderable="false">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for invoice in object_list %}
                             <tr>  
-                                <td><a href="{% url 'cashflow:invoicedetail' invoice.id %}" class="color-dark">{{invoice.number}}</a></td>
+                                <td>
+                                    <a href="{% url 'cashflow:invoicedetail' invoice.id %}" class="color-dark">{{invoice.number}}</a>
+                                </td>
                                 <td>{{invoice.raised|date:"d/m/Y"}}</td>
                                 <td>{{invoice.due|date:"d/m/Y"}}</td>
                                 <td>{{invoice.invoice_type}}</td>

@@ -10,7 +10,8 @@
 
 #slide-out a {
     font-size: 18px;
-    color: white;
+    color: white;    
+    white-space: nowrap;
 }
 
 #slide-out >li>a {

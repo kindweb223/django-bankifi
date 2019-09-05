@@ -105,8 +105,8 @@ form .help-block {
     font-weight: normal;
 }
 
-.dataTable thead tr th:last-child {
-    min-width: 120px;
+.dataTable thead tr th.action-column {
+    min-width: 150px;
 }
 
 .dataTable tbody tr:nth-child(2n+1) {
@@ -128,4 +128,13 @@ table.dataTable.no-footer {
 
 .dataTables_wrapper .dataTables_filter, input[type=search] {
     margin-left: 0 !important;
+}
+
+table.dataTable tr td a.color-dark {
+    color: #26a69a;
+    cursor: pointer;
+}
+
+table.dataTable tr td a.color-dark:hover {
+    color: #2bbbad
 }
