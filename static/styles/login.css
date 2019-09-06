@@ -16,3 +16,31 @@ footer a {
 footer p {
     color: white;
 }
+
+li .rounded-circle {
+    margin-top: 8px;
+}
+
+.logout-container {
+    height: calc(100vh - 253px);
+}
+
+.page-footer .list-inline {
+    display: flex;
+}
+
+.page-footer .list-inline .list-inline-item {
+    margin-right: 15px;
+}
+
+.page-footer .container .row:last-child {
+    margin-bottom: 0;
+}
+
+.page-footer {
+    padding-bottom: 20px;
+}
+
+#login_page {
+    min-height: calc(100vh - 253px);
+}

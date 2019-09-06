@@ -24,7 +24,7 @@
 }
 
 .index-navbar-container nav .nav-wrapper {
-    padding: 0 16px;
+    /* padding: 0 16px; */
 }
 
 .index-navbar-container nav ul a {
@@ -198,5 +198,13 @@ li .rounded-circle {
 
     #index-banner .tag-container {
         top: 50%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .index-navbar-container .logo {
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
     }
 }

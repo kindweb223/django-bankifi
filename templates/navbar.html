@@ -4,7 +4,11 @@
         <div class="nav-wrapper container">
             <img class="logo" style="max-width:auto;height:100%"
             src="https://s3.eu-west-1.amazonaws.com/bankifi-production-eu-west-1/MANUAL_UPLOADS/bankifi-logo%400.5x.png">
-            <a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <a  href="#" 
+                data-target="mobile-sidebar" 
+                class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+            </a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="{% url 'index' %}">Home</a></li>
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Solutions<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -29,26 +33,47 @@
     </ul>
     <!--Sidebar structure-->
     <ul class="sidenav" id="mobile-sidebar">
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <!-- <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Solutions<i class="material-icons right">arrow_drop_down</i></a></li> -->
+        <li class="no-padding">
+            <a href="{% url 'index' %}">
+                <i class="material-icons left">home</i>
+                Home                
+            </a>
+        </li>
+        <li class="no-padding">
+            <ul>
+                <li>
+                    <a class="collapsible-header">
+                        <i class="material-icons left">sync_problem</i>
+                        Solutions
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>    
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="{% url 'nordea:nordea_breakdown' %}">Bank API</a></li>
+                            <li><a href="{% url 'cashflow:index' %}">Pocket Treasurer</a></li>
+                            <li><a href="{% url 'aggregate:accountdashboard' %}">Aggregation</a></li>
+                        </ul>
+                    </div>                    
+                </li>
+            </ul>
+        </li>
         {% if user.is_authenticated %}
-        <li>
-            <span class="text-left color-red">{{user.username}}</span>
-        </li>
-        <li>
-            <a class="waves-effect waves-light btn" href="/accounts/logout">Logout</a>
-        </li>
-        <li>
+        <li class="side-li-user">
             <img src="{% static 'img/user.png' %}" class="img-fluid rounded-circle" alt="User">
+            <span class="text-left color-red"><b>{{user.username}}</b></span>            
         </li>
+        <li>
+            <a class="btn waves-effect waves-light red lighten-2" href="/accounts/logout">Logout</a>
+        </li>        
         {% else %}
             <li>
                 <a 
-                    class="waves-effect waves-light btn"
-                    href="{% url 'account_login'%}?next={{request.path}}">
+                    href="{% url 'account_login'%}?next={{request.path}}"
+                    class="waves-effect waves-light btn red lighten-2">
                     Login
                 </a>
             </li>
         {%endif%}
+        
     </ul>
 </div>
