@@ -24,23 +24,3 @@
     width: 48px;
     height: 48px;
 }
-
-#mobile-sidebar {
-
-}
-
-#mobile-sidebar .no-padding>a {
-    padding: 0 16px;
-}
-
-#mobile-sidebar .side-li-user {
-    padding: 0 16px;
-    display: flex;
-    justify-content: center;
-}
-
-#mobile-sidebar .logo-img {
-    margin-right: 20px;
-    width: 44px;
-    height: 44px;
-}

@@ -208,3 +208,31 @@ li .rounded-circle {
         position: absolute;
     }
 }
+
+#mobile-sidebar {
+
+}
+
+#mobile-sidebar .no-padding>a {
+    padding: 0 16px;
+}
+
+#mobile-sidebar .side-li-user {
+    padding: 0 16px;
+    display: flex;
+    justify-content: center;
+}
+
+#mobile-sidebar .rounded-circle {
+    margin-right: 20px;
+    width: 44px;
+    height: 44px;
+}
+
+#mobile-sidebar .collapsible-header {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.sidenav-trigger:hover {
+    color: #2bbbad;
+}

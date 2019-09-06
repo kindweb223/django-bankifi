@@ -40,20 +40,18 @@
             </a>
         </li>
         <li class="no-padding">
-            <ul>
+            <ul class="collapsible">
                 <li>
                     <a class="collapsible-header">
                         <i class="material-icons left">sync_problem</i>
                         Solutions
                         <i class="material-icons right">arrow_drop_down</i>
-                    </a>    
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="{% url 'nordea:nordea_breakdown' %}">Bank API</a></li>
-                            <li><a href="{% url 'cashflow:index' %}">Pocket Treasurer</a></li>
-                            <li><a href="{% url 'aggregate:accountdashboard' %}">Aggregation</a></li>
-                        </ul>
-                    </div>                    
+                    </a>                        
+                    <ul class="collapsible-body">
+                        <li><a href="{% url 'nordea:nordea_breakdown' %}">Bank API</a></li>
+                        <li><a href="{% url 'cashflow:index' %}">Pocket Treasurer</a></li>
+                        <li><a href="{% url 'aggregate:accountdashboard' %}">Aggregation</a></li>
+                    </ul>                    
                 </li>
             </ul>
         </li>
