@@ -34,6 +34,7 @@
 .top-boxes .box.box-1 {
     background-color: #110E3D;
     color: #FFF!important;
+    height: 100%;
 }
 
 .top-boxes .box {
@@ -46,6 +47,7 @@
     color: #3a3a3a;
     font-size: 24pt;
     font-weight: 300;
+    margin: 10px 0;
 }
 
 .flex-row {

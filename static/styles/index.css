@@ -233,6 +233,12 @@ li .rounded-circle {
     color: rgba(0, 0, 0, 0.87);
 }
 
+.sidenav-trigger {
+    position: fixed;
+    top: 18px;
+    left: 7px;
+}
+
 .sidenav-trigger:hover {
     color: #2bbbad;
 }

@@ -29,3 +29,10 @@
 #slide-out .collapsible-body ul li {
     padding-left: 25px;
 }
+
+.sidenav-trigger {
+    position: fixed;
+    top: 18px;
+    left: 7px;
+    z-index: 999;
+}

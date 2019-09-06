@@ -5,7 +5,7 @@
     <div class="container">
         <div class="card bankifi-card">
             <div class="row">
-                <div class="col s8">
+                <div class="col s12">
                     <h4>{{title}}</h4>
                     <form {% if form_id %} id='{{form_id}}' {%endif%} class="form" action="{% if action_url %}{{action_url}}{% endif %}" method="post">
                         {% csrf_token %}
