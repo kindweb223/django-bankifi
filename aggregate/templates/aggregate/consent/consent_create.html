@@ -1,5 +1,6 @@
 {% extends "aggregate/base.html" %}
-{% load crispy_forms_tags %}
+<!-- {% load crispy_forms_tags %} -->
+{% load material_form %}
 
 {% block title %}{{block.super}} | {{title}} {% endblock title %}
 
@@ -16,7 +17,8 @@
                         <h4>{{title}}</h4>
                         <form id="consentForm" class="form" action="{% if action_url %}{{action_url}}{% endif %}" method="post">
                             {% csrf_token %}
-                            {{ form|crispy }}
+                            <!-- {{ form|crispy }} -->
+                            {% form form=form %}{% endform %}
                             <p>{{help_text}}</p>
                         </form>
                         <button 
@@ -34,7 +36,7 @@
 
 <!-- The authentication modal -->
 <div class="modal" id="authenticateModal">
-    <div class="modal-content">
+    <!-- <div class="modal-content"> -->
         <!-- <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -54,7 +56,7 @@
                 Authenticate Account
             </button>
         </div>
-    </div>
+    <!-- </div> -->
 </div>
 
 <!-- The authorisation modal -->

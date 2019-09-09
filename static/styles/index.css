@@ -4,7 +4,10 @@
 }
 
 .index-navbar-container nav {
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-color: #110E3D;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 /* .index-navbar-container > .container {
@@ -28,15 +31,23 @@
 }
 
 .index-navbar-container nav ul a {
-    color: #1CA3A6;
+    color: white;
 }
 
 .index-navbar-container nav li, nav p, nav a {
-    color: #1CA3A6;
+    color: white;
 }
 
 .index-navbar-container nav ul a.btn {
     color: white;
+}
+
+.index-navbar-container nav .dropdown-content {
+    background-color: #110E3D;
+}
+
+.index-navbar-container nav li:hover {
+    background-color: #D1529E;
 }
 
 footer li, footer p, footer a {

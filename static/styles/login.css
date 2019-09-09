@@ -27,10 +27,15 @@ li .rounded-circle {
 
 .page-footer .list-inline {
     display: flex;
+    justify-content: flex-end;
 }
 
 .page-footer .list-inline .list-inline-item {
     margin-right: 15px;
+}
+
+.page-footer .list-inline a:hover {
+    color: #D1529E;
 }
 
 .page-footer .container .row:last-child {
@@ -39,6 +44,7 @@ li .rounded-circle {
 
 .page-footer {
     padding-bottom: 20px;
+    background-color: #110E3D;
 }
 
 #login_page {
