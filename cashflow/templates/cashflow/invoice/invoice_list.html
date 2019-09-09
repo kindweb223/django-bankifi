@@ -107,7 +107,7 @@
                                 <div class="card-header">
                                     <h5>Invoice Finance Offer</h5>
                                     <button 
-                                        class="waves-effect waves-light btn teal lighten-1"
+                                        class="waves-effect waves-light btn"
                                         onclick="clickCloseInvoiceListCard1()"
                                     >
                                         <i class="material-icons">close</i>
@@ -117,7 +117,7 @@
                                     <p>{{offer|linebreaks}}</p>
                                     <a 
                                         href="{%url 'cashflow:loanapply'%}" 
-                                        class="waves-effect waves-light btn teal lighten-1">
+                                        class="waves-effect waves-light btn">
                                         Apply Now
                                     </a>
                                 </div>
@@ -155,7 +155,9 @@
                                 <div class="card-panel">
                                         <div class="card-header">
                                         <h5>You Have An Outstanding Loan</h5>
-                                        <button type="button" class="waves-effect waves-light btn teal lighten-1" onclick="clickCloseInvoiceListCard2()">
+                                        <button 
+                                            type="button" class="waves-effect waves-light btn" 
+                                            onclick="clickCloseInvoiceListCard2()">
                                             <i class="material-icons">close</i>
                                         </button>
                                     </div>
@@ -249,7 +251,7 @@
                                            <i class="fa fa-gbp"></i>
                                         </button>
                                     </a> -->
-                                    <a  class="waves-effect waves-light btn teal lighten-1"
+                                    <a  class="waves-effect waves-light btn"
                                         href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
                                         £
                                     </a>
