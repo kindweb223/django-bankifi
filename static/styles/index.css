@@ -50,6 +50,11 @@
     background-color: #D1529E;
 }
 
+.index-navbar-container nav li.logbutton-li:hover,
+.index-navbar-container nav li.username-li:hover {
+    background-color: #110E3D;
+}
+
 footer li, footer p, footer a {
     color: white;
 }
@@ -182,6 +187,10 @@ li .rounded-circle {
 
 #index-banner .tag-container ul li:first-child {
     margin-left: 0;
+}
+
+.red.lighten-2 {
+    background-color: #D1529E !important;
 }
 
 @media screen and (max-width: 1023px) {

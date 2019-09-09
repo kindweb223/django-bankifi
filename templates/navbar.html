@@ -13,8 +13,8 @@
                 <li><a href="{% url 'index' %}">Home</a></li>
                 <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Solutions<i class="material-icons right">arrow_drop_down</i></a></li>
                 {% if user.is_authenticated %}
-                <li><span class="text-left color-red"><b>{{user.username}}</b></span></li>
-                <li><a class="btn waves-effect waves-light red lighten-2" href="/accounts/logout">Logout</a></li>
+                <li class="username-li"><span class="text-left color-red"><b>{{user.username}}</b></span></li>
+                <li class="logbutton-li"><a class="btn waves-effect waves-light red lighten-2" href="/accounts/logout">Logout</a></li>
                 <li>
                     <img src="{% static 'img/user.png' %}" class="img-fluid rounded-circle" alt="User">
                 </li>
@@ -60,7 +60,7 @@
             <img src="{% static 'img/user.png' %}" class="img-fluid rounded-circle" alt="User">
             <span class="text-left color-red"><b>{{user.username}}</b></span>            
         </li>
-        <li>
+        <li class="logbutton-li">
             <a class="btn waves-effect waves-light red lighten-2" href="/accounts/logout">Logout</a>
         </li>        
         {% else %}
