@@ -149,3 +149,11 @@ table.dataTable tr td a.color-dark {
 table.dataTable tr td a.color-dark:hover {
     color: #2bbbad
 }
+
+.teal.darken-2 {
+
+}
+
+.pink.darken-2 {
+    background-color: #D1529E !important;
+}
