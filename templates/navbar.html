@@ -2,8 +2,10 @@
 <div class="index-navbar-container ">
     <nav>
         <div class="nav-wrapper container">
-            <img class="logo" style="max-width:auto;height:100%"
-            src="https://s3.eu-west-1.amazonaws.com/bankifi-production-eu-west-1/MANUAL_UPLOADS/bankifi-logo%400.5x.png">
+            <a class="logo">
+                <img  style="max-width:auto;height:100%"
+                src="https://s3.eu-west-1.amazonaws.com/bankifi-production-eu-west-1/MANUAL_UPLOADS/bankifi-logo%400.5x.png">
+            </a>
             <a  href="#" 
                 data-target="mobile-sidebar" 
                 class="sidenav-trigger">
@@ -19,7 +21,8 @@
                     <img src="{% static 'img/user.png' %}" class="img-fluid rounded-circle" alt="User">
                 </li>
                 {% else %}
-                    <li><a href="{% url 'account_login'%}?next={{request.path}}"
+                <li class="logbutton-li">
+                    <a href="{% url 'account_login'%}?next={{request.path}}"
                         class="waves-effect waves-light btn red lighten-2">Login</a></li>
                 {%endif%}
             </ul>

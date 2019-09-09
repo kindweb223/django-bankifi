@@ -47,6 +47,13 @@ li .rounded-circle {
     background-color: #110E3D;
 }
 
+.page-footer .footer-logo {
+    background-color: white;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
 #login_page {
     min-height: calc(100vh - 253px);
 }

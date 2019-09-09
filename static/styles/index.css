@@ -24,10 +24,16 @@
 
 .index-navbar-container .logo {
     height: 54px;
+    display: block;
+    position: absolute;
+    margin-top: 5px;
+    background-color: white;
+    left: 15px;
 }
 
 .index-navbar-container nav .nav-wrapper {
     /* padding: 0 16px; */
+    position: static;
 }
 
 .index-navbar-container nav ul a {
@@ -53,6 +59,18 @@
 .index-navbar-container nav li.logbutton-li:hover,
 .index-navbar-container nav li.username-li:hover {
     background-color: #110E3D;
+}
+
+.page-footer {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    background: #110E3D;
+}
+
+.page-footer .footer-logo {
+    background-color: white;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
 }
 
 footer li, footer p, footer a {
