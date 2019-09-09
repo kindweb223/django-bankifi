@@ -112,7 +112,13 @@
                                 <tbody>
                                     {% for contact in object_list %}
                                         <tr>
-                                            <td><a href="{% url 'cashflow:contactdetail' contact.id %}"  class="color-dark">{{contact.name}}</a></td>
+                                            <td>
+                                                <a 
+                                                    href="{% url 'cashflow:contactdetail' contact.id %}"  
+                                                    class="color-dark">
+                                                    {{contact.name}}
+                                                </a>
+                                            </td>
                                             <td>
                                                 {% if contact.is_customer %}
                                                     <!-- <span class="label label-blue">Customer</span> -->
@@ -136,10 +142,14 @@
                                                 <a href="{% url 'cashflow:contactdelete' contact.id %}">
                                                     <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
                                                 </a> -->
-                                                <a class="waves-effect waves-light btn teal darken-2" href="{% url 'cashflow:contactupdate' contact.id %}">
+                                                <a 
+                                                    class="waves-effect waves-light btn teal darken-2" 
+                                                    href="{% url 'cashflow:contactupdate' contact.id %}">
                                                     <i class="material-icons">edit</i>
                                                 </a>
-                                                <a class="waves-effect waves-light btn pink darken-2" href="{% url 'cashflow:contactdelete' contact.id %}">
+                                                <a 
+                                                    class="waves-effect waves-light btn pink darken-2" 
+                                                    href="{% url 'cashflow:contactdelete' contact.id %}">
                                                     <i class="material-icons">delete_forever</i>
                                                 </a>
                                             </td>

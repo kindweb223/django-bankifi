@@ -8,20 +8,20 @@
 <div class="main-container">
     <section class="">
         <div class="container">
-            <div class="title">
+            <!-- <div class="title">
                 <div class="row">
-                    <div class="col-sm-5 col-12">
+                    <div class="col-sm-5 col-12"> -->
                         <div class="row">
-                            <div class="col-md-2 col-2">
+                            <!-- <div class="col-md-2 col-2">
                                 <div class="icon"><i class="fa fa-user"></i></div>
-                            </div>
-                            <div class="col-md-10 col-10">
-                                <ul class="list-unstyled">
-                                    <h2>Confirm Contact Delete</h2>
-                                </ul>
+                            </div> -->
+                            <div class="col m12 s12">
+                                <!-- <ul class="list-unstyled"> -->
+                                    <h4>Confirm Contact Delete</h4>
+                                <!-- </ul> -->
                             </div>
                         </div>
-                    </div>
+                    <!-- </div>
                     <div class="col-sm-7 col-12 hidden-sm-down">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
@@ -30,14 +30,15 @@
                         </ol>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <section class="contact-list">
         <div class="container">
             <form action="" method="post">{% csrf_token %}
                 <p>Are you sure you want to delete the account "{{ object }}"?</p>
-                <input type="submit" class="btn-standard btn-success" value="Confirm" />
+                <!-- <input type="submit" class="btn-standard btn-success" value="Confirm" /> -->
+                <button type="submit" name="_submit" class="waves-effect waves-light btn">Confirm</button>
             </form>
         </div>
     </section>
