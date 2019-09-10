@@ -33,6 +33,8 @@ from rest_framework import permissions, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import mixins
+from os import environ
+from django.conf import settings
 
 # Import Django modules
 from django.db.models import Q
@@ -56,7 +58,7 @@ from .serializers import (
 # === Globals ===
 
 # Hard coded receivable account for the demo
-RECEIVABLE_ACCOUNT = '8b5367e1-7fb5-4810-9f69-ddb2b26b68a4' 
+RECEIVABLE_ACCOUNT = settings.DEFAULT_RECEIVABLE_ACCOUNT #'8b5367e1-7fb5-4810-9f69-ddb2b26b68a4' 
 
 
 
@@ -301,6 +303,7 @@ class ForecastAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None):
+        
         acc = Account.objects.get(customer=request.user, account_id=RECEIVABLE_ACCOUNT)
         pay = Invoice.invoice_obj.pay_monthly(request.user)
         rec = Invoice.invoice_obj.rec_monthly(request.user)

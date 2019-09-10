@@ -19,6 +19,7 @@ from datetime import date, timedelta, datetime
 from os import environ
 import logging
 from random import choice, randrange
+import sys
 
 # Import Django modules
 from django.views.generic import CreateView, ListView, TemplateView
@@ -46,6 +47,7 @@ from cashflow.forms import (
 # Import Xero oauth module
 from utility.xeroutil import get_xero
 
+from django.conf import settings
 # === Globals ===
 
 # Environment variable used for local and production testing
@@ -172,7 +174,7 @@ class PoboPaymentView(LoginRequiredMixin,  ListView):
 
 
     def get_queryset(self, *args, **kwargs):
-        qs = Account.objects.filter(customer=self.request.user, name='Business Account').\
+        qs = Account.objects.filter(customer=self.request.user, name=settings.DEFAULT_RECEIVABLE_ACCOUNT_NAME).\
             annotate(account_balance=Sum(
                         Case(When(transaction__amount__isnull=False, transaction__customer=self.request.user, then=F('transaction__amount')),
                             default=0, output_field=FloatField())))
@@ -224,7 +226,7 @@ class PoboPaymentView(LoginRequiredMixin,  ListView):
             # Return to payment view and notify with error and offer loan if available
             return render(request, self.template_name, context)
         except:
-            errorlog.error("Pobopayment failed.")
+            errorlog.error("Pobopayment failed. Error: {0}", sys.exc_info())
             raise Http404("Failed to make a payment as couldn't retrieve invoices from Xero.")
 
         if ON_HEROKU:

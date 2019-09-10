@@ -26,11 +26,12 @@ from cashflow.models import Account, Invoice, Loan
 
 # Import application utility methods
 from cashflow.utilities import month_lag_lead
-
+from os import environ
+from django.conf import settings
 # === Globals ===
 
 # Hard coded Xero receivable account to be used
-RECEIVABLE_ACCOUNT = '8b5367e1-7fb5-4810-9f69-ddb2b26b68a4'
+RECEIVABLE_ACCOUNT = settings.DEFAULT_RECEIVABLE_ACCOUNT #'8b5367e1-7fb5-4810-9f69-ddb2b26b68a4'
 
 
 # === Classes ===

@@ -55,6 +55,7 @@ Follow next 3 sections to get the app up and running locally:
 1. Create file /bankifi/settings/local.py with following content:
     ```
     DEBUG = True
+    ON_HEROKU = True
     SECRET_KEY='local-dev'
     DATABASES = {
             'default': {
@@ -76,9 +77,13 @@ Follow next 3 sections to get the app up and running locally:
     COMPRESS_STORAGE = ''
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
     ACCOUNT_EMAIL_VERIFICATION="optional"
-    XERO_CLIENT_KEY = "SET_YOUR_OWN"
-    XERO_CLIENT_SECRET = "SET_YOUR_OWN"
+    XERO_CLIENT_KEY = "I3NGR4NQKXSBGDL9CWXLRWWDYJYRK3"
+    XERO_CLIENT_SECRET = "VLTJO6MOVIYWIJWX9M4XMDW7MONNYE"
     XERO_CALLBACK_URI = 'http://localhost:8000/cashflow/authorize'
+
+    DEFAULT_PAYABLE_ACCOUNT = "7006543"
+    DEFAULT_RECEIVABLE_ACCOUNT = "562555f2-8cde-4ce9-8203-0363922537a4"
+    DEFAULT_RECEIVABLE_ACCOUNT_NAME='Business Bank Account'
     ```
 #### B) [Dev Setup] Install dependencies and start server 
 
@@ -102,14 +107,14 @@ Follow next 3 sections to get the app up and running locally:
 
 #### B) [Dev Setup] Setup reference data and access app 
 
-1. Create Receivable account on admin screen: http://localhost:8000/admin/ (make sure to use xero account id 51387801-7668-48b0-a276-e8cadc2d33de)
-1. Create Payable account on admin screen: http://localhost:8000/admin/ (make sure to use xero account id 45674523)
-1. Ensure you have Xero developer account login (and client key and secret in the local.py)
+1. Make sure you have run migrate and superuser scripts from above
+1. Login to Xero with user credentials aleksa.vukotic@bankifi.com and bankifi14$7 
 1. Login to the app http://localhost:8000/cashflow/forecast
+1. Import Contacts, Accounts, Transactions from relevant screens in that order
 1. Reset demo (Setup -> Reset Demo)
 1. Generate demo data (http://localhost:8000/cashflow/invoice/generate)
 1. Dashboard page should have data displayed
-
+1. If you need to reset data fully, drop the database and re-run these steps
 
 #### Additional Notes from Unifi Software Development
 ```

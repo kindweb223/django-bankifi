@@ -25,6 +25,7 @@ from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
+from os import environ
 
 # Import Bankifi/Cashflow Models
 from cashflow.models import Account, Transaction, Loan, Contact
@@ -34,11 +35,11 @@ from cashflow.views.invoice import make_offer
 
 # Import Xero oauth module
 from utility.xeroutil import get_xero
-
+from django.conf import settings
 # === Globals ===
 
 # Setup hard coded receivable account and contact for Xero loan
-RECEIVABLE_ACCOUNT = '8b5367e1-7fb5-4810-9f69-ddb2b26b68a4'
+RECEIVABLE_ACCOUNT = settings.DEFAULT_RECEIVABLE_ACCOUNT #'8b5367e1-7fb5-4810-9f69-ddb2b26b68a4'
 LOAN_CONTACT = 'A Underwriter'
 
 # === Classes ===

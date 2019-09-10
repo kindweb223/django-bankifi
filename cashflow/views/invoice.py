@@ -65,15 +65,15 @@ from cashflow.utilities import *
 
 # Import Xero oauth module
 from utility.xeroutil import get_xero
-
+from django.conf import settings
 # === Globals ===
 
 # Environment variable used for local and production testing
 ON_HEROKU = environ.get('ON_HEROKU')
 
 # Setup hard coded receivable and payable account for supplier payments
-PAYABLE_ACCOUNT = '45674523'
-RECEIVABLE_ACCOUNT = '8b5367e1-7fb5-4810-9f69-ddb2b26b68a4'
+PAYABLE_ACCOUNT =  settings.DEFAULT_PAYABLE_ACCOUNT #'45674523'
+RECEIVABLE_ACCOUNT = settings.DEFAULT_RECEIVABLE_ACCOUNT #'8b5367e1-7fb5-4810-9f69-ddb2b26b68a4'
 
 # === Loggers ===
 
