@@ -104,11 +104,11 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <a href="{% url 'aggregate:groupupdate' group.pk %}">
-                                                <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                            <a href="{% url 'aggregate:groupupdate' group.pk %}" class="waves-effect waves-light btn teal darken-2">
+                                                <i class="material-icons">edit</i>
                                             </a>
-                                            <a href="{% url 'aggregate:groupdelete' group.pk %}">
-                                                <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                            <a href="{% url 'aggregate:groupdelete' group.pk %}" class="waves-effect waves-light btn pink darken-2">
+                                                <i class="material-icons">delete_forever</i>
                                             </a>
                                         </td>
                                     </tr>
