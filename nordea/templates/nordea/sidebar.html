@@ -1,16 +1,17 @@
 {% load static %}
-<ul id="slide-out" class="sidenav sidenav-fixed">
-	<li class="no-padding {% if 'dashboard' in request.path %}active{% endif %}">
+<ul id="slide-out" class="sidenav sidenav-fixed">		
+
+	<li class="no-padding {% if 'breakdown' in request.path %}active{% endif %}">
 		<a href="{% url 'nordea:nordea_breakdown' %}">
-				<i class="tiny material-icons left">dashboard</i>
-				Dashboard
+			<i class="tiny material-icons left">dashboard</i>
+			Dashboard
 		</a>
 	</li>
 
-    <li class="no-padding {% if 'dashboard' in request.path %}active{% endif %}">
+    <li class="no-padding {% if 'account' in request.path %}active{% endif %}">
 		<a href="{% url 'nordea:nordea_accounts' %}">
-				<i class="tiny material-icons left">group</i>
-				Accounts
+			<i class="tiny material-icons left">group</i>
+			Accounts
 		</a>
 	</li>
 
