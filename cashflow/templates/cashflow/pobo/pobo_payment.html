@@ -25,11 +25,11 @@
                             </div> -->
                             <div class="col s12">
                                 <!-- <ul class="list-unstyled"> -->
-                                    <h5>Pay Invoice {{number}}</h5>
+                                    <h4>Pay Invoice {{number}}</h4>
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    <!-- </div> -->
                     <!-- <div class="col-sm-7 col-12 hidden-sm-down">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
@@ -147,51 +147,56 @@
                         </div>
                     </section> -->
                 {% endif %}
-               <div class="table-responsive">
-                    <table class="table" id="transactions" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Sort Code</th>
-                                <th>Account Number</th>
-                                <th>Balance</th>
-                                <th>Sweep Account</th>
-                                <th>Sweep Minimum Balance</th>
-                                <th class="action-column" data-orderable="false">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for account in object_list %}
-                                <tr>
-                                    <td>{{account.name}}</td>
-                                    <td>{{account.sortcode}}</td>
-                                    <td>{{account.account_number}}</td>
-                                    <td>
-                                        {%if account.account_balance < 0 %}
-                                            <span class="color-red">
-                                                £{{account.account_balance}}
-                                            </span>
-                                        {%else%}
-                                            £{{account.account_balance}}
-                                        {% endif %}
-                                    </td>
-                                    <td>{{account.sweep_account}}</td>
-                                    <td>{{account.sweep_min_balance}}</td>
-                                    <td> 
-                                        <div class="call-action-v1-in inner-btn page-scroll">
-                                            <form method="POST" action="{% url 'cashflow:pobopayment' %}?number={{number}}&account={{account.account_id}}">
-                                                {% csrf_token %}
-                                                {{form}}
-                                                <!-- <button class="btn-standard btn-success" type="submit">Pay</button> -->
-                                                <button class="waves-effect waves-light btn" type="submit">Pay</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                <div class="row">
+                    <div class="col s12">
+                
+                        <div class="table-responsive">
+                            <table class="table" id="transactions" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Sort Code</th>
+                                        <th>Account Number</th>
+                                        <th>Balance</th>
+                                        <th>Sweep Account</th>
+                                        <th>Sweep Minimum Balance</th>
+                                        <th class="action-column" data-orderable="false">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for account in object_list %}
+                                        <tr>
+                                            <td>{{account.name}}</td>
+                                            <td>{{account.sortcode}}</td>
+                                            <td>{{account.account_number}}</td>
+                                            <td>
+                                                {%if account.account_balance < 0 %}
+                                                    <span class="color-red">
+                                                        £{{account.account_balance}}
+                                                    </span>
+                                                {%else%}
+                                                    £{{account.account_balance}}
+                                                {% endif %}
+                                            </td>
+                                            <td>{{account.sweep_account}}</td>
+                                            <td>{{account.sweep_min_balance}}</td>
+                                            <td> 
+                                                <div class="call-action-v1-in inner-btn page-scroll">
+                                                    <form method="POST" action="{% url 'cashflow:pobopayment' %}?number={{number}}&account={{account.account_id}}">
+                                                        {% csrf_token %}
+                                                        {{form}}
+                                                        <!-- <button class="btn-standard btn-success" type="submit">Pay</button> -->
+                                                        <button class="waves-effect waves-light btn" type="submit">Pay</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </section>
