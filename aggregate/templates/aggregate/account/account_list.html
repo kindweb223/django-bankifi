@@ -81,7 +81,9 @@
                                     {% for account in object_list %}
                                         <tr>
                                             <td>{{account.bank}}</td>
-                                            <td><a href="{% url 'aggregate:accountdetail' account.id %}">{{account.name}}</a></td>
+                                            <td>
+                                                <a href="{% url 'aggregate:accountdetail' account.id %}" class="color-dark">{{account.name}}</a>
+                                            </td>
                                             <td>{{account.sortcode}}</td>
                                             <td>{{account.account_number}}</td>
                                             <td>{{account.currency}}</td>
