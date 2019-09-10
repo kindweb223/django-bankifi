@@ -19,7 +19,7 @@
                                 <ul class="list-unstyled"> -->
                                     <div class="row">
                                         <div class="col s12">
-                                            <h5>Transaction Details</h5>
+                                            <h4>Transaction Details</h4>
                                         </div>
                                     </div>                                    
                                 <!-- </ul>
@@ -40,20 +40,22 @@
 
     <section class="contact-list">
         <div class="container">
-            <div class="row">
-                <div class="col s6">
-                    <h2>{{object.account}}</h2></br>
-                    <p>Date: {{object.created|date:"d/m/Y H:i:s"}}</p>
-                    <p>Type: {{object.transaction_type}}</p>
-                    <p>Amount: £{{object.amount}}</p>
-                    <p>Description: {{object.description}}</p>
+            <div class="card bankifi-card">
+                <div class="row">
+                    <div class="col s12">
+                        <h5>{{object.account}}</h5></br>
+                        <p>Date: {{object.created|date:"d/m/Y H:i:s"}}</p>
+                        <p>Type: {{object.transaction_type}}</p>
+                        <p>Amount: £{{object.amount}}</p>
+                        <p>Description: {{object.description}}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col s6 create-btn-container">
-                    <a class="waves-effect waves-light btn" href="{% url 'cashflow:transactionlist' %}">
-                        View Transactions
-                    </a>
+                <div class="row">
+                    <div class="col s12">
+                        <a class="waves-effect waves-light btn" href="{% url 'cashflow:transactionlist' %}">
+                            View Transactions
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

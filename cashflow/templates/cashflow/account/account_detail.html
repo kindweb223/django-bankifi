@@ -7,20 +7,20 @@
 <div class="main-container">
     <section class="">
         <div class="container">
-            <div class="title">
+            <!-- <div class="title">
                 <div class="row">
-                    <div class="col-sm-5 col-12">
+                    <div class="col-sm-5 col-12"> -->
                         <div class="row">
-                            <div class="col-md-2 col-2">
+                            <!-- <div class="col-md-2 col-2">
                                 <div class="icon"><i class="fa fa-user"></i></div>
-                            </div>
-                            <div class="col-md-10 col-10">
-                                <ul class="list-unstyled">
-                                    <h2>Account Details</h2>
-                                </ul>
+                            </div> -->
+                            <div class="col s12">
+                                <!-- <ul class="list-unstyled"> -->
+                                    <h4>Account Details</h4>
+                                <!-- </ul> -->
                             </div>
                         </div>
-                    </div>
+                    <!-- </div>
                     <div class="col-sm-7 col-12 hidden-sm-down">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{% url 'cashflow:forecast' %}">Dashboard</a></li>
@@ -29,24 +29,26 @@
                         </ol>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <section class="contact-list">
         <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <h1>{{object.name}}</h1>
-                    <p>Bank: {{object.bank}}</p>
-                    <p>Sortcode: {{object.sortcode}}</p>
-                    <p>Account: {{object.account_number}}</p>
+            <div class="card bankifi-card">
+                <div class="row">
+                    <div class="col s12">
+                        <h5>{{object.name}}</h5>
+                        <p>Bank: {{object.bank}}</p>
+                        <p>Sortcode: {{object.sortcode}}</p>
+                        <p>Account: {{object.account_number}}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <a href="{% url 'cashflow:accountlist' %}">
-                            <button class="btn-standard btn-success">View Accounts</button>
-                    </a>
+                <div class="row">
+                    <div class="col s12">
+                        <a class="waves-effect waves-light btn" href="{% url 'cashflow:accountlist' %}">
+                            View Accounts
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
