@@ -24,11 +24,15 @@
 
 .index-navbar-container .logo {
     height: 54px;
-    display: block;
+    display: flex;
     position: absolute;
     margin-top: 5px;
     background-color: white;
     left: 15px;
+}
+
+.index-navbar-container .logo img {
+    height: 54px;
 }
 
 .index-navbar-container nav .nav-wrapper {
@@ -73,6 +77,11 @@
     display: inline-block;
     padding: 0;
     margin: 0;
+}
+
+.page-footer .footer-logo img {
+    margin: 0;
+    padding: 0;
 }
 
 footer li, footer p, footer a {

@@ -47,14 +47,18 @@
             <h4>Bank Authentication</h4>
             <form class="form">
                 {% csrf_token %}
-                {{ auth_form|crispy }}
+                <!-- {{ auth_form|crispy }} -->
+                {% form form=auth_form %}{% endform %}
+
             </form>
             <!-- <button class="btn-standard btn-success" id="authenticateButton">
                 Authenticate Account
             </button> -->
-            <button class="waves-effect waves-light btn modal-trigger" id="authenticateButton">
+        </div>
+        <div class="modal-footer">
+            <a href="#authoriseModal" class="modal-close waves-effect waves-light btn modal-trigger" id="authenticateButton">
                 Authenticate Account
-            </button>
+            </a>
         </div>
     <!-- </div> -->
 </div>
@@ -62,7 +66,7 @@
 <!-- The authorisation modal -->
 <div class="modal" id="authoriseModal">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <!-- <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -83,6 +87,26 @@
                     <button type="button" class="btn btn-secondary">Reject</button>
                 </a>
             </div>
+        </div> -->
+        <div class="modal-content">
+            <h4>Provide Consent</h4>
+            Bankifi has requested access to the following services:</br></br>
+            <ul>
+                <li>Account Details</li>
+                <li>Transactions</li>
+            </ul>            
+        </div>
+        <div class="modal-footer">
+            <button 
+                type="button" 
+                class="modal-close waves-effect waves-light btn" 
+                id="authorisedButton">
+                Approve
+            </button>
+            <a  class="modal-close waves-effect waves-light btn"
+                href="{% url 'aggregate:consentcreate' %}">
+                Reject
+            </a>
         </div>
     </div>
 </div>
@@ -114,13 +138,15 @@ $(function () {
     $(document).ready(function(){
         $('.modal').modal();
     })
+    
 </script>
 
 <script>
     document.getElementById("authenticateButton").addEventListener('click',function ()
     {
-        $('#authenticateModal').modal('hide');
-        $('#authoriseModal').modal('show');
+        // $('#authenticateModal').modal('hide');
+        // $('#authoriseModal').modal('show');
+
      //validation code to see State field is mandatory.  
     }  ); 
 </script>
@@ -129,7 +155,7 @@ $(function () {
 <script>
     document.getElementById("authorisedButton").addEventListener('click',function ()
     {
-        $('#authoriseModal').modal('hide');
+        // $('#authoriseModal').modal('hide');
         //validation code to see State field is mandatory.  
         // Form reference:
         var theForm = document.forms['consentForm'];
