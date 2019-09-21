@@ -14,23 +14,23 @@
 {% block content %}
 <!-- Main body -->
 <div class="main-container">
-    <section class="">
-        <div class="container">
+    <!-- <section class="">
+        <div class="container"> -->
             <!-- <div class="title">
                 <div class="row">
                     <div class="col-sm-5 col-12"> -->
-                        <div class="row">
+                        <!-- <div class="row"> -->
                             <!-- <div class="col-md-2 col-2">
                                 <div class="icon"><i class="fa fa-user"></i></div>
                             </div>
                             <div class="col-md-10 col-10"> -->
-                                <div class="col s12">
+                                <!-- <div class="col s12"> -->
                                 <!-- <ul class="list-unstyled"> -->
-                                    <h4>Pay Invoice {{number}}</h4>
+                                    
                                 <!-- </ul> -->
-                                </div>
+                                <!-- </div> -->
                             <!-- </div> -->
-                        </div>
+                        <!-- </div> -->
                     <!-- </div> -->
                     <!-- <div class="col-sm-7 col-12 hidden-sm-down">
                         <ol class="breadcrumb">
@@ -40,85 +40,99 @@
                     </div>
                 </div>
             </div> -->
-        </div>
-    </section>
+        <!-- </div>
+    </section> -->
     <section class="contact-list">
         <div class="container">
             <div class="card bankifi-card">
-               <div class="table-responsive">
-                    <table class="table" id="invoices" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Number</th>
-                                <th>Raised</th>
-                                <th>Due</th>
-                                <th>Type</th>
-                                <th>Contact</th>
-                                <th>Actual</th>
-                                <th>Bank Account</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th class="action-column" data-orderable="false">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for invoice in object_list %}
-                            <tr>  
-                                <td>
-                                    <a 
-                                        href="{% url 'cashflow:invoicedetail' invoice.id %}" 
-                                        class="color-dark">{{invoice.number}}
-                                    </a>
-                                </td>
-                                <td>{{invoice.raised|date:"d/m/Y"}}</td>
-                                <td>{{invoice.due|date:"d/m/Y"}}</td>
-                                <td>{{invoice.invoice_type}}</td>
-                                <td>{{invoice.contact}}</td>
-                                <td>{{invoice.actual|date:"d/m/Y"}}</td>
-                                <td>{{invoice.bank_account}}</td>
-                                <td>£{{invoice.amount}}</td>
-                                <td>{{invoice.status}}</td>
-                                <td> 
-                                    {% if user.is_superuser %}
-                                    <!-- <a href="{% url 'cashflow:invoiceupdate' invoice.id  %}">
-                                        <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
-                                    </a>
-                                    <a href="{% url 'cashflow:invoicedelete' invoice.id %}">
-                                        <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
-                                    </a> -->
-                                    <a  class="waves-effect waves-light btn teal darken-2"
-                                        href="{% url 'cashflow:invoiceupdate' invoice.id  %}">                                        
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                    <a  class="waves-effect waves-light btn pink darken-2"
-                                        href="{% url 'cashflow:invoicedelete' invoice.id %}">
-                                        <i class="material-icons">delete_forever</i>
-                                    </a>
-
-                                    {% endif %}
-                                    {% if invoice.status != 'PAID' and user.is_superuser %}
-                                     <!-- <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
-                                       <button type="" class="badge badge-success" title="Pay"><i class="fa fa-gbp"></i></button>
-                                    </a> -->
-                                        <a  class="waves-effect waves-light"
-                                            href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
-                                            £
-                                        </a>
-                                    {% elif invoice.status != 'PAID' %}
-                                        <!-- <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
-                                            <button class="btn-standard btn-success">Pay</button>
-                                        </a> -->
-                                        <a  class="waves-effect waves-light"
-                                            href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
-                                            Pay
-                                        </a>
-                                    {%endif%}
-                                </td>
-                            </tr>  
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="row">
+                    <div class="col s12">
+                        <h4>Pay Invoice {{number}}</h4>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="table-responsive">
+                            <table 
+                                id="invoices_popo_pay" 
+                                class="table responsive-table"                                 
+                                cellspacing="0" 
+                                width="100%"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Raised</th>
+                                        <th>Due</th>
+                                        <th>Type</th>
+                                        <th>Contact</th>
+                                        <th>Actual</th>
+                                        <th>Bank Account</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th class="action-column" data-orderable="false">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for invoice in object_list %}
+                                    <tr>  
+                                        <td>
+                                            <a 
+                                                href="{% url 'cashflow:invoicedetail' invoice.id %}" 
+                                                class="color-dark">{{invoice.number}}
+                                            </a>
+                                        </td>
+                                        <td>{{invoice.raised|date:"d/m/Y"}}</td>
+                                        <td>{{invoice.due|date:"d/m/Y"}}</td>
+                                        <td>{{invoice.invoice_type}}</td>
+                                        <td>{{invoice.contact}}</td>
+                                        <td>{{invoice.actual|date:"d/m/Y"}}</td>
+                                        <td>{{invoice.bank_account}}</td>
+                                        <td>£{{invoice.amount}}</td>
+                                        <td>{{invoice.status}}</td>
+                                        <td> 
+                                            {% if user.is_superuser %}
+                                            <!-- <a href="{% url 'cashflow:invoiceupdate' invoice.id  %}">
+                                                <button type="" class="badge badge-info" title="Edit"><i class="fa fa-edit"></i></button>
+                                            </a>
+                                            <a href="{% url 'cashflow:invoicedelete' invoice.id %}">
+                                                <button type="" class="badge badge-danger" title="Delete"><i class="fa fa-trash"></i></button>
+                                            </a> -->
+                                            <a  class="waves-effect waves-light btn teal darken-2"
+                                                href="{% url 'cashflow:invoiceupdate' invoice.id  %}">                                        
+                                                <i class="material-icons">edit</i>
+                                            </a>
+                                            <a  class="waves-effect waves-light btn pink darken-2"
+                                                href="{% url 'cashflow:invoicedelete' invoice.id %}">
+                                                <i class="material-icons">delete_forever</i>
+                                            </a>
+        
+                                            {% endif %}
+                                            {% if invoice.status != 'PAID' and user.is_superuser %}
+                                                <!-- <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                                <button type="" class="badge badge-success" title="Pay"><i class="fa fa-gbp"></i></button>
+                                            </a> -->
+                                                <a  class="waves-effect waves-light"
+                                                    href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                                    £
+                                                </a>
+                                            {% elif invoice.status != 'PAID' %}
+                                                <!-- <a href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                                    <button class="btn-standard btn-success">Pay</button>
+                                                </a> -->
+                                                <a  class="waves-effect waves-light"
+                                                    href="{% url 'cashflow:pobopayment' %}?number={{invoice.number}}">
+                                                    Pay
+                                                </a>
+                                            {%endif%}
+                                        </td>
+                                    </tr>  
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>               
             </div>
         </div>
     </section>
@@ -129,15 +143,31 @@
 {% block js %}
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#invoices').DataTable({
+        $('#invoices_popo_pay').DataTable({
             "paging": true,
             "searching": true,
-             "info":     true,
+            "info":     true,
             columnDefs: [
                 { type: 'date-eu', targets: 1 },
                 { type: 'date-eu', targets: 2 },
                 { type: 'date-eu', targets: 5 },
             ],
+            'drawCallback': function(settings, json) {
+                $('#invoices_popo_pay_length').html(
+                    '<div class="row">'
+                        + '<div class="input-field col s12">'
+                        + '<select name="invoices_popo_pay_length" aria-controls="invoices_popo_pay">'
+                            + '<option value="10">10</option>'
+                            + '<option value="25">25</option>'
+                            + '<option value="50">50</option>'
+                            + '<option value="100">100</option>'
+                        + '</select>'
+                        + '<label>SHOW ENTRIES</label>'
+                    + '</div>'
+                + '</div>'
+                );
+                $('select').formSelect();
+            }
         });
     } );
 </script>
