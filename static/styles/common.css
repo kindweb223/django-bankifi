@@ -158,6 +158,6 @@ table.dataTable tr td a.color-dark:hover {
     background-color: #D1529E !important;
 }
 
-.dataTables_wrapper {
-    overflow-x: auto !important;
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom: none;
 }
