@@ -157,3 +157,7 @@ table.dataTable tr td a.color-dark:hover {
 .pink.darken-2 {
     background-color: #D1529E !important;
 }
+
+.dataTables_wrapper {
+    overflow-x: auto !important;
+}
